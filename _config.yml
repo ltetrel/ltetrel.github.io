@@ -1,5 +1,18 @@
 title: Cayman theme
 description: Cayman is a clean, responsive theme for GitHub Pages.
-show_downloads: true
+show_downloads: false
 google_analytics:
 theme: jekyll-theme-cayman
+name: Loïc Tetrel
+
+# Includes an icon in the footer for each username you enter
+footer-links:
+  email: loic.tetrel.pro@gmail.com
+  github: ltetrel
+  linkedin: loïc-tetrel-86b83110b
+  rss:  # just type anything here for a working RSS icon
+  twitter:
+  stackoverflow: # your stackoverflow profile, e.g. "users/50476/bart-kiers"
+  youtube: # channel/<your_long_string> or user/<user-name>
+  
+disqus:
