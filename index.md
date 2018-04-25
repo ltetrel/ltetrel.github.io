@@ -4,6 +4,8 @@ layout: default
 
 Text can be **bold**, _italic_, or ~~strikethrough~~.
 
+[My first python notebook](./python-notebook.html).
+[A jupyter notebook with some 3D rendering](./Test3Dline.html).
 [Link to another page](./another-page.html).
 
 There should be whitespace between paragraphs.
