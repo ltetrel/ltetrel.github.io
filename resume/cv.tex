@@ -1,0 +1,98 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Awesome Resume/CV
+% XeLaTeX Template
+% Version 1.1 (9/1/2016)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Claud D. Park (posquit0.bj@gmail.com) with modifications by 
+% Vel (vel@latextemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+% Important note:
+% This template must be compiled with XeLaTeX, the below lines will ensure this
+%!TEX TS-program = xelatex
+%s!TEX encoding = UTF-8 Unicode
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[11pt, a4paper]{awesome-cv} % A4 paper size by default, use 'letterpaper' for US letter
+
+\geometry{left=1cm, top=1cm, right=1cm, bottom=1.5cm, footskip=.5cm} % Configure page margins with geometry
+
+\fontdir[fonts/] % Specify the location of the included fonts
+
+% Color for highlights
+\colorlet{awesome}{awesome-skyblue} % Default colors include: awesome-emerald, awesome-skyblue, awesome-red, awesome-pink, awesome-orange, awesome-nephritis, awesome-concrete, awesome-darknight
+%\definecolor{awesome}{HTML}{CA63A8} % Uncomment if you would like to specify your own color
+
+% Colors for text - uncomment and modify
+%\definecolor{darktext}{HTML}{414141}
+%\definecolor{text}{HTML}{414141}
+%\definecolor{graytext}{HTML}{414141}
+%\definecolor{lighttext}{HTML}{414141}
+
+\renewcommand{\acvHeaderSocialSep}{\quad\textbar\quad} % If you would like to change the social information separator from a pipe (|) to something else
+
+%----------------------------------------------------------------------------------------
+%	PERSONAL INFORMATION
+%	Comment any of the lines below if they are not required
+%----------------------------------------------------------------------------------------
+
+\name{Loïc}{Tetrel}
+\address{Montreal (QC), CANADA}
+\mobile{(+1) (514) 578-9728}
+
+\email{loic.tetrel.pro@gmail.com}
+\homepage{ltetrel.github.io/}
+\github{ltetrel}
+\linkedin{loïc-tetrel}
+%\skype{skypeid}
+%\stackoverflow{SOid}{SOname}
+%\twitter{@twit}
+
+%\position{Junior Software Engineer{\enskip\cdotp\enskip}Computer Vision} %Your expertise/fields
+\quote{\textbf{Computer vision scientist} (M. A. Sc.) specialized in \textbf{medical imaging}.\\I define myself as a \textbf{curious} and \textbf{autonomous} person with ease in \textbf{communication}.} % A quote or statement
+%\position{Master student in electrical engineering currently searching for an opening position in computer vision.}
+%\quote{Curious{\enskip\cdotp\enskip}Autonomous {\enskip\cdotp\enskip} good verbal and written communication skills} % A quote or statement
+
+\makecvfooter{\textbf{(*)} References available upon request.}{Loïc Tetrel{\enskip\cdotp\enskip}Résumé}{\thepage} % Specify the letter footer with 3 arguments: (<left>, <center>, <right>), leave any of these blank if they are not needed
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\makecvheader % Print the header
+
+%----------------------------------------------------------------------------------------
+%	CV/RESUME CONTENT
+%	Each section is imported separately, open each file in turn to modify content
+%----------------------------------------------------------------------------------------
+
+\input{cv-sections/professional.tex}
+\input{cv-sections/education.tex}
+\input{cv-sections/skills.tex}
+\input{cv-sections/experience.tex}
+\input{cv-sections/project.tex}
+\input{cv-sections/volunteer.tex}
+\vspace{-5mm}
+\input{cv-sections/awards.tex}
+\input{cv-sections/interests.tex}
+%\input{cv-sections/references.tex}
+
+%\vspace{5mm}
+%{\Large \textbf{References are available upon request}}
+
+
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
