@@ -1,12 +1,12 @@
-title: Cayman theme
-description: Cayman is a clean, responsive theme for GitHub Pages.
+title: A curious blog
+description: For other curious, who wants to learn more about basics of computer science. Because computer science, it's cool !
 show_downloads: false
 google_analytics:
 theme: jekyll-theme-cayman
 name: Loïc Tetrel
+repository: ltetrel/ltetrel.github.io
 
 # Includes an icon in the footer for each username you enter
 linkedin_username: loïc-tetrel-86b83110b
 github_username: ltetrel
-  
 disqus:
