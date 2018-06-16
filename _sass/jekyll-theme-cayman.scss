@@ -347,3 +347,17 @@ a {
 .site-footer-credits {
   color: $blockquote-text-color;
 }
+
+a.anchor-link:link {
+  text-decoration: none;
+  padding: 0px 10px;
+  visibility: hidden;
+}
+h1:hover .anchor-link,
+h2:hover .anchor-link,
+h3:hover .anchor-link,
+h4:hover .anchor-link,
+h5:hover .anchor-link,
+h6:hover .anchor-link {
+  visibility: visible;
+}

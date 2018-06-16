@@ -2,7 +2,7 @@
 layout: default
 ---
 
-<h1>Bio</h1>
+<h1 id="Bio">Bio<a class="anchor-link" href="#Bio">&#182;</a></h1>
 
 <div style="text-align: justify"> I am Loïc Tetrel, a young <strong>computer vision</strong> scientist (M. A. Sc.) in the <strong>medical</strong> field. 
 Born in <strong>france</strong> (vive les croissants et le fromage !), I also speak <strong>polish</strong> and <strong>english</strong>. </div>
@@ -15,8 +15,8 @@ Then a double degree at <a href="https://www.insa-lyon.fr/">INSA Lyon</a> in <st
 
 <div style="text-align: justify"> Really curious about technology in general, video games and lot of geek stuff. I also do sport, play guitar in my spare time and love traveling all around the world. </div>
 
-<h1>Contact</h1>
+<h1 id="Contact">Contact<a class="anchor-link" href="#Contact">&#182;</a></h1>
 
-<div style="text-align: justify"> You can contact me via my mail at loic.tetrel.pro@gmail.com.<br>
+<div style="text-align: justify"> You can contact me via my mail at <a href="mailto:loic.tetrel.pro@gmail.com"> loic.tetrel.pro@gmail.com</a>.<br>
 Currently employed, but take a look at my <a href="../resume/cv.pdf">résumé</a> if you like my profile. 
 </div>
