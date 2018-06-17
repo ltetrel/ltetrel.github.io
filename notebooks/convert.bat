@@ -1,6 +1,6 @@
 @echo off
 
-for %%s in (Test3Dline.ipynb) do (
+for %%s in (_.ipynb) do (
 	jupyter nbconvert --to html --template basic %%s 
 	if exist %%~ns.html (
 		ren %%~ns.html %%~ns_copy.html
