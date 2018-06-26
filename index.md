@@ -2,6 +2,8 @@
 layout: default
 ---
 
+(BLOG IN PROGRESS...)
+
 # À propos
 
 >Welcome here !
