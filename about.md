@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: main
 ---
 
 <h1 id="Bio">Bio<a class="anchor-link" href="#Bio">&#182;</a></h1>
