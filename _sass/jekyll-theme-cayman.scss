@@ -21,6 +21,17 @@
   }
 }
 
+img {
+  display:block;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+div#notebook {
+  overflow: visible;
+  border-top: none;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -324,7 +335,6 @@ a {
 .site-footer {
   padding-top: 2rem;
   margin-top: 2rem;
-  border-top: solid 1px $hr-border-color;
 
   @include large {
     font-size: 1rem;
