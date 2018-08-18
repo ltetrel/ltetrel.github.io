@@ -32,6 +32,30 @@ div#notebook {
   border-top: none;
 }
 
+ul.share-buttons{
+  list-style: none;
+  padding: 0;
+}
+
+ul.share-buttons li{
+  display: inline;
+}
+
+ul.share-buttons:hover{
+  transition: color 0.2s;
+  color: red;
+}
+
+span.share-buttons {
+  position: absolute;
+  right: 0;
+  margin-right: 10%;
+}
+
+.fa:active{
+ color: rgba(255, 255, 255, 0.7);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -166,17 +190,17 @@ a {
     max-width: 128rem;
     padding: 2rem 8rem;
     margin: 0 auto;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
   }
 
   @include medium {
     padding: 2rem 8rem;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
   }
 
   @include small {
     padding: 2rem 8rem;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
 
   img {
