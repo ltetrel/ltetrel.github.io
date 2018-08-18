@@ -2,3 +2,10 @@ _site
 .sass-cache
 Gemfile.lock
 *.gem
+/resume/cv.log
+/resume/cv.aux
+/resume/cv.synctex.gz
+/resume/cv.out
+/TO_DO.txt
+/imgs/background1.jpg
+/notebooks/.ipynb_checkpoints
