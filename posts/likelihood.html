@@ -1,119 +1,152 @@
 --- 
 layout: post 
 --- 
-
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered">
+ <div class="prompt input_prompt">
+ </div>
+ <div class="inner_cell">
+  <div class="text_cell_render border-box-sizing rendered_html">
+   <h1 id="What-is-the-purpose-of-likelihood-?">
+    What is the purpose of likelihood ?
+    <a class="anchor-link" href="#What-is-the-purpose-of-likelihood-?">
+     &#182;
+    </a>
+   </h1>
+  </div>
+ </div>
 </div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="What-is-the-purpose-of-likelihood-?">What is the purpose of likelihood ?<a class="anchor-link" href="#What-is-the-purpose-of-likelihood-?">&#182;</a></h1>
+<div class="cell border-box-sizing text_cell rendered">
+ <div class="prompt input_prompt">
+ </div>
+ <div class="inner_cell">
+  <div class="text_cell_render border-box-sizing rendered_html">
+   <h2 id="1.-Theory">
+    1. Theory
+    <a class="anchor-link" href="#1.-Theory">
+     &#182;
+    </a>
+   </h2>
+  </div>
+ </div>
 </div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="1.-Theory">1. Theory<a class="anchor-link" href="#1.-Theory">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Likelihood is a function that inform you how well the data 
+<div class="cell border-box-sizing text_cell rendered">
+ <div class="prompt input_prompt">
+ </div>
+ <div class="inner_cell">
+  <div class="text_cell_render border-box-sizing rendered_html">
+   <p>
+    Likelihood is a function that inform you how well the data 
 $\mathbf{x} = [x_1 \ldots x_n]$ fit 
-to a model with parameters $\Theta = [\theta_1 \ldots \theta_n]$.</p>
-<p>We write it as $L(\Theta)$  :
+to a model with parameters $\Theta = [\theta_1 \ldots \theta_n]$.
+   </p>
+   <p>
+    We write it as $L(\Theta)$  :
 \begin{equation}
 L(\Theta) = P(X=\mathbf{x}\mid\Theta) = P(x_1\mid\Theta)P(x_2\mid\Theta) \cdots P(x_n\mid\Theta)
         = \prod^n_{i=1} P(x_i\mid\Theta)
 \end{equation}
-Where $X$ is a random variable, $\mathbf{x}$ is the data.</p>
-
+Where $X$ is a random variable, $\mathbf{x}$ is the data.
+   </p>
+  </div>
+ </div>
 </div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>If you maximize the likelihood, then you can estimate the best set of parameters $\Theta$ given some data $\mathbf{x}$.
+<div class="cell border-box-sizing text_cell rendered">
+ <div class="prompt input_prompt">
+ </div>
+ <div class="inner_cell">
+  <div class="text_cell_render border-box-sizing rendered_html">
+   <p>
+    If you maximize the likelihood, then you can estimate the best set of parameters $\Theta$ given some data $\mathbf{x}$.
 Because it is more easier to work with a sum than a product, 
-we compute the log-likelihood instead.</p>
-<p>\begin{equation}
+we compute the log-likelihood instead.
+   </p>
+   <p>
+    \begin{equation}
 \log L(\Theta) = \log P(x_1\mid\Theta) + \log P(x_2\mid\Theta) + \cdots + \log P(x_n\mid\Theta)
         = \sum^n_{i=1} \log P(x_i\mid\Theta)
-\end{equation}</p>
-<p>The basic idea is to find for which parameters $\Theta$ this function is maximized, using its derivative. We can also minimize the negative log-likelihood, called a cost function.</p>
-
+\end{equation}
+   </p>
+   <p>
+    The basic idea is to find for which parameters $\Theta$ this function is maximized, using its derivative. We can also minimize the negative log-likelihood, called a cost function.
+   </p>
+  </div>
+ </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+ <div class="prompt input_prompt">
+ </div>
+ <div class="inner_cell">
+  <div class="text_cell_render border-box-sizing rendered_html">
+   <h2 id="2.-One-little-example">
+    2. One little example
+    <a class="anchor-link" href="#2.-One-little-example">
+     &#182;
+    </a>
+   </h2>
+  </div>
+ </div>
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="2.-One-little-example">2. One little example<a class="anchor-link" href="#2.-One-little-example">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>I will try to explain how likelihood can be used with one simple example. :)</p>
-<p>Imagine you are walking the street and see a street hustler, he is asking you to flip a coin for 5\$.
+<div class="cell border-box-sizing text_cell rendered">
+ <div class="prompt input_prompt">
+ </div>
+ <div class="inner_cell">
+  <div class="text_cell_render border-box-sizing rendered_html">
+   <p>
+    I will try to explain how likelihood can be used with one simple example. :)
+   </p>
+   <p>
+    Imagine you are walking the street and see a street hustler, he is asking you to flip a coin for 5\$.
 If the result is tail he will give you 11\$, otherwise you lose your money.
-You think it's a good trade, so you try $5$ times. The result is 2 tails (tail is 0) :</p>
-
-</div>
-</div>
+You think it's a good trade, so you try $5$ times. The result is 2 tails (tail is 0) :
+   </p>
+  </div>
+ </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+ <div class="input">
+  <div class="prompt input_prompt">
+   In&#160;[4]:
+  </div>
+  <div class="inner_cell">
+   <div class="input_area collapsed">
+    <div class="collapse_expand_button far fa-1x fa-minus-square">
+    </div>
+    <div class=" highlight hl-ipython3">
+     <pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy</span> <span class="k">as</span> <span class="nn">sp</span>
 
 <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">coin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.6</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">coin</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>[1 0 0 1 1]
 </pre>
+    </div>
+   </div>
+  </div>
+ </div>
+ <div class="output_wrapper">
+  <div class="output">
+   <div class="output_area">
+    <div class="prompt">
+    </div>
+    <div class="output_subarea output_stream output_stdout output_text">
+     <pre>[1 0 0 1 1]
+</pre>
+    </div>
+   </div>
+  </div>
+ </div>
 </div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>You are really angry, you just lost 3\$ !</p>
-<p>So depending on this experience, 
+<div class="cell border-box-sizing text_cell rendered">
+ <div class="prompt input_prompt">
+ </div>
+ <div class="inner_cell">
+  <div class="text_cell_render border-box-sizing rendered_html">
+   <p>
+    You are really angry, you just lost 3\$ !
+   </p>
+   <p>
+    So depending on this experience, 
 what is the probability $p$ of having a head ? You should answer something 
 like : 
 \begin{equation}
@@ -122,206 +155,283 @@ like :
 Congratulation, you just used a maximum likelihood
 estimate ! Maybe you can conclude that the coin is biased 
 because $p\neq 0.5$ ?
-(of course you need more tries than that to conclude something).</p>
-
+(of course you need more tries than that to conclude something).
+   </p>
+  </div>
+ </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+ <div class="prompt input_prompt">
+ </div>
+ <div class="inner_cell">
+  <div class="text_cell_render border-box-sizing rendered_html">
+   <p>
+    There are two ways to compute maximum likelihood
+estimation (mle), theorically (like the previous example) and numerically.
+   </p>
+  </div>
+ </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+ <div class="prompt input_prompt">
+ </div>
+ <div class="inner_cell">
+  <div class="text_cell_render border-box-sizing rendered_html">
+   <h2 id="3.-Theorical-maximum-likelihood-estimation">
+    3. Theorical maximum likelihood estimation
+    <a class="anchor-link" href="#3.-Theorical-maximum-likelihood-estimation">
+     &#182;
+    </a>
+   </h2>
+  </div>
+ </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>There are two ways to compute maximum likelihood
-estimation (mle), theorically (like the previous example) and numerically.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="3.-Theorical-maximum-likelihood-estimation">3. Theorical maximum likelihood estimation<a class="anchor-link" href="#3.-Theorical-maximum-likelihood-estimation">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We suppose that we know the distribution from where our data comes from.</p>
-<p>For a coin flipping it can be a bernoulli distribution :
+<div class="cell border-box-sizing text_cell rendered">
+ <div class="prompt input_prompt">
+ </div>
+ <div class="inner_cell">
+  <div class="text_cell_render border-box-sizing rendered_html">
+   <p>
+    We suppose that we know the distribution from where our data comes from.
+   </p>
+   <p>
+    For a coin flipping it can be a bernoulli distribution :
 \begin{equation}
 P(X = x) = p^x(1-p)^{1-x}
-\end{equation}</p>
-<p>Where $p$ is the parameter of the model (probability to have a head),
+\end{equation}
+   </p>
+   <p>
+    Where $p$ is the parameter of the model (probability to have a head),
 and x is the data (head or tail). We want to find the best estimation 
-$\hat{p}$ for the probability of head $p = P(X=1)$ using mle.</p>
-<p>If we write the likelihood function it would be :</p>
-<p>\begin{equation}    
+$\hat{p}$ for the probability of head $p = P(X=1)$ using mle.
+   </p>
+   <p>
+    If we write the likelihood function it would be :
+   </p>
+   <p>
+    \begin{equation}    
 L(p) = \prod^n_i P(x_i\mid p)
       = p^{x_1}(1-p)^{(1-x_1)}p^{x_2}(1-p)^{(1-x_2)} \cdots p^{x_n}(1-p)^{(1-x_n)}
-\end{equation}</p>
-<p>The log likelihood is:</p>
-<p>\begin{equation}    
+\end{equation}
+   </p>
+   <p>
+    The log likelihood is:
+   </p>
+   <p>
+    \begin{equation}    
 \log L(p) = \sum x_i \log p + (n - \sum x_i) \log (1-p)     
-\end{equation}</p>
-<p>The maximum is given when the derivative is equal to 0 :</p>
-<p>\begin{equation}
+\end{equation}
+   </p>
+   <p>
+    The maximum is given when the derivative is equal to 0 :
+   </p>
+   <p>
+    \begin{equation}
 \frac{dL}{dp} = \frac{\sum x_i}{p} - \frac{n-\sum x_i}{1-p} = 0
-\end{equation}</p>
-<p>We can now evaluate the best estimation $\hat{p}$ of $p$ :
+\end{equation}
+   </p>
+   <p>
+    We can now evaluate the best estimation $\hat{p}$ of $p$ :
 \begin{equation}
 \hat{p} = \frac{\sum x_i}{n}
 \end{equation}
-Which is the formula that we used earlier !</p>
-
+Which is the formula that we used earlier !
+   </p>
+  </div>
+ </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+ <div class="prompt input_prompt">
+ </div>
+ <div class="inner_cell">
+  <div class="text_cell_render border-box-sizing rendered_html">
+   <h2 id="4.-Numerical-maximum-likelihood-estimation">
+    4. Numerical maximum likelihood estimation
+    <a class="anchor-link" href="#4.-Numerical-maximum-likelihood-estimation">
+     &#182;
+    </a>
+   </h2>
+  </div>
+ </div>
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="4.-Numerical-maximum-likelihood-estimation">4. Numerical maximum likelihood estimation<a class="anchor-link" href="#4.-Numerical-maximum-likelihood-estimation">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Another way to estimate $\hat{p}$ is to compute it numerically, using gradient descent.
+<div class="cell border-box-sizing text_cell rendered">
+ <div class="prompt input_prompt">
+ </div>
+ <div class="inner_cell">
+  <div class="text_cell_render border-box-sizing rendered_html">
+   <p>
+    Another way to estimate $\hat{p}$ is to compute it numerically, using gradient descent.
 This is the basic idea of machine learning : the input data can be really 
 complicated (thousands of pixels), and we make assumptions on the distribution
-(softmax in neural network, gaussian in gaussian processes...).</p>
-
+(softmax in neural network, gaussian in gaussian processes...).
+   </p>
+  </div>
+ </div>
 </div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>First, let's emulate the coin flipping.
+<div class="cell border-box-sizing text_cell rendered">
+ <div class="prompt input_prompt">
+ </div>
+ <div class="inner_cell">
+  <div class="text_cell_render border-box-sizing rendered_html">
+   <p>
+    First, let's emulate the coin flipping.
 We suppose that data comes from a bernoulli distribution with parameter
-$p = 0.6$.</p>
-<p>We will see if we can estimate correctly this parameter at the end.</p>
-
-</div>
-</div>
+$p = 0.6$.
+   </p>
+   <p>
+    We will see if we can estimate correctly this parameter at the end.
+   </p>
+  </div>
+ </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+ <div class="input">
+  <div class="prompt input_prompt">
+   In&#160;[5]:
+  </div>
+  <div class="inner_cell">
+   <div class="input_area collapsed">
+    <div class="collapse_expand_button far fa-1x fa-minus-square">
+    </div>
+    <div class=" highlight hl-ipython3">
+     <pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">p</span> <span class="o">=</span> <span class="mf">0.6</span>
 <span class="n">n</span> <span class="o">=</span> <span class="mi">1000</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
-</pre></div>
-
+</pre>
+    </div>
+   </div>
+  </div>
+ </div>
 </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We hypothetize that our sample comes form a bernoulli distrubution :</p>
-
-</div>
-</div>
+<div class="cell border-box-sizing text_cell rendered">
+ <div class="prompt input_prompt">
+ </div>
+ <div class="inner_cell">
+  <div class="text_cell_render border-box-sizing rendered_html">
+   <p>
+    We hypothetize that our sample comes form a bernoulli distrubution :
+   </p>
+  </div>
+ </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">bernoulli</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+ <div class="input">
+  <div class="prompt input_prompt">
+   In&#160;[6]:
+  </div>
+  <div class="inner_cell">
+   <div class="input_area collapsed">
+    <div class="collapse_expand_button far fa-1x fa-minus-square">
+    </div>
+    <div class=" highlight hl-ipython3">
+     <pre><span></span><span class="k">def</span> <span class="nf">bernoulli</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">p</span><span class="o">**</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">x</span><span class="p">)</span>
-</pre></div>
-
+</pre>
+    </div>
+   </div>
+  </div>
+ </div>
 </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Computation of the likelihood to define the fitness of the data</p>
-
-</div>
-</div>
+<div class="cell border-box-sizing text_cell rendered">
+ <div class="prompt input_prompt">
+ </div>
+ <div class="inner_cell">
+  <div class="text_cell_render border-box-sizing rendered_html">
+   <p>
+    Computation of the likelihood to define the fitness of the data
+   </p>
+  </div>
+ </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">log_likelihood</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+ <div class="input">
+  <div class="prompt input_prompt">
+   In&#160;[7]:
+  </div>
+  <div class="inner_cell">
+   <div class="input_area collapsed">
+    <div class="collapse_expand_button far fa-1x fa-minus-square">
+    </div>
+    <div class=" highlight hl-ipython3">
+     <pre><span></span><span class="k">def</span> <span class="nf">log_likelihood</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p</span><span class="p">)</span>
-</pre></div>
-
+</pre>
+    </div>
+   </div>
+  </div>
+ </div>
 </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Now we can do the gradient descent, used to update the parameter :</p>
-<p>\begin{equation}
+<div class="cell border-box-sizing text_cell rendered">
+ <div class="prompt input_prompt">
+ </div>
+ <div class="inner_cell">
+  <div class="text_cell_render border-box-sizing rendered_html">
+   <p>
+    Now we can do the gradient descent, used to update the parameter :
+   </p>
+   <p>
+    \begin{equation}
 \Theta(t+1) = \Theta(t) - \mu\nabla\Theta(t+1) 
-\end{equation}</p>
-<p>$\mu$ is the learning rate, which defined how fast you will update your params.</p>
-<p>$\nabla\Theta(t+1)$  is given by taking the gradient over all the parameters
-(in our case just the derivative over p)</p>
-
-</div>
-</div>
+\end{equation}
+   </p>
+   <p>
+    $\mu$ is the learning rate, which defined how fast you will update your params.
+   </p>
+   <p>
+    $\nabla\Theta(t+1)$  is given by taking the gradient over all the parameters
+(in our case just the derivative over p)
+   </p>
+  </div>
+ </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">derivative_log_likelihood</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+ <div class="input">
+  <div class="prompt input_prompt">
+   In&#160;[8]:
+  </div>
+  <div class="inner_cell">
+   <div class="input_area collapsed">
+    <div class="collapse_expand_button far fa-1x fa-minus-square">
+    </div>
+    <div class=" highlight hl-ipython3">
+     <pre><span></span><span class="k">def</span> <span class="nf">derivative_log_likelihood</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
     <span class="n">sum_xi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">sum_xi</span><span class="o">/</span><span class="n">p</span> <span class="o">-</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">sum_xi</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p</span><span class="p">))</span>
-</pre></div>
-
+</pre>
+    </div>
+   </div>
+  </div>
+ </div>
 </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We also need to fix the hyper-parameters used in gradient-descent.
+<div class="cell border-box-sizing text_cell rendered">
+ <div class="prompt input_prompt">
+ </div>
+ <div class="inner_cell">
+  <div class="text_cell_render border-box-sizing rendered_html">
+   <p>
+    We also need to fix the hyper-parameters used in gradient-descent.
 These involve for example the learning rate $\mu$, the number of iterations max $i_{max}$ 
-the stopping condition $\epsilon$ and the initial guess for the parameter $\Theta_{init}$.</p>
-<p>We found these a posteriori by testing some values, and keeping the ones
-which gives the best results (done using a training set).</p>
-
-</div>
-</div>
+the stopping condition $\epsilon$ and the initial guess for the parameter $\Theta_{init}$.
+   </p>
+   <p>
+    We found these a posteriori by testing some values, and keeping the ones
+which gives the best results (done using a training set).
+   </p>
+  </div>
+ </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="mf">0.1</span>
+ <div class="input">
+  <div class="prompt input_prompt">
+   In&#160;[15]:
+  </div>
+  <div class="inner_cell">
+   <div class="input_area collapsed">
+    <div class="collapse_expand_button far fa-1x fa-minus-square">
+    </div>
+    <div class=" highlight hl-ipython3">
+     <pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="mf">0.1</span>
 <span class="n">learnRate</span> <span class="o">=</span> <span class="mf">1e-6</span>
 <span class="n">iterMax</span> <span class="o">=</span> <span class="mi">10000</span>
 <span class="n">iters</span> <span class="o">=</span> <span class="mi">0</span>
@@ -333,70 +443,63 @@ which gives the best results (done using a training set).</p>
     <span class="k">if</span><span class="p">(</span> <span class="nb">abs</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span><span class="o">&lt;</span><span class="mf">1e-6</span> <span class="p">):</span>
         <span class="k">break</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Found probability </span><span class="si">%1.6f</span><span class="s2"> in </span><span class="si">%d</span><span class="s2"> with log-likelihood </span><span class="si">%1.3f</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">iters</span><span class="p">,</span><span class="n">lkls</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>  
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Found probability 0.592000 in 5137 with log-likelihood 0.000
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Found probability </span><span class="si">%1.6f</span><span class="s2"> in </span><span class="si">%d</span><span class="s2"> with log-likelihood </span><span class="si">%1.3f</span><span class="s2">"</span> <span class="o">%</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">iters</span><span class="p">,</span><span class="n">lkls</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>  
 </pre>
+    </div>
+   </div>
+  </div>
+ </div>
+ <div class="output_wrapper">
+  <div class="output">
+   <div class="output_area">
+    <div class="prompt">
+    </div>
+    <div class="output_subarea output_stream output_stdout output_text">
+     <pre>Found probability 0.592000 in 5137 with log-likelihood 0.000
+</pre>
+    </div>
+   </div>
+  </div>
+ </div>
 </div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We can plot the log-likelihood to see how it variate</p>
-
-</div>
-</div>
+<div class="cell border-box-sizing text_cell rendered">
+ <div class="prompt input_prompt">
+ </div>
+ <div class="inner_cell">
+  <div class="text_cell_render border-box-sizing rendered_html">
+   <p>
+    We can plot the log-likelihood to see how it variate
+   </p>
+  </div>
+ </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">p</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.99</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+ <div class="input">
+  <div class="prompt input_prompt">
+   In&#160;[20]:
+  </div>
+  <div class="inner_cell">
+   <div class="input_area collapsed">
+    <div class="collapse_expand_button far fa-1x fa-minus-square">
+    </div>
+    <div class=" highlight hl-ipython3">
+     <pre><span></span><span class="n">p</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.99</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
 <span class="n">lkls</span> <span class="o">=</span> <span class="n">log_likelihood</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">lkls</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-
-<div class="output_png output_subarea ">
-<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYkAAAD8CAYAAACCRVh7AAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
+</pre>
+    </div>
+   </div>
+  </div>
+ </div>
+ <div class="output_wrapper">
+  <div class="output">
+   <div class="output_area">
+    <div class="prompt">
+    </div>
+    <div class="output_png output_subarea ">
+     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYkAAAD8CAYAAACCRVh7AAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
 AAALEgAACxIB0t1+/AAAIABJREFUeJzt3Xd8XNWd9/HPT71Z1ZJtSZY7brg7xvRiWiChk5DsAkkI
 hBQgu9lNg32y+2yyCZsnIS82gYQEEiAsEDBtA4Sy9Bgb29i428hdxZatavXRzHn+0DURRmPJjDR3
 pPm+X695MTr3Xs3vIrjfueece6855xAREelNgt8FiIhI7FJIiIhIWAoJEREJSyEhIiJhKSRERCQs
@@ -563,21 +666,14 @@ zyScc11m9g3gBbpnQtznnNtoZjd6y39N9wyXC4ByoJXubx5DWj/3+/8ABcBd3rfqLjfEb4bWz/0e
 dvqz3865zWb2F2AdEAJ+55zrdfrkUNHPv/e/A38ws/V0z/T5jnNuyN8Z1sweBs4ARppZBfADIBkG
 77imK65FRCSs4drdJCIiA0AhISIiYSkkREQkLIWEiIiEpZAQEZGwFBIiIhKWQkJERMJSSIiISFj/
 H+I+EqJnyeDwAAAAAElFTkSuQmCC
-"
->
-</div>
-
-</div>
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-
-<div class="output_png output_subarea ">
-<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXcAAAD8CAYAAACMwORRAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
+"/>
+    </div>
+   </div>
+   <div class="output_area">
+    <div class="prompt">
+    </div>
+    <div class="output_png output_subarea ">
+     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXcAAAD8CAYAAACMwORRAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
 AAALEgAACxIB0t1+/AAAGXNJREFUeJzt3W2MXNddx/Hvfx52d/Ypce1dE2wndpttWkMTlGzTCqUl
 bUVrhxcBVERSREWgChEND4IXiZBoXxQJECCqqmktU0VRedGAaAQBXAIUaIASiCOlcdKQZnHjxG7w
 rp3Uu97Zncc/L2buerLZ3blz5947ntnfR7K0c+/1zLny+Ofj/zn3HHN3RERksGR63QAREYmfwl1E
@@ -693,21 +789,14 @@ Bh4Bfn6Aem9t79vdD7j7fnffD/wl8Ct9HuwQ7nv+18AtZpYzs1HgPcDzKbczbmHu+2Ua/1vBzHYD
 1wEnU21lb8Sea5dVz9236WbcIe/7U8BO4AvNXmzV+3yRpZD3PXDC3Le7P29mfw88A9SBL7n7htPo
 +kXIP+/PAA+Z2QkaM0fuc/e+XynSzL4C3ArsMrPTwKeBPCSXa3pCVURkAF1uZRkREYmBwl1EZAAp
 3EVEBpDCXURkACncRUQGkMJdRGQAKdxFRAaQwl1EZAD9P8U35nDCwE7VAAAAAElFTkSuQmCC
-"
->
-</div>
-
-</div>
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-
-<div class="output_png output_subarea ">
-<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYkAAAD8CAYAAACCRVh7AAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
+"/>
+    </div>
+   </div>
+   <div class="output_area">
+    <div class="prompt">
+    </div>
+    <div class="output_png output_subarea ">
+     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYkAAAD8CAYAAACCRVh7AAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
 AAALEgAACxIB0t1+/AAAIABJREFUeJzt3Xd8XNWd9/HPT71Z1ZJtSZY7brg7xvRiWiChk5DsAkkI
 hBQgu9lNg32y+2yyCZsnIS82gYQEEiAsEDBtA4Sy9Bgb29i428hdxZatavXRzHn+0DURRmPJjDR3
 pPm+X695MTr3Xs3vIrjfueece6855xAREelNgt8FiIhI7FJIiIhIWAoJEREJSyEhIiJhKSRERCQs
@@ -874,31 +963,34 @@ zyScc11m9g3gBbpnQtznnNtoZjd6y39N9wyXC4ByoJXubx5DWj/3+/8ABcBd3rfqLjfEb4bWz/0e
 dvqz3865zWb2F2AdEAJ+55zrdfrkUNHPv/e/A38ws/V0z/T5jnNuyN8Z1sweBs4ARppZBfADIBkG
 77imK65FRCSs4drdJCIiA0AhISIiYSkkREQkLIWEiIiEpZAQEZGwFBIiIhKWQkJERMJSSIiISFj/
 H+I+EqJnyeDwAAAAAElFTkSuQmCC
-"
->
+"/>
+    </div>
+   </div>
+  </div>
+ </div>
 </div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We can also look at the normalized likelihood</p>
-
-</div>
-</div>
+<div class="cell border-box-sizing text_cell rendered">
+ <div class="prompt input_prompt">
+ </div>
+ <div class="inner_cell">
+  <div class="text_cell_render border-box-sizing rendered_html">
+   <p>
+    We can also look at the normalized likelihood
+   </p>
+  </div>
+ </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">likelihood</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+ <div class="input">
+  <div class="prompt input_prompt">
+   In&#160;[14]:
+  </div>
+  <div class="inner_cell">
+   <div class="input_area collapsed">
+    <div class="collapse_expand_button far fa-1x fa-minus-square">
+    </div>
+    <div class=" highlight hl-ipython3">
+     <pre><span></span><span class="k">def</span> <span class="nf">likelihood</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">p</span><span class="o">**</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span><span class="o">*</span><span class="p">((</span><span class="mi">1</span><span class="o">-</span><span class="n">p</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
@@ -906,25 +998,18 @@ H+I+EqJnyeDwAAAAAElFTkSuQmCC
 <span class="n">lkls</span> <span class="o">=</span> <span class="n">lkls</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">lkls</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">lkls</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-
-<div class="output_png output_subarea ">
-<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXcAAAD8CAYAAACMwORRAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
+</pre>
+    </div>
+   </div>
+  </div>
+ </div>
+ <div class="output_wrapper">
+  <div class="output">
+   <div class="output_area">
+    <div class="prompt">
+    </div>
+    <div class="output_png output_subarea ">
+     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXcAAAD8CAYAAACMwORRAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
 AAALEgAACxIB0t1+/AAAGXNJREFUeJzt3W2MXNddx/Hvfx52d/Ypce1dE2wndpttWkMTlGzTCqUl
 bUVrhxcBVERSREWgChEND4IXiZBoXxQJECCqqmktU0VRedGAaAQBXAIUaIASiCOlcdKQZnHjxG7w
 rp3Uu97Zncc/L2buerLZ3blz5947ntnfR7K0c+/1zLny+Ofj/zn3HHN3RERksGR63QAREYmfwl1E
@@ -1040,62 +1125,93 @@ Bh4Bfn6Aem9t79vdD7j7fnffD/wl8Ct9HuwQ7nv+18AtZpYzs1HgPcDzKbczbmHu+2Ua/1vBzHYD
 1wEnU21lb8Sea5dVz9236WbcIe/7U8BO4AvNXmzV+3yRpZD3PXDC3Le7P29mfw88A9SBL7n7htPo
 +kXIP+/PAA+Z2QkaM0fuc/e+XynSzL4C3ArsMrPTwKeBPCSXa3pCVURkAF1uZRkREYmBwl1EZAAp
 3EVEBpDCXURkACncRUQGkMJdRGQAKdxFRAaQwl1EZAD9P8U35nDCwE7VAAAAAElFTkSuQmCC
-"
->
+"/>
+    </div>
+   </div>
+  </div>
+ </div>
 </div>
-
+<div class="cell border-box-sizing text_cell rendered">
+ <div class="prompt input_prompt">
+ </div>
+ <div class="inner_cell">
+  <div class="text_cell_render border-box-sizing rendered_html">
+   <h2 id="5.-Conclusion">
+    5. Conclusion
+    <a class="anchor-link" href="#5.-Conclusion">
+     &#182;
+    </a>
+   </h2>
+  </div>
+ </div>
 </div>
-
+<div class="cell border-box-sizing text_cell rendered">
+ <div class="prompt input_prompt">
+ </div>
+ <div class="inner_cell">
+  <div class="text_cell_render border-box-sizing rendered_html">
+   <p>
+    Maximum likelihood is probably one of the most important algorithm, without it there is no machine learning, neural newtorks etc...
+   </p>
+   <p>
+    We saw two ways to use it, theorically and numerically. The latter is mostly used because it is often to complicated to do the calculations.
+   </p>
+  </div>
+ </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+ <div class="prompt input_prompt">
+ </div>
+ <div class="inner_cell">
+  <div class="text_cell_render border-box-sizing rendered_html">
+   <h1 id="tl;dr">
+    tl;dr
+    <a class="anchor-link" href="#tl;dr">
+     &#182;
+    </a>
+   </h1>
+   <ol>
+    <li>
+     Start to hypothetize from what distribution your data comes from.
+    </li>
+    <li>
+     Calculate the log-likelihood (cost function).
+    </li>
+    <li>
+     Infer the derivative of the log-likelihood respect to parameters
+    </li>
+    <li>
+     Use gradient descent to update your parameters, with an initial guess
+    </li>
+   </ol>
+  </div>
+ </div>
 </div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="5.-Conclusion">5. Conclusion<a class="anchor-link" href="#5.-Conclusion">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Maximum likelihood is probably one of the most important algorithm, without it there is no machine learning, neural newtorks etc...</p>
-<p>We saw two ways to use it, theorically and numerically. The latter is mostly used because it is often to complicated to do the calculations.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="tl;dr">tl;dr<a class="anchor-link" href="#tl;dr">&#182;</a></h1><ol>
-<li>Start to hypothetize from what distribution your data comes from.</li>
-<li>Calculate the log-likelihood (cost function).</li>
-<li>Infer the derivative of the log-likelihood respect to parameters</li>
-<li>Use gradient descent to update your parameters, with an initial guess</li>
-</ol>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Code">Code<a class="anchor-link" href="#Code">&#182;</a></h1>
-</div>
-</div>
+<div class="cell border-box-sizing text_cell rendered">
+ <div class="prompt input_prompt">
+ </div>
+ <div class="inner_cell">
+  <div class="text_cell_render border-box-sizing rendered_html">
+   <h1 id="Code">
+    Code
+    <a class="anchor-link" href="#Code">
+     &#182;
+    </a>
+   </h1>
+  </div>
+ </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+ <div class="input">
+  <div class="prompt input_prompt">
+   In&#160;[19]:
+  </div>
+  <div class="inner_cell">
+   <div class="input_area collapsed">
+    <div class="collapse_expand_button far fa-1x fa-minus-square">
+    </div>
+    <div class=" highlight hl-ipython3">
+     <pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy</span> <span class="k">as</span> <span class="nn">sp</span>
 
@@ -1131,7 +1247,7 @@ Bh4Bfn6Aem9t79vdD7j7fnffD/wl8Ct9HuwQ7nv+18AtZpYzs1HgPcDzKbczbmHu+2Ua/1vBzHYD
     <span class="k">if</span><span class="p">(</span> <span class="nb">abs</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span><span class="o">&lt;</span><span class="mf">1e-6</span> <span class="p">):</span>
         <span class="k">break</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Found probability </span><span class="si">%1.6f</span><span class="s2"> in </span><span class="si">%d</span><span class="s2"> with log-likelihood </span><span class="si">%1.3f</span><span class="s2">&quot;</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Found probability </span><span class="si">%1.6f</span><span class="s2"> in </span><span class="si">%d</span><span class="s2"> with log-likelihood </span><span class="si">%1.3f</span><span class="s2">"</span> 
       <span class="o">%</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">iters</span><span class="p">,</span><span class="n">lkls</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>    
 
 <span class="n">p</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.99</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
@@ -1146,43 +1262,29 @@ Bh4Bfn6Aem9t79vdD7j7fnffD/wl8Ct9HuwQ7nv+18AtZpYzs1HgPcDzKbczbmHu+2Ua/1vBzHYD
 <span class="n">lkls</span> <span class="o">=</span> <span class="n">likelihood</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
 <span class="n">lkls</span> <span class="o">=</span> <span class="n">lkls</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">lkls</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">lkls</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Found probability 0.592000 in 5137 with log-likelihood 0.000
 </pre>
+    </div>
+   </div>
+  </div>
+ </div>
+ <div class="output_wrapper">
+  <div class="output">
+   <div class="output_area">
+    <div class="prompt">
+    </div>
+    <div class="output_subarea output_stream output_stdout output_text">
+     <pre>Found probability 0.592000 in 5137 with log-likelihood 0.000
+</pre>
+    </div>
+   </div>
+   <div class="output_area">
+    <div class="prompt output_prompt">
+     Out[19]:
+    </div>
+    <div class="output_text output_subarea output_execute_result">
+     <pre>[&lt;matplotlib.lines.Line2D at 0x88887b8&gt;]</pre>
+    </div>
+   </div>
+  </div>
+ </div>
 </div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[19]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>[&lt;matplotlib.lines.Line2D at 0x88887b8&gt;]</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
- 
-
