@@ -2,7 +2,7 @@
 layout: main
 ---
 
-(BLOG IN PROGRESS...)
+<i class="fas fa-cog fa-spin fa-2x fa-fw"></i> BLOG IN PROGRESS... <i class="fas fa-cog fa-spin fa-2x fa-fw"></i>
 
 # À propos
 
