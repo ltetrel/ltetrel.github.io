@@ -6,6 +6,9 @@
 <!-- MathJax configuration -->
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
+	tex: { equationNumbers: { autoNumber: ["[AMS]"] }}
+});
+MathJax.Hub.Config({
 	tex2jax: {
 		inlineMath: [ ['$','$'], ["\\(","\\)"] ],
 		displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
@@ -23,6 +26,7 @@ MathJax.Hub.Config({
 		linebreaks: { automatic: true }
 	}
 });
+
 </script>
 
 <html lang="{{ site.lang | default: " en-US " }}">
