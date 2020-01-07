@@ -1,0 +1,14 @@
+((*- extends 'basic.tplx' -*))
+
+((* block author *))
+\author{Your name}
+((* endblock author *))
+
+((* block title *))
+\title{Your title}
+((* endblock title *))
+
+((* block bibliography *))
+\bibliographystyle{unsrt}
+\bibliography{bibliography}
+((* endblock bibliography *))
