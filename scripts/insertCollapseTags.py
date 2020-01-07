@@ -1,5 +1,6 @@
 import sys
 import argparse
+import re
 from bs4 import BeautifulSoup
 
 
@@ -19,11 +20,14 @@ def insert_collapse_buttons(soup, to_collapse):
         collapse_expand_button_tag = soup.new_tag('div')
         collapse_expand_button_tag['class'] = 'collapse_expand_button far fa-1x fa-minus-square'
         input_area.insert(0, collapse_expand_button_tag)
-        if idx+1 in to_collapse:
+        # If the cell contains a comment starting with ##, by default the cell will be collapsed
+        if re.search(".*\n##", input_area.text):
             input_area['class'].append('collapsed')
 
 def main():
-    html_file, to_collapse = parse_input()
+    # html_file, to_collapse = parse_input()
+    html_file = open("/home/ltetrel/Documents/work/ltetrel.github.io/posts/sphere_fitting.html")
+    to_collapse = []
     soup = BeautifulSoup(html_file, 'html.parser', exclude_encodings="ascii")
     insert_collapse_buttons(soup, to_collapse)
     html_file.close()
