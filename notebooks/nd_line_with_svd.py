@@ -29,12 +29,12 @@ Where $U$ and $V^*$ are rotation matrices and $\Sigma$ is a scale matrix.
 Here $V^*$ wil give you the set of vector to project on the data onto the new dimension space.
 
 Check in the following figure, the axis $y_1$ best explain the data because when you project the data into $y_1$, the variance is higher than for $y_2$.
-![](imgs/line_svd/svd.pdf)
+![](imgs/line_svd/svd.svg)
 
 For the rest of this tutorial, we will use SVD to fit a 3-dimensionnal line based on some random 3D points (but this method can be extended to n-d!).
 '''
 # %%
-# imports
+## imports
 import numpy as np
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
@@ -50,10 +50,10 @@ np.random.seed(0)
 First we want to generate n points with a random gaussian noise.
 We organize the input data as an $d$×$n$ matrix, where $d$ is the number of dimensions (or features) and $n$ the number of samples.
 '''
-# %% [markdown]
+# %%
 n = 25
 points = np.array( [5*np.arange(n),5+5*np.arange(n),5*np.ones(n)] ).T + 0.5-np.random.rand(n,3)
-print(points)
+points
 # %% [markdown]
 '''
 ##  2. Performing SVD
@@ -129,13 +129,14 @@ pb = p0 + 100*d
 To plot the 3D line, we will use [plotly](https://plot.ly/python/) that have really good html embeddings and smooth 3D rendering.
 '''
 # %%
+## plotly
 trace1 = go.Scatter3d(
     x=[pa[0],pb[0]],
     y=[pa[1],pb[1]],
     z=[pa[2],pb[2]],
     mode='lines',
     name='3D fitted line',
-    line=go.Line(color='rgb(255,0,0)', width=10),
+    line=go.scatter3d.Line(color='rgb(255,0,0)', width=10),
     hoverinfo='none')
 
 labels = []
@@ -146,7 +147,7 @@ trace2 = go.Scatter3d(
     z=points[:,2],
     mode='markers',
     name='Points',
-    marker=go.Marker(
+    marker=go.scatter3d.Marker(
         symbol='cross',
         opacity=1,
         color='rgb(0,200,127)'),
@@ -155,7 +156,7 @@ trace2 = go.Scatter3d(
 
 layout = go.Layout(
             title="3D line fitting",
-            scene=go.Scene(
+            scene=go.layout.Scene(
                     xaxis_title="x",
                     yaxis_title="y",
                     zaxis_title="z",
@@ -165,8 +166,8 @@ layout = go.Layout(
                            eye=dict(x=0, y=2.5, z=0))))     
 
 
-fig=go.Figure(data=go.Data([trace1, trace2]), layout=layout)
-fig.show(renderer="notebook_connected", config={'showLink': False})
+fig=go.Figure(data=[trace1, trace2], layout=layout)
+fig.show(renderer="iframe_connected", config={'showLink': False})
 # %% [markdown]
 '''
 ## To go further

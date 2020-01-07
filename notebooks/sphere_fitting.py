@@ -4,7 +4,7 @@
 '''
 # %% [markdown]
 '''
-# tl;dr
+## tl;dr
 1. Mathematical model definition for your data
 2. Cost function
 3. Optimisation (gradient descent with cost function derivative on all the parameters)
@@ -33,13 +33,15 @@ that fits well to the input noisy data.
 Given a mathematical model with parameters $\Theta$, we can define its minimization function $\xi(\Theta)$ (the inverse likelihood).
 This represents the fitness of the model given some data, so if $\xi(\Theta)$ is minimum, then the parameters are best suited to the data.
 
-To optimize the parameters, one could check every possible parameters $\Theta_i$ and compute directly $\xi(\Theta_i)$. Unfortunately, with our current compute power, this is time consuming.
-Especially if we have more than one parameter, then the manifold would be to large to explore. Imagine the difference between exploring a one dimension line vs exploring a 3D surface!
+To optimize the parameters, one could check every possible parameters $\Theta_i$ and compute directly $\xi(\Theta_i)$.
+Unfortunately, with our current compute power, this is time consuming.
+Especially if we have more than one parameter, then the manifold would be to large to explore.
+Imagine the difference between exploring a one dimension line vs exploring a 3D surface!
 
-<img src="imgs/sphere_fitting/manifold.png" alt="manifold" style="width: 200px;"/>
+<img src="imgs/sphere_fitting/manifold.svg" alt="manifold" style="width: 200px;"/>
 
-This is why it is important to have a dynamic strategy to find the local minimum, and this can be done using gradients. We can calculate the gradient of the energy function 
-among our parameters:
+This is why it is important to have a dynamic strategy to find the local minimum, and this can be done using gradients.
+We can calculate the gradient of the energy function among our parameters:
 \begin{equation}
 \frac{\delta \xi(\Theta)}{\delta \Theta} = \nabla\xi(\Theta)
 \end{equation}
@@ -53,8 +55,8 @@ One could compute directly the optimal solution by equalizing the gradient of en
 \begin{equation}
 \frac{\delta \xi(\Theta)}{\delta \Theta} = 0
 \end{equation}
-When this method works well with little data and few parameters, it can be computationnaly impossible to compute the best solution
-[see this thread for more information](https://stats.stackexchange.com/questions/278755/why-use-gradient-descent-for-linear-regression-when-a-closed-form-math-solution). 
+
+When this method works well with little data and few parameters, it can be computationnaly impossible to compute the best solution [see this thread for more information](https://stats.stackexchange.com/questions/278755/why-use-gradient-descent-for-linear-regression-when-a-closed-form-math-solution). 
 Morevover, it is not always easy to mathematically extract the optimal parameters.
 '''
 # %% [markdown]
@@ -86,7 +88,7 @@ This function will verify if every known point $i$ fits well with the parameters
 Let's implement it in python !
 '''
 # %%
-#imports
+## imports
 import numpy as np
 import math
 import plotly.graph_objects as go
@@ -97,13 +99,10 @@ np.random.seed(0)
 def sph_loss(T, x):
     L = np.sqrt((x[:,0] - T[0])**2 + (x[:,1] - T[1])**2 + (x[:,2] - T[2])**2)
     return L
-
-
 # %%
 def cost_function(T, x):
     L = sph_loss(T, x)
     return np.sum( (L - T[3])**2 )
-
 # %% [markdown]
 '''
 ### 3.2 Gradient of the cost function
@@ -143,6 +142,7 @@ Then, with $m$ as the number of 3D points:
 # In python,
 
 # %%
+## cost function derivative
 def derivative_cost_function(T, x):
     L = sph_loss(T, x)
     
@@ -158,7 +158,6 @@ def derivative_cost_function(T, x):
     dc = 2*np.sum( (x[:,2] - T[2]) + T[3]*dLc )
     
     return np.array([da, db, dc, dr])
-
 # %% [markdown]
 '''
 ### 3.3 Gradient descent
@@ -213,7 +212,6 @@ def gen_points_from_sph(model, n):
     points[:,2] = Z.ravel()[0:n]
 
     return points, X, Y, Z
-
 # %% [markdown]
 '''
 Let's generate 250 points with gaussian noise, from an unknown sphere centered at (1,2,4) and 10 radius.
@@ -232,7 +230,6 @@ param = grad_descent(sph_points_train, param_init)[0]
 
 # We use the formula for the radius
 print(param)
-
 # %% [markdown]
 '''
 The optimization returned a sphere centered at (1.21, 2.09, 3.94) with 9.94 radius.
@@ -253,7 +250,6 @@ sph_points_test = sph_points[int(n/3)::,:]
 model_error = cost_function(sph_model, sph_points_test)/sph_points_test.shape[0]
 
 print("Model has an error of %.2f per point"%model_error)
-
 # %% [markdown]
 '''
 The error per point is quite high. But considering the noise that was introduced, we see that the algorithm performs quite well. 
@@ -276,8 +272,7 @@ This is using these error can we can optimized the hyper-parameters (optimizatio
 We will use [plotly](https://plot.ly/python/) to render the result.
 '''
 # %%
-#Qualitative results
-data = []
+## Qualitative results with plotly
 _,X, Y, Z = gen_points_from_sph(param, 5*n)
     
 trace = go.Surface(
@@ -299,20 +294,17 @@ trace2=go.Scatter3d(
                             color='rgb(0,0,255)',
                             opacity=1),)
 
-data.append(trace)
-data.append(trace2)
-
 layout = go.Layout(
             title="Sphere fitting",
-            scene=go.Scene(
+            scene=go.layout.Scene(
                 aspectmode = "data",
                 xaxis_title="x(mm)",
                 yaxis_title="y(mm)",
                 zaxis_title="z(mm)",            
                 camera=dict(center=dict(x=0.1, y=0.1, z=0))))
 
-fig = go.Figure(data=data, layout=layout)
-fig.show(renderer="notebook_connected", config={'showLink': False})
+fig = go.Figure(data=[trace, trace2], layout=layout)
+fig.show(renderer="iframe_connected", config={'showLink': False})
 # %% [markdown]
 '''
 ## To go further
