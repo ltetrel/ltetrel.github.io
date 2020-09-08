@@ -1,6 +1,15 @@
 # %% [markdown]
 '''
-# Gradient descent for geometric models : example with a sphere
+#  Fitting geometric models with gradient descent
+'''
+# %% [markdown]
+'''
+The process of fitting known geometric models to scattered data is well known and resolved since a long time. 
+Indeed, Legendre was one of the first to use least-square to do such tasks <cite>legendre1805nouvelles</cite>,
+when he wanted to fit an equation for the shape of the earth !
+
+The idea is quite simple: knowing the model definition, it is possible to estimate its best parameters 
+that fits well to the input noisy data.
 '''
 # %% [markdown]
 '''
@@ -13,80 +22,66 @@
 '''
 # %% [markdown]
 '''
-## 1. Introduction
+## 1. Optimisation
+'''
+# %% [markdown]
+
+# Given a mathematical model with parameters $\Theta$, we can define its minimization function $\xi(\Theta)$ (the inverse likelihood).
+# This represents the fitness of the model given some data, so if $\xi(\Theta)$ is minimum, then the parameters are best suited to the data.
+
+# To optimize the parameters, one could check every possible parameters $\Theta_i$ and compute directly $\xi(\Theta_i)$.
+# Unfortunately, with our current compute power, this is time consuming.
+# Especially if we have more than one parameter, then the manifold would be to large to explore.
+# Imagine the difference between exploring a one dimension line vs exploring a 3D surface!
+
+# <img src="imgs/sphere_fitting/manifold.svg" alt="manifold" style="width: 200px;"/>
+
+# This is why it is important to have a dynamic strategy to find the local minimum, and this can be done using gradients.
+# We can calculate the gradient of the energy function among our parameters:
+# \begin{equation}
+# \frac{\delta \xi(\Theta)}{\delta \Theta} = \nabla\xi(\Theta)
+# \end{equation}
+
+# The gradient of the energy function can then be used to update the parameter every step, and converge to a local minima:
+# \begin{equation}
+# \Theta(t+1) = \Theta(t) - \mu\nabla\xi(\Theta(t)) 
+# \end{equation}
+
+# One could compute directly the optimal solution by equalizing the gradient of energy function with 0:
+# \begin{equation}
+# \frac{\delta \xi(\Theta)}{\delta \Theta} = 0
+# \end{equation}
+
+# When this method works well with little data and few parameters, it can be computationnaly impossible to compute the best solution [see this thread for more information](https://stats.stackexchange.com/questions/278755/why-use-gradient-descent-for-linear-regression-when-a-closed-form-math-solution). 
+# Morevover, it is not always easy to mathematically extract the optimal parameters.
+
+# %% [markdown]
+'''
+## 2. Example with sphere fitting
 '''
 # %% [markdown]
 '''
-The process of fitting known geometric models to scattered data is well known and resolved since a long time. 
-Indeed, Legendre was one of the first to use least-square to do such tasks <cite data-cite="legendre1805nouvelles">[1]</cite>,
-where he wanted to fit an equation for the shape of the earth !
-
-The idea is quite simple: knowing the model definition, it is possible to estimate its best parameters 
-that fits well to the input noisy data.
+### 2.1 Cost function
 '''
 # %% [markdown]
-'''
-## 2. Optimisation
-'''
-# %% [markdown]
-'''
-Given a mathematical model with parameters $\Theta$, we can define its minimization function $\xi(\Theta)$ (the inverse likelihood).
-This represents the fitness of the model given some data, so if $\xi(\Theta)$ is minimum, then the parameters are best suited to the data.
 
-To optimize the parameters, one could check every possible parameters $\Theta_i$ and compute directly $\xi(\Theta_i)$.
-Unfortunately, with our current compute power, this is time consuming.
-Especially if we have more than one parameter, then the manifold would be to large to explore.
-Imagine the difference between exploring a one dimension line vs exploring a 3D surface!
+# To extract the cost function, we first need to define what is a sphere.
+# The equation of a 3D sphere with radius $r$ and center $(a, b, c)$ is known as:
+# \begin{equation}
+# r^2 = (x-a)^2 + (y-b)^2 + (z-c)^2
+# \end{equation}
 
-<img src="imgs/sphere_fitting/manifold.svg" alt="manifold" style="width: 200px;"/>
-
-This is why it is important to have a dynamic strategy to find the local minimum, and this can be done using gradients.
-We can calculate the gradient of the energy function among our parameters:
-\begin{equation}
-\frac{\delta \xi(\Theta)}{\delta \Theta} = \nabla\xi(\Theta)
-\end{equation}
-
-The gradient of the energy function can then be used to update the parameter every step, and converge to a local minima:
-\begin{equation}
-\Theta(t+1) = \Theta(t) - \mu\nabla\xi(\Theta(t)) 
-\end{equation}
-
-One could compute directly the optimal solution by equalizing the gradient of energy function with 0:
-\begin{equation}
-\frac{\delta \xi(\Theta)}{\delta \Theta} = 0
-\end{equation}
-
-When this method works well with little data and few parameters, it can be computationnaly impossible to compute the best solution [see this thread for more information](https://stats.stackexchange.com/questions/278755/why-use-gradient-descent-for-linear-regression-when-a-closed-form-math-solution). 
-Morevover, it is not always easy to mathematically extract the optimal parameters.
-'''
-# %% [markdown]
-'''
-## 3. Example with sphere fitting
-'''
-# %% [markdown]
-'''
-### 3.1 Cost function
-'''
-# %% [markdown]
-'''
-To extract the cost function, we first need to define what is a sphere.
-The equation of a 3D sphere with radius $r$ and center $(a, b, c)$ is known as:
-\begin{equation}
-r^2 = (x-a)^2 + (y-b)^2 + (z-c)^2
-\end{equation}
-
-Every point $(x,y,z)$ must satisfy this equation to be on the sphere, if not, the point is outside the sphere.
-Using this condition, we can deduce the energy function:
-\begin{equation}
-\xi(\Theta) = \sum_i^n(L_i - r)^2
-\end{equation}
-with,
-\begin{equation}
-L_i = \sqrt{(x_i-a)^2 + (y_i-b)^2 + (z_i-c)^2}
-\end{equation}
-This function will verify if every known point $i$ fits well with the parameters $a, b, c$ and $r$.
-Let's implement it in python !
-'''
+# Every point $(x,y,z)$ must satisfy this equation to be on the sphere, if not, the point is outside the sphere.
+# Using this condition, we can deduce the energy function:
+# \begin{equation}
+# \xi(\Theta) = \sum_i^n(L_i - r)^2
+# \end{equation}
+# with,
+# \begin{equation}
+# L_i = \sqrt{(x_i-a)^2 + (y_i-b)^2 + (z_i-c)^2}
+# \end{equation}
+# This function will verify if every known point $i$ fits well with the parameters $a, b, c$ and $r$.
+# Let's implement it in python !
 # %%
 ## imports
 import numpy as np
@@ -105,39 +100,39 @@ def cost_function(T, x):
     return np.sum( (L - T[3])**2 )
 # %% [markdown]
 '''
-### 3.2 Gradient of the cost function
+### 2.2 Gradient of the cost function
 '''
 # %% [markdown]
-'''
-Now that we have the cost funtion, we can compute its gradient for every parameters (a, b, c, r). 
-\begin{equation}
-\nabla\xi(\Theta) =
-  \begin{bmatrix}
-  \frac{\delta \xi(\Theta)}{\delta r} \\
-    \frac{\delta \xi(\Theta)}{\delta a} \\
-    \frac{\delta \xi(\Theta)}{\delta b} \\
-    \frac{\delta \xi(\Theta)}{\delta c} 
-  \end{bmatrix}
-\end{equation}
 
-Then, with $m$ as the number of 3D points:
+# Now that we have the cost funtion, we can compute its gradient for every parameters (a, b, c, r). 
+# \begin{equation}
+# \nabla\xi(\Theta) =
+#   \begin{bmatrix}
+#   \frac{\delta \xi(\Theta)}{\delta r} \\
+#     \frac{\delta \xi(\Theta)}{\delta a} \\
+#     \frac{\delta \xi(\Theta)}{\delta b} \\
+#     \frac{\delta \xi(\Theta)}{\delta c} 
+#   \end{bmatrix}
+# \end{equation}
 
-\begin{equation}
-\frac{\delta \xi(\Theta)}{\delta r} = -2\sum_{i=1}^m (L_i -r)
-\end{equation}
+# Then, with $m$ as the number of 3D points:
 
-\begin{equation}
-\frac{\delta \xi(\Theta)}{\delta a} = 2\sum_{i=1}^{m}((x_i-a) + r\frac{\delta L_i}{\delta a}); \qquad  \frac{\delta L_i}{\delta a} = \frac{a-x_i}{L_i}
-\end{equation}
+# \begin{equation}
+# \frac{\delta \xi(\Theta)}{\delta r} = -2\sum_{i=1}^m (L_i -r)
+# \end{equation}
 
-\begin{equation}
-\frac{\delta \xi(\Theta)}{\delta b} = 2\sum_{i=1}^{m}((y_i-b) + r\frac{\delta L_i}{\delta b}); \qquad  \frac{\delta L_i}{\delta b} = \frac{b-y_i}{L_i}
-\end{equation}
+# \begin{equation}
+# \frac{\delta \xi(\Theta)}{\delta a} = 2\sum_{i=1}^{m}((x_i-a) + r\frac{\delta L_i}{\delta a}); \qquad  \frac{\delta L_i}{\delta a} = \frac{a-x_i}{L_i}
+# \end{equation}
 
-\begin{equation}
-\frac{\delta \xi(\Theta)}{\delta c} = 2\sum_{i=1}^{m}((z_i-c) + r\frac{\delta L_i}{\delta c}); \qquad  \frac{\delta L_i}{\delta c} = \frac{c-z_i}{L_i}
-\end{equation}
-'''
+# \begin{equation}
+# \frac{\delta \xi(\Theta)}{\delta b} = 2\sum_{i=1}^{m}((y_i-b) + r\frac{\delta L_i}{\delta b}); \qquad  \frac{\delta L_i}{\delta b} = \frac{b-y_i}{L_i}
+# \end{equation}
+
+# \begin{equation}
+# \frac{\delta \xi(\Theta)}{\delta c} = 2\sum_{i=1}^{m}((z_i-c) + r\frac{\delta L_i}{\delta c}); \qquad  \frac{\delta L_i}{\delta c} = \frac{c-z_i}{L_i}
+# \end{equation}
+
 # %% [markdown]
 # In python,
 
@@ -160,7 +155,7 @@ def derivative_cost_function(T, x):
     return np.array([da, db, dc, dr])
 # %% [markdown]
 '''
-### 3.3 Gradient descent
+### 2.3 Gradient descent
 '''
 # %% [markdown]
 '''
@@ -186,7 +181,7 @@ def grad_descent(data, param_init):
 
 # %% [markdown]
 '''
-### 3.4 Training phase
+### 2.4 Training phase
 '''
 # %% [markdown]
 '''
@@ -236,14 +231,14 @@ The optimization returned a sphere centered at (1.21, 2.09, 3.94) with 9.94 radi
 '''
 # %% [markdown]
 '''
-### 3.4 Testing phase
+### 2.5 Testing phase
 '''
 # %% [markdown]
-'''
-Now that we have an estimation on the model, we can test it and see how weel this model fits to the data. We use the 1/3 remaining points to estimate the error of the model.
 
-The error estimation can be done using the fitting function $\xi(\Theta)$.
-'''
+# Now that we have an estimation on the model, we can test it and see how weel this model fits to the data. We use the 1/3 remaining points to estimate the error of the model.
+
+# The error estimation can be done using the fitting function $\xi(\Theta)$.
+
 # %%
 #Testing phase
 sph_points_test = sph_points[int(n/3)::,:]
@@ -265,7 +260,7 @@ This is using these error can we can optimized the hyper-parameters (optimizatio
 '''
 # %% [markdown]
 '''
-### 3.5 Qualitative result
+### 2.6 Qualitative result
 '''
 # %% [markdown]
 '''
@@ -312,4 +307,12 @@ fig.show(renderer="iframe_connected", config={'showLink': False})
 # %% [markdown]
 '''
 You can look at other examples for standard mathematical models [here](https://www.geometrictools.com/Documentation/LeastSquaresFitting.pdf).
+'''
+# %% [markdown]
+'''
+## Tags
+'''
+# %% [markdown]
+'''
+Data-Science; Geometry; Optimization
 '''

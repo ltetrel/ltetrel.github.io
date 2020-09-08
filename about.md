@@ -1,22 +1,33 @@
 ---
-layout: main
+layout: page
+title: About
+tagline: Why and what is that ?
+permalink: /about.html
+ref: about
 ---
 
-<h1 id="Bio">Bio<a class="anchor-link" href="#Bio">&#182;</a></h1>
+I wrote this blog with the idea of sharing my knowledge and my thoughts on various topics.
+It is mostly focused on data science and geeky stuff.
+Most of the images used in the posts comes from the royalty free image bank [pexels](https://www.pexels.com/).
 
-<div style="text-align: justify"> I am Loïc Tetrel, a young <strong>computer vision</strong> scientist (M. A. Sc.) in the <strong>medical</strong> field. 
-Born in <strong>france</strong> (vive les croissants et le fromage !), I also speak <strong>polish</strong> and <strong>english</strong>. </div>
-<p></p>
-<div style="text-align: justify"> Since the end of 2016, I am working in digital dentistry for <strong>Straumann/Dental Wings</strong> on 3D scanners.
-With lots of scientific stuff written and versioned in <strong>C++/Python</strong>, for <strong>optical calibration</strong>, <strong>error correction</strong>, <strong>meshing</strong> algorithms, metrology, and even a <strong>virtual</strong> scanner.</div>
-<p></p>
-<div style="text-align: justify"> I spent 6 years for my studies with first a technical degree in <strong>industrial engineering</strong> at <a href="https://iut.univ-lyon1.fr/formation/offre-de-formations/gim/dut-genie-industriel-et-maintenance-602581.kjsp?RH=1432134288557">IUT Lyon 1</a>.
-Then a double degree at <a href="https://www.insa-lyon.fr/">INSA Lyon</a> in <strong>electrical engineering</strong> and my <strong>research</strong> at <a href="https://www.etsmtl.ca/">ETS</a> on <strong>sensorless 3D ultrasound</strong> (<a href="https://link.springer.com/chapter/10.1007/978-3-319-47157-0_25">published</a> in <a href="http://www.miccai.org/">MICCAI</a> YAAAAAY).
+This a a long-term project I have been working for months (years?) but it is hard to conciliate free-time and working on it!
 
-<div style="text-align: justify"> Really curious about technology in general, video games and lot of geek stuff. I also do sport, play guitar in my spare time and love traveling all around the world. </div>
+# How this website was made ?
 
-<h1 id="Contact">Contact<a class="anchor-link" href="#Contact">&#182;</a></h1>
+This blog uses [Jekyll](https://jekyllrb.com/) and is hosted on [Github pages](https://pages.github.com/). 
+It is mostly based from the modified `Cayman Blog` theme by `lorepirri`. As the author describes it:
 
-<div style="text-align: justify"> You can contact me via my mail at <a href="mailto:loic.tetrel.pro@gmail.com"> loic.tetrel.pro@gmail.com</a>.<br>
-Currently employed, but take a look at my <a href="../resume/cv.pdf">résumé</a> if you like my profile. 
-</div>
+>Cayman Blog is a Jekyll theme for GitHub Pages. It is based on the nice [Cayman theme](https://pages-themes.github.io/cayman/), with blogging features added. You can [preview the theme to see what it looks like](http://lorepirri.github.io/cayman-blog), or even [use it today](https://github.com/pages-themes/cayman).
+
+It is really nice because it allows anyone to build for free his own website in a few minutes! *Of course, if you are like me and want to optimize and modify the theme, it will mostly take you weeks...*
+
+For the jupyter notebooks, the templates were heavily inspired from the wonderfull <a href="http://peterroelants.github.io/">peterroelants</a> blog (you should definitivelly check it!).
+I am using [jupytext](https://github.com/mwouts/jupytext) to get the notebooks out of python files, and [nbcovnert](https://github.com/jupyter/nbconvert) to build the html. References, post metadata and collapse buttons are injected using python via [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/).
+
+Most of the icons are svg embedded in html from [iconmonstr](https://iconmonstr.com/).
+
+The tags and posts pages were inspired from [codinfox](https://codinfox.github.io/dev/2015/03/06/use-tags-and-categories-in-your-jekyll-based-github-pages/).
+
+Check the source code at <a href="{{ site.github.repository_url }}">{{ site.github.repository_name }}</a>.
+
+[Go to the Home Page]({{ '/' | absolute_url }})

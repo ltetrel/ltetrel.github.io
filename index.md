@@ -1,24 +1,5 @@
 ---
-layout: main
+layout: home
 ---
 
-<i class="fas fa-cog fa-spin fa-2x fa-fw"></i> BLOG IN PROGRESS... <i class="fas fa-cog fa-spin fa-2x fa-fw"></i>
-
-# À propos
-
->Welcome here !
->I created this blog to share some of my knowledge to other, through various posts and tutorials.
-
-# Posts
-
---- |
-16-07-2018 : [Likelihood](./posts/likelihood.html) |
-
---- |
-16-07-2018 : [Sphere fit](./posts/Sphere_fitting.html) |
-
---- |
-02-06-2018 : [3D line test](./posts/Test3Dline.html) |
-
---- |
-02-06-2018 : [My first python notebook](./posts/TutorialJupyter.html) |
+Check my data science and tech posts today, and do not hesitate to share this blog if you like it!

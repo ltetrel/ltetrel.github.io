@@ -1,7 +1,32 @@
 title: A curious blog
-description: For other curious, who wants to learn more about basics of computer science. Because computer science, it's cool !
+description: For anyone who wants to discover computer science, because it is cool!
 show_downloads: false
+
+baseurl: "" # change this to the subpath of your site, e.g. /blog. Leave it empty if you don't need it.
+url: "https://ltetrel.github.io" # change this to the base hostname & protocol for your site
+
+exclude: ["/notebooks/data", "/notebooks/to_add", "/notebooks/*.csl", "/notebooks/*.bib"]
+
 google_analytics:
-theme: jekyll-theme-cayman
-name: Loïc Tetrel
-repository: ltetrel/ltetrel.github.io
+
+# cayman-blog date format
+# refer to http://shopify.github.io/liquid/filters/date/ if you want to customize this
+cayman-blog:
+  date_format: "%b %-d, %Y"
+
+theme: # leave it empty
+
+# social
+author: ltetrel
+# image: /thumbnail-jumbo.png
+# twitter:
+#   username: ltetrel
+
+plugins:
+  - jekyll-target-blank
+  - jemoji
+
+target-blank:
+    rel: nofollow
+
+header_page_refs: ['posts', 'about', 'contact', 'now']

@@ -1,0 +1,26 @@
+---
+layout: page
+---
+
+{{ content }}
+
+{% for tag in site.tags %}
+  <a class=tag-ref href="#{{ tag[0] | slugify }}">{{ tag[0] | slugify }}</a>
+{% endfor %}
+
+{% assign date_format = site.cayman-blog.date_format | default: "%b %-d, %Y" %}
+{% for tag in site.tags %}
+  <h2 id="{{ tag[0] | slugify }}">
+  {{ tag[0] }} <a class="anchor-link" href="#{{ tag[0] | slugify }}"> &#182; </a>
+  </h2>
+  {% for post in tag[1] %}
+  <ul>
+    <li>
+      <a href="{{ post.url | absolute_url }}" title="{{ post.title }}">{{ post.title | escape }} </a>
+      <span class="post-meta">{{ post.date | date: date_format }}</span>
+    </li>
+  </ul>
+  {% endfor %}
+{% endfor %}
+
+<a href="{{ '/' | absolute_url }}"> Go to the Home Page</a>
