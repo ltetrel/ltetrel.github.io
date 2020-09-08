@@ -1,8 +1,0 @@
-# %% [markdown]
-'''
-# GAN for pokemon
-'''
-# %% [markdown]
-'''
-https://stackabuse.com/introduction-to-gans-with-python-and-tensorflow/?__cf_chl_captcha_tk__=9b42a9b8569e6f1059f8ed763f1ece2f44b3c140-1597435192-0-AWC6W9JL3KU-Ez1CcKAfeYlSr6L_N66dAxMumm8j_Jzi8iKOeRr5qfiqpI0TVMjtHSCaHPtvZpTfyJpC3WEFNW6orzGDYMGyzu2Pprax9yXFJgca4m4iYtvDcNtBf7R0LsKhqlysmAg0thz6gkm_5f-cIkdoY5JQmPjsR8TsJxjCfU5FuQ5X_Q5QLa8XwJYvVk3DKAl1c7Yk3lts6zloQIHKCD22Ykl_tYno4T4qv5zaJaZKt0TCC7K7XrtVOG_XtWx13Rucrr0Qgeh1vrf-XpqanDprQZ_8TFMNARC-1zXnoj4tqjWbsxqsBAHdUY5LkituZ-CaY1iT1kckio4hQKP7kJc4stNKnIZIzNN6Th5nBql3q4dFO4qgaPpb_vnB-K01AKGfTLkjVNMXFrArXaB-RLNeNT9b_QMnVmgVPjJIGUV9rip0RP6OUkGbJqp2Xmx-t3fuykJtO397_Oks4oDSF1FqWUA5LshSueuJBZBJJpyo2ptaEvSLiCMMr60FooqLdhjc8ImLegTjFrPnqrdIYgxn2g6J3jH-FNTAD6brAY1cSBqI5UecVyfOHR98FQ
-'''
