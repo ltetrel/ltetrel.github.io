@@ -1,0 +1,150 @@
+---
+layout: post
+title: Build your own media server
+date: 2020-05-17
+category: Computer-Science
+tags:   Media-Server Open-Science
+img: /notebooks/imgs/jellyfin/post_img.jpg
+file: /notebooks/jellyfin.py
+excerpt_separator: <h2
+---
+    
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Streaming and sharing media are gaining popular adoption, specifically using popular web media platform that everyone knows: <a href="https://www.netflix.com/">Netflix</a>, <a href="https://www.youtube.com/">YouTube</a> or <a href="https://www.spotify.com/ca-en/">Spotify</a>.
+They all exists thanks to the same technology, media encoding/decoding.</p>
+<p>Streaming has many advantages, maybe you want to share your personnal pictures with your family (while being in controll of the server), access music with a nice front-end, or easilly watch your movies anywhere on your house.
+But did you knew that is was possible to make your own media server for FREE.</p>
+<p>You may have heard of <a href="https://www.plex.tv/">Plex</a> which is a popular and free media server. But you need to understand that 1) it is not open-source and 2) Plex collects and stores information about you (check the <a href="https://www.plex.tv/en-ca/about/privacy-legal/privacy-preferences/">user agreement page</a>). Let me introduce you instead <a href="https://jellyfin.org/">Jellyfin</a>, which does not store anything about you, and is trully free and open-source. Yes, you will mostly have lot of headaches, things will not work as smoothly as Plex and their UI is worst but at least your privacy should be safe.</p>
+<blockquote><p><strong>Disclaimer</strong><br/>
+I am not promoting and don't support downloading and distributing copyrighted content digitally, without copyright holder permission.</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="tl;dr">tl;dr<a class="anchor-link" href="#tl;dr">¶</a></h2><ol>
+<li>Install jellyfin by following <a href="https://jellyfin.org/docs/general/administration/installing.html">here</a>.</li>
+<li>Enable hardware video with the <a href="https://developer.nvidia.com/ffmpeg">NVIDIA ffmpeg documentation</a></li>
+</ol>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Installing-Jellyfin">Installing Jellyfin<a class="anchor-link" href="#Installing-Jellyfin">¶</a></h2><p><img alt="drawing" src="/notebooks/imgs//jellyfin/jellyfin.png" width="300"/></p>
+<p>The following implies that you already installed an <a href="http://cdimage.ubuntu.com/ubuntu/releases/18.04/release/">ubuntu 18.04 server OS</a> on a computer.</p>
+<p>All the <code>Jellyfin</code> installation procedure is described <a href="https://jellyfin.org/docs/general/administration/installing.html">here</a>.</p>
+<p>First, you will need to install HTTPS transport for APT if you haven't already:</p>
+<div class="highlight"><pre><span></span>sudo apt install apt-transport-https
+</pre></div>
+<p>Enable the Universe repository to obtain all the FFMpeg dependencies:</p>
+<div class="highlight"><pre><span></span>sudo add-apt-repository universe
+</pre></div>
+<p>Import the GPG signing key (signed by the <code>Jellyfin</code> Team):</p>
+<div class="highlight"><pre><span></span>wget -O - https://repo.jellyfin.org/ubuntu/jellyfin_team.gpg.key <span class="p">|</span> sudo apt-key add -
+</pre></div>
+<p>Add a repository configuration at <code>/etc/apt/sources.list.d/jellyfin.list</code>:</p>
+<div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s2">"deb [arch=</span><span class="k">$(</span> dpkg --print-architecture <span class="k">)</span><span class="s2">] https://repo.jellyfin.org/ubuntu </span><span class="k">$(</span> lsb_release -c -s <span class="k">)</span><span class="s2"> main"</span> <span class="p">|</span> sudo tee /etc/apt/sources.list.d/jellyfin.list
+</pre></div>
+<blockquote><p><strong>Note</strong><br/>
+Supported releases are xenial, bionic, cosmic, disco, and eoan.</p>
+</blockquote>
+<p>Update APT repositories:</p>
+<div class="highlight"><pre><span></span>sudo apt update
+</pre></div>
+<p>Install <code>Jellyfin</code>:</p>
+<div class="highlight"><pre><span></span>sudo apt install jellyfin
+</pre></div>
+<p>Note the ip of your device:</p>
+<div class="highlight"><pre><span></span>ip a
+</pre></div>
+<p>You can see your IP adress by checking under <code>enp2s0</code>, it should be on the form <code>192.168.X.X</code>.</p>
+<p>Congratulations!<br/>
+You have now access to your <code>Jellyfin</code> server through the web on any device (tablet, smartphone etc..).
+Open a browser and type <code>http://&lt;your_ip&gt;:8096</code> to access it.</p>
+<blockquote><p><strong>Note</strong><br/>
+The server is running on your LAN network thanks to your router, it is not accessible from outside of your home Wi-Fi.
+If you want to make your server available anywhere, check the <a href="https://jellyfin.org/docs/general/networking/nginx.html#nginx">reverse proxy setup</a>.</p>
+</blockquote>
+<p>Optionnally, you can check the status of the server using:</p>
+<div class="highlight"><pre><span></span>sudo service jellyfin status
+</pre></div>
+<p>If you want to start/stop the <code>Jellyfin</code> server:</p>
+<div class="highlight"><pre><span></span>sudo service jellyfin stop
+sudo service jellyfin start
+</pre></div>
+<h2 id="Enabling-hardware-encoding">Enabling hardware encoding<a class="anchor-link" href="#Enabling-hardware-encoding">¶</a></h2><p><img src="/notebooks/imgs//jellyfin/computer_hardware.jpg" width="400"/></p>
+<p>By default, <code>Jellyfin</code> will use software for video encoding/decoding. It uses the CPU and can be slow because it is not optimized for your hardware. This is why it is interresting to enable hardware acceleration for transcoding your medias.<br/>
+The latter will explain you how to enable hardware acceleration on your GPU NVIDIA card.</p>
+<p>First, check if you have an NVIDIA compatible card:</p>
+<div class="highlight"><pre><span></span>lshw -class display
+</pre></div>
+<p>Basically, FERMI and newer cards allow NVDEC (hardware decoding), KEPLER and newer allows for NVENC (hardware encoding)
+<a href="https://developer.nvidia.com/video-encode-decode-gpu-support-matrix">https://developer.nvidia.com/video-encode-decode-gpu-support-matrix</a>.</p>
+<blockquote><p><strong>Note</strong><br/>
+Hardware accelaration is of course also possible on CPUs. You should check the official documentation for <a href="https://jellyfin.org/docs/general/administration/hardware-acceleration.html">CPU hardware acceleration</a> (Intel, AMD etc..).</p>
+</blockquote>
+<h3 id="Installing-FFmpeg">Installing FFmpeg<a class="anchor-link" href="#Installing-FFmpeg">¶</a></h3><h4 id="Prerequesites">Prerequesites<a class="anchor-link" href="#Prerequesites">¶</a></h4><p><a href="https://ffmpeg.org/">FFmpeg</a> is a popular open-source multimedia streaming software, mostly used to do video encoding and decoding. There is a high chance that all the company I mentionned in the beginning are using it.</p>
+<p>We will compile our own FFmpeg to make the best used of our GPU, but you will firt need to make sure that you have CUDA installed.
+If not, <a href="cuda_install.md">check my post on installing cuda</a> for your ubuntu system.</p>
+<p>We also need to make sure that the build tools are available on the system:</p>
+<div class="highlight"><pre><span></span>sudo apt-get update
+sudo apt-get install build-essential pkg-config
+</pre></div>
+<p>All the following is partially based from the <a href="https://developer.nvidia.com/ffmpeg">NVIDIA ffmpeg documentation</a>.</p>
+<p>Download the <code>ffnvcodec</code> git repository:</p>
+<div class="highlight"><pre><span></span>git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git
+<span class="nb">cd</span> nv-codec-headers
+</pre></div>
+<p>You should now check which version (git branch) of the codec is compatible with your NVIDIA driver version <a href="https://github.com/FFmpeg/nv-codec-headers/tree/master">on the github repo</a>. Checkout to the repo (for me it is <code>sdk/8.0</code>) and build it:</p>
+<div class="highlight"><pre><span></span>git checkout sdk/8.0
+<span class="nb">cd</span> nv-codec-headers <span class="o">&amp;&amp;</span> sudo make install <span class="o">&amp;&amp;</span> <span class="nb">cd</span> ..
+</pre></div>
+<h4 id="Compiling-FFmpeg">Compiling FFmpeg<a class="anchor-link" href="#Compiling-FFmpeg">¶</a></h4><p>Download the latest <code>ffmpeg</code> source code, by cloning the corresponding git repository:</p>
+<div class="highlight"><pre><span></span>git clone https://git.ffmpeg.org/ffmpeg.git
+<span class="nb">cd</span> ffmpeg
+</pre></div>
+<p>Use the following configure command:</p>
+<div class="highlight"><pre><span></span>./configure --prefix<span class="o">=</span>/usr/lib/ffmpeg --target-os<span class="o">=</span>linux --disable-doc --disable-ffplay --disable-shared <span class="se">\</span>
+--disable-libxcb --disable-vdpau --disable-sdl2 --disable-xlib --enable-gpl --enable-version3 --enable-static <span class="se">\</span>
+--enable-libx264 --enable-libx265 --arch<span class="o">=</span>amd64 --enable-cuda-nvcc --enable-cuvid --enable-nvenc --enable-nonfree <span class="se">\</span>
+--enable-libnpp --extra-cflags<span class="o">=</span>-I/usr/local/cuda/include --extra-ldflags<span class="o">=</span>-L/usr/local/cuda/lib64
+</pre></div>
+<blockquote><p><strong>Warning</strong><br/>
+It is possible that the <code>nv-codec-headers</code> version does not match the <code>ffmpeg</code> version.
+You should checkout to a <code>ffmpeg</code> version that is compatible. By comparing the commits date, I had to change Fmpeg to <code>v4.0</code> :</p>
+<div class="highlight"><pre><span></span>git checkout n4.0
+</pre></div>
+<p><strong>Note</strong><br/>
+You can add <code>--disable-nvenc</code> if your GPU is not compatible with hardware encoding (FERMI architecture).</p>
+</blockquote>
+<p>You are now ready to compile FFMpeg (should take few minutes!):</p>
+<div class="highlight"><pre><span></span>make -j <span class="m">2</span>
+</pre></div>
+<p>And copy the binaries into the appropriate folder,</p>
+<div class="highlight"><pre><span></span>sudo cp ffmpeg /usr/lib/ffmpeg/bin/
+sudo cp ffprobe /usr/lib/ffmpeg/bin/
+</pre></div>
+<h4 id="Verifying-installation">Verifying installation<a class="anchor-link" href="#Verifying-installation">¶</a></h4><p>To test that the decoding works on GPU, run this benchmark on a sample <code>test.mp4</code> video:</p>
+<div class="highlight"><pre><span></span>ffmpeg -v debug -y -hwaccel cuvid -c:v h264_cuvid -i test.mp4 -benchmark -f null -
+</pre></div>
+<p>The CPU usage should be really low, and you should see our GPU running (check encoder and decoder stats):</p>
+<div class="highlight"><pre><span></span>nvidia-smi -i <span class="m">0</span> -q -d UTILIZATION -lms <span class="m">500</span>
+</pre></div>
+<p>To enable hardware encoding on <code>jellyfin</code>, on the admin dashboard select transcoding.
+Depending on the architecture and the GPU, you will not support every format.
+Check the box on jellifyn app depending on <a href="https://developer.nvidia.com/video-encode-decode-gpu-support-matrix">https://developer.nvidia.com/video-encode-decode-gpu-support-matrix</a> 
+and <a href="http://developer.download.nvidia.com/assets/cuda/files/NVIDIA_Video_Decoder.pdf">http://developer.download.nvidia.com/assets/cuda/files/NVIDIA_Video_Decoder.pdf</a></p>
+<p>To further optimize your server usage (the worst being transcoding), you should use a codec and a container that is supported with almost any browser.
+The ideal is the <code>H.264 8Bit</code> video (libx264), <code>AAC</code> audio, <code>mp4</code> container with <code>SubRip Text</code> (srt) subtitles codecs.
+Check <a href="https://jellyfin.org/docs/general/clients/codec-support.html">here</a> for information on what the codes that browsers supports.</p>
+</div>
+</div>
+</div>
+
+

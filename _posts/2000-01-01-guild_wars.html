@@ -1,0 +1,559 @@
+---
+layout: post
+title: Optimize jewelry selling in Guild Wars 2™
+date: 2019-01-04
+category: Software-Development
+tags:   Video-Games
+img: /notebooks/imgs/guild_wars/post_img.jpg
+file: /notebooks/guild_wars.py
+excerpt_separator: <h2
+---
+    
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Guild Wars 2™ (GW2) is a massively multiplayer online role-playing game (MMORPG) developed by ArenaNet and published by NCSoft and ArenaNet.
+The game takes place in the world of Tyria, with the re-emergence of a guild dedicated to fighting dragons. 
+The Guild Wars series is known to break some classical aspects of MMOs. For example it features a wide solo component (the storyline adapts to the player's actions), or break the Tank/DPS/Healer triptych in player vs player (PvP) and player vs monster (PvM) mode.</p>
+<p>In this post, I will talk about the <a href="https://wiki.guildwars2.com/wiki/API:Main">Guild Wars 2 api</a> developped by ArenaNet for the users, more specifically the python interface by <a href="https://github.com/JuxhinDB">JuxhinDB</a>.
+This allows anyone to access the in-game live data like items current selling price, buying prices etc..
+Lot of fan-made websites uses the gw2 api to automatize their tools (like <a href="https://www.gw2bltc.com">https://www.gw2bltc.com</a>, <a href="https://www.gw2tp.com">https://www.gw2tp.com</a> or <a href="https://www.gw2spidy.com">https://www.gw2spidy.com</a>).</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="TL;DR">TL;DR<a class="anchor-link" href="#TL;DR">¶</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li>The gw2 api can be used to get live trading market data.</li>
+<li>Having the buying/selling information allows to calculate profitability for any item (given the ressources price).</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Jewelvry-in-guild-wars-2">Jewelvry in guild wars 2<a class="anchor-link" href="#Jewelvry-in-guild-wars-2">¶</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In my gamer life, my favourite games were always RPGs style games.
+That's why I was always attracted, and I was able to play some mmo like <a href="https://www.dofus.com/">dofus</a> and <a href="https://www.finalfantasyxiv.com/">Final Fantasy XIV</a> (check this <a href="https://xivapi.com/docs/Welcome">community api</a>).<br/>
+My goal was always to focus on ressources gathering and crafting, I could not therefore miss the job system of GW2 so I became a <a href="https://wiki.guildwars2.com/wiki/Jeweler">jeweler</a>.
+I realized quickly that it was not easy to seel my goods and make lot of money out of it.</p>
+<p>The process to optimize the selling price was cumbersome because I had to check some website manually like <a href="https://www.gw2bltc.com/en/item/19697-Copper-Ore">https://www.gw2bltc.com/en/item/19697-Copper-Ore</a>.
+So I decided to run some automatic simulations base from grabbed data.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="gw2api-usage">gw2api usage<a class="anchor-link" href="#gw2api-usage">¶</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img alt="drawing" src="/notebooks/imgs//guild_wars/professions.jpg" width="800"/></p>
+<p>There is a community based <a href="https://github.com/JuxhinDB/gw2-api-interface">interface in python</a> by <a href="https://github.com/JuxhinDB">JuxhinDB</a>.
+The <a href="https://github.com/JuxhinDB/gw2-api-interface#installation">installation</a> is quite easy with python-pip.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [1]:</div>
+<div class="inner_cell">
+<div class="input_area collapsed"><div class="collapse_expand_button far fa-1x fa-minus-square"></div>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1">### imports</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">gw2api</span> <span class="k">import</span> <span class="n">GuildWars2Client</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can create a new client to the api with,</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [2]:</div>
+<div class="inner_cell">
+<div class="input_area"><div class="collapse_expand_button far fa-1x fa-minus-square"></div>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># we will create a client like this</span>
+<span class="n">gw2_client</span> <span class="o">=</span> <span class="n">GuildWars2Client</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s1">'v2'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This allow us to gather information from an object id.
+For example the id for a copper ore can be found in the <a href="https://wiki.guildwars2.com/wiki/Copper_Ore">official wiki on the right</a>.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [3]:</div>
+<div class="inner_cell">
+<div class="input_area"><div class="collapse_expand_button far fa-1x fa-minus-square"></div>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># get item by its id</span>
+<span class="n">id_object</span> <span class="o">=</span> <span class="mi">19697</span>
+<span class="n">gw2_client</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">{</span><span class="s2">"</span><span class="si">%5d</span><span class="s2">"</span> <span class="o">%</span><span class="k">id_object</span>})
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[3]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>[{'name': 'Copper Ore',
+  'description': 'Refine into Copper Ingots or use Tin to refine into Bronze Ingots.',
+  'type': 'CraftingMaterial',
+  'level': 0,
+  'rarity': 'Basic',
+  'vendor_value': 1,
+  'game_types': ['Activity', 'Wvw', 'Dungeon', 'Pve'],
+  'flags': [],
+  'restrictions': [],
+  'id': 19697,
+  'chat_link': '[&amp;AgHxTAAA]',
+  'icon': 'https://render.guildwars2.com/file/6E17C5A65955239640743E48B30A3425FACA5D02/65925.png'}]</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A really important feature here is the possibility to get the trading market data for this item,</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [4]:</div>
+<div class="inner_cell">
+<div class="input_area"><div class="collapse_expand_button far fa-1x fa-minus-square"></div>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># access data from the trading market</span>
+<span class="n">gw2_client</span><span class="o">.</span><span class="n">commerceprices</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+<span class="c1"># check for a specific item</span>
+<span class="n">id_object</span> <span class="o">=</span> <span class="mi">19697</span>
+<span class="n">gw2_client</span><span class="o">.</span><span class="n">commerceprices</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">{</span><span class="s2">"</span><span class="si">%5d</span><span class="s2">"</span> <span class="o">%</span><span class="k">id_object</span>})
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[4]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>[{'id': 19697,
+  'whitelisted': True,
+  'buys': {'quantity': 1567037, 'unit_price': 69},
+  'sells': {'quantity': 842680, 'unit_price': 87}}]</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<blockquote><p><strong>Note</strong>:<br/>
+Be careful to not overload the server by sending <a href="https://forum-en.gw2archive.eu/forum/community/api/HEADS-UP-rate-limiting-is-coming">too many requests</a>.<br/>
+If so, you will get the response "HTTP 429 Limit Exceeded".</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Profitability-calculator">Profitability calculator<a class="anchor-link" href="#Profitability-calculator">¶</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Using the trading market data, it is possible to get the optimal object to sell, given the current price of the gathered ressources.
+For example a copper earring (master) can be crafted using : x1 Adorned Jewel, x1 Copper Setting (x4 Copper Ores) and x1 Copper Hook (x4 Copper Ores).
+We can calculate the resulting price for a <a href="https://www.gw2bltc.com/en/item/13268-Tigers-Eye-Copper-Stud">fine Tiger's Eye Copper Stud</a> for example,</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [5]:</div>
+<div class="inner_cell">
+<div class="input_area"><div class="collapse_expand_button far fa-1x fa-minus-square"></div>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Tiger's Eye price</span>
+<span class="n">id_object</span> <span class="o">=</span> <span class="mi">24467</span>
+<span class="n">tiger_eye_price</span> <span class="o">=</span> <span class="n">gw2_client</span><span class="o">.</span><span class="n">commerceprices</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">{</span><span class="s2">"</span><span class="si">%5d</span><span class="s2">"</span> <span class="o">%</span><span class="k">id_object</span>})[0]['sells']['unit_price']   
+<span class="c1"># copper price</span>
+<span class="n">id_object</span> <span class="o">=</span> <span class="mi">19697</span>
+<span class="n">copper_price</span> <span class="o">=</span> <span class="n">gw2_client</span><span class="o">.</span><span class="n">commerceprices</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">{</span><span class="s2">"</span><span class="si">%5d</span><span class="s2">"</span> <span class="o">%</span><span class="k">id_object</span>})[0]['sells']['unit_price'] 
+<span class="c1"># craft price</span>
+<span class="n">craft_price</span> <span class="o">=</span> <span class="n">tiger_eye_price</span> <span class="o">+</span> <span class="mi">8</span><span class="o">*</span><span class="n">copper_price</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The rentability of this item is simply the actual price divided by the crafted price,</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [6]:</div>
+<div class="inner_cell">
+<div class="input_area collapsed"><div class="collapse_expand_button far fa-1x fa-minus-square"></div>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1">### Rentability calculator</span>
+<span class="n">id_object</span> <span class="o">=</span> <span class="mi">13289</span> 
+<span class="nb">print</span><span class="p">(</span><span class="n">gw2_client</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">{</span><span class="s2">"</span><span class="si">%05d</span><span class="s2">"</span> <span class="o">%</span><span class="k">id_object</span>})[0]['name'])
+<span class="n">actual_price</span> <span class="o">=</span> <span class="n">gw2_client</span><span class="o">.</span><span class="n">commerceprices</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">{</span><span class="s2">"</span><span class="si">%5d</span><span class="s2">"</span> <span class="o">%</span><span class="k">id_object</span>})[0]['sells']['unit_price']
+<span class="n">rentability</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">-</span> <span class="mi">100</span><span class="o">*</span><span class="n">craft_price</span><span class="o">/</span><span class="n">actual_price</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Rentability is : </span><span class="si">%1.2f%%</span><span class="s2">"</span> <span class="o">%</span><span class="k">rentability</span>)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Tiger's Eye Copper Stud
+Rentability is : 47.52%
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Finding the id of an item manually is cumbersome. Hopefully, some good guys already created a json file with all the matching id
+and name : <a href="http://api.gw2tp.com/1/bulk/items-names.json">http://api.gw2tp.com/1/bulk/items-names.json</a>.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [7]:</div>
+<div class="inner_cell">
+<div class="input_area"><div class="collapse_expand_button far fa-1x fa-minus-square"></div>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># loading the json file</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'data/guild_wars/items-names.json'</span><span class="p">)</span> <span class="k">as</span> <span class="n">data_file</span><span class="p">:</span>    
+    <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">data_file</span><span class="p">)[</span><span class="s1">'items'</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The following object was designed to calculate the profitability of a given accessory:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [8]:</div>
+<div class="inner_cell">
+<div class="input_area collapsed"><div class="collapse_expand_button far fa-1x fa-minus-square"></div>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1">### Profitability for the given accessory</span>
+<span class="k">class</span> <span class="nc">cAccessory</span><span class="p">():</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gem</span><span class="o">=</span><span class="s1">'Amber'</span><span class="p">,</span> <span class="n">ore</span><span class="o">=</span><span class="s1">'Copper'</span><span class="p">,</span> <span class="n">accessory_type</span><span class="o">=</span><span class="s1">'Stud'</span><span class="p">,</span> <span class="n">mastercraft</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aName</span> <span class="o">=</span> <span class="n">gem</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="n">ore</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="n">accessory_type</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="s2">" m"</span><span class="p">[</span><span class="n">mastercraft</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aGem</span> <span class="o">=</span> <span class="n">gem</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aOre</span> <span class="o">=</span> <span class="n">ore</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aType</span> <span class="o">=</span> <span class="n">accessory_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aIsMastercrafted</span> <span class="o">=</span> <span class="n">mastercraft</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aGemSuffix</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">ore</span> <span class="o">==</span> <span class="s2">"Copper"</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">aGemSuffix</span> <span class="o">=</span> <span class="s2">"Pebble"</span> 
+        <span class="k">elif</span> <span class="n">ore</span> <span class="o">==</span> <span class="s2">"Silver"</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">aGemSuffix</span> <span class="o">=</span> <span class="s2">"Nugget"</span> 
+        <span class="k">elif</span> <span class="n">ore</span> <span class="o">==</span> <span class="s2">"Gold"</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">aGemSuffix</span> <span class="o">=</span> <span class="s2">"Lump"</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">aId</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mFindId</span><span class="p">()</span>
+    
+    <span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'data/guild_wars/items-names.json'</span><span class="p">)</span> <span class="k">as</span> <span class="n">data_file</span><span class="p">:</span>    
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">data_file</span><span class="p">)[</span><span class="s1">'items'</span><span class="p">]</span>
+    <span class="k">def</span> <span class="nf">mFindId</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">Id</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)):</span>
+            <span class="n">obj_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">obj_name</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">aGem</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">aOre</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">aType</span><span class="p">):</span>
+                <span class="n">Id</span> <span class="o">+=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="k">if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Id</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span> 
+            <span class="c1"># We hypothetize that master work have always greater ids</span>
+            <span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aIsMastercrafted</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">Id</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">aId</span> <span class="o">=</span> <span class="n">Id</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">aId</span> <span class="o">=</span> <span class="n">Id</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    
+    <span class="k">def</span> <span class="nf">mCraftPrice</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ore_id</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">gem_id</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">craft_price</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)):</span>
+            <span class="n">obj_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+            <span class="c1"># Search ore name</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">obj_name</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">aOre</span> <span class="o">+</span> <span class="s2">" Ore"</span><span class="p">):</span>
+                <span class="n">ore_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="c1"># Search gem name</span>
+            <span class="k">elif</span> <span class="p">(</span><span class="n">obj_name</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">aGem</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">aGemSuffix</span><span class="p">):</span> 
+                <span class="n">gem_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="c1"># exception just for Pearls..........</span>
+            <span class="k">elif</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aGem</span> <span class="o">==</span> <span class="s2">"Pearl"</span><span class="p">):</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">obj_name</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">aGem</span><span class="p">):</span> 
+                    <span class="n">gem_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            
+        <span class="k">if</span><span class="p">(</span><span class="n">ore_id</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">gem_id</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">ore_price</span> <span class="o">=</span> <span class="n">gw2_client</span><span class="o">.</span><span class="n">commerceprices</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">{</span><span class="s2">"</span><span class="si">%5d</span><span class="s2">"</span> <span class="o">%</span><span class="k">ore_id</span>})[0]['sells']['unit_price']
+            <span class="n">gem_price</span> <span class="o">=</span> <span class="n">gw2_client</span><span class="o">.</span><span class="n">commerceprices</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">{</span><span class="s2">"</span><span class="si">%5d</span><span class="s2">"</span> <span class="o">%</span><span class="k">gem_id</span>})[0]['sells']['unit_price']
+            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aType</span> <span class="o">==</span> <span class="s1">'Stud'</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aType</span> <span class="o">==</span> <span class="s1">'Earring'</span><span class="p">):</span>
+                <span class="n">craft_price</span> <span class="o">=</span> <span class="n">gem_price</span> <span class="o">+</span> <span class="mi">8</span><span class="o">*</span><span class="n">ore_price</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">aType</span> <span class="o">==</span> <span class="s1">'Ring'</span><span class="p">:</span>
+                <span class="n">craft_price</span> <span class="o">=</span> <span class="n">gem_price</span> <span class="o">+</span> <span class="mi">10</span><span class="o">*</span><span class="n">ore_price</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">aType</span> <span class="o">==</span> <span class="s1">'Amulet'</span><span class="p">:</span>
+                <span class="n">craft_price</span> <span class="o">=</span> <span class="n">gem_price</span> <span class="o">+</span> <span class="mi">12</span><span class="o">*</span><span class="n">ore_price</span>
+            
+            <span class="c1"># masterwork are more expensive because of filigrees</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">aIsMastercrafted</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">craft_price</span> <span class="o">=</span> <span class="n">craft_price</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">ore_price</span> 
+        
+        <span class="k">return</span> <span class="n">craft_price</span>
+    
+    <span class="k">def</span> <span class="nf">mSellPrice</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">aId</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"No id found for </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aGem</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">aOre</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">aType</span><span class="p">))</span>
+        <span class="n">sell_price</span> <span class="o">=</span> <span class="n">gw2_client</span><span class="o">.</span><span class="n">commerceprices</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">{</span><span class="s2">"</span><span class="si">%5d</span><span class="s2">"</span> <span class="o">%</span><span class="k">self</span>.aId})[0]['sells']['unit_price']
+        
+        <span class="k">return</span> <span class="n">sell_price</span>
+    
+    <span class="k">def</span> <span class="nf">mRentability</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">aId</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"No id found for </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aGem</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">aOre</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">aType</span><span class="p">))</span>
+        <span class="n">rent</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">-</span> <span class="mi">100</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">mCraftPrice</span><span class="p">()</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">mSellPrice</span><span class="p">()</span>
+        
+        <span class="k">return</span> <span class="n">rent</span>
+    
+    <span class="k">def</span> <span class="nf">mGain</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">aId</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"No id found for </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aGem</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">aOre</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">aType</span><span class="p">))</span>
+        <span class="n">gain</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mSellPrice</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mCraftPrice</span><span class="p">()</span>
+        
+        <span class="k">return</span> <span class="n">gain</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For example to get the current profitability of a <a href="https://www.gw2bltc.com/en/item/13364-Amber-Copper-Stud">fine Amber Copper Stud</a>,</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [9]:</div>
+<div class="inner_cell">
+<div class="input_area"><div class="collapse_expand_button far fa-1x fa-minus-square"></div>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">cAccessory</span><span class="p">(</span><span class="n">gem</span><span class="o">=</span><span class="s1">'Amber'</span><span class="p">,</span> <span class="n">ore</span><span class="o">=</span><span class="s1">'Copper'</span><span class="p">,</span> <span class="n">accessory_type</span><span class="o">=</span><span class="s1">'Stud'</span><span class="p">,</span> <span class="n">mastercraft</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Rentability for </span><span class="si">%s</span><span class="s2"> is : </span><span class="si">%1.2f%%</span><span class="s2">"</span> <span class="o">%</span><span class="p">(</span><span class="n">gw2_client</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">{</span><span class="s2">"</span><span class="si">%5d</span><span class="s2">"</span> <span class="o">%</span><span class="k">t</span>.aId})[0]['name'], t.mRentability()))
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Gain for </span><span class="si">%s</span><span class="s2"> is : </span><span class="si">%3d</span><span class="s2"> br"</span> <span class="o">%</span><span class="p">(</span><span class="n">gw2_client</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">{</span><span class="s2">"</span><span class="si">%5d</span><span class="s2">"</span> <span class="o">%</span><span class="k">t</span>.aId})[0]['name'], t.mGain()))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Rentability for Amber Copper Stud is : -733.00%
+Gain for Amber Copper Stud is : -733 br
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The following algorithm can be used to check all jewelry profitability, by specifying from which gems/ores/accessory to choose from:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [10]:</div>
+<div class="inner_cell">
+<div class="input_area collapsed"><div class="collapse_expand_button far fa-1x fa-minus-square"></div>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1">### Profitability for gold-based accessories</span>
+<span class="n">list_gems</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Amethyst"</span><span class="p">,</span> <span class="s2">"Sunstone"</span><span class="p">,</span> <span class="s2">"Topaz"</span><span class="p">,</span> <span class="s2">"Carnelian"</span><span class="p">,</span> <span class="s2">"Lapis"</span><span class="p">,</span> <span class="s2">"Peridot"</span><span class="p">,</span> <span class="s2">"Spinel"</span><span class="p">]</span>   
+<span class="n">list_ores</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Gold"</span><span class="p">]</span>
+<span class="n">list_accessories</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Earring"</span><span class="p">,</span> <span class="s2">"Ring"</span><span class="p">,</span> <span class="s2">"Amulet"</span><span class="p">]</span>
+<span class="n">list_mastercraft</span> <span class="o">=</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]</span>
+
+<span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">gains</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">gem</span> <span class="ow">in</span> <span class="n">list_gems</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">ore</span> <span class="ow">in</span> <span class="n">list_ores</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">accessory</span> <span class="ow">in</span> <span class="n">list_accessories</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">mastercraft</span> <span class="ow">in</span> <span class="n">list_mastercraft</span><span class="p">:</span>
+                <span class="n">acc</span> <span class="o">=</span> <span class="n">cAccessory</span><span class="p">(</span><span class="n">gem</span><span class="p">,</span> <span class="n">ore</span><span class="p">,</span> <span class="n">accessory</span><span class="p">,</span> <span class="n">mastercraft</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">acc</span><span class="o">.</span><span class="n">aId</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">names</span> <span class="o">+=</span> <span class="p">[</span><span class="n">acc</span><span class="o">.</span><span class="n">aName</span><span class="p">]</span>
+                    <span class="n">res</span> <span class="o">+=</span> <span class="p">[</span><span class="n">acc</span><span class="o">.</span><span class="n">mRentability</span><span class="p">()]</span>
+                    <span class="n">gains</span> <span class="o">+=</span> <span class="p">[</span><span class="n">acc</span><span class="o">.</span><span class="n">mGain</span><span class="p">()]</span>
+
+<span class="c1"># Sort the gains by decreasing order</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"-------"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Accessories:"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">gains</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="si">{}</span><span class="s2">, marginal gain: </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">names</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">gains</span><span class="p">[</span><span class="n">idx</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>-------
+Accessories:
+Sunstone Gold Ring  , marginal gain: 1708
+Sunstone Gold Earring  , marginal gain: 1426
+Amethyst Gold Ring m, marginal gain: 420
+Peridot Gold Ring m, marginal gain: 353
+Peridot Gold Earring  , marginal gain: 246
+Amethyst Gold Amulet m, marginal gain: 219
+Amethyst Gold Ring  , marginal gain: 210
+Carnelian Gold Earring  , marginal gain: 185
+Topaz Gold Ring  , marginal gain: 184
+Amethyst Gold Amulet  , marginal gain: 152
+Carnelian Gold Earring m, marginal gain: 147
+Sunstone Gold Amulet  , marginal gain: 7
+Peridot Gold Ring  , marginal gain: -76
+Topaz Gold Amulet m, marginal gain: -79
+Peridot Gold Amulet  , marginal gain: -127
+Lapis Gold Ring m, marginal gain: -147
+Amethyst Gold Earring  , marginal gain: -195
+Amethyst Gold Earring m, marginal gain: -210
+Peridot Gold Amulet m, marginal gain: -220
+Lapis Gold Earring  , marginal gain: -235
+Spinel Gold Earring  , marginal gain: -266
+Lapis Gold Ring  , marginal gain: -283
+Spinel Gold Ring  , marginal gain: -285
+Topaz Gold Ring m, marginal gain: -289
+Lapis Gold Amulet  , marginal gain: -303
+Topaz Gold Earring  , marginal gain: -324
+Spinel Gold Earring m, marginal gain: -387
+Peridot Gold Earring m, marginal gain: -389
+Topaz Gold Amulet  , marginal gain: -395
+Topaz Gold Earring m, marginal gain: -398
+Spinel Gold Ring m, marginal gain: -407
+Lapis Gold Earring m, marginal gain: -417
+Spinel Gold Amulet  , marginal gain: -423
+Sunstone Gold Ring m, marginal gain: -452
+Spinel Gold Amulet m, marginal gain: -456
+Lapis Gold Amulet m, marginal gain: -564
+Sunstone Gold Amulet m, marginal gain: -1348
+Sunstone Gold Earring m, marginal gain: -1544
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <a href="https://www.gw2bltc.com/en/item/45906-Sunstone-Gold-Ring">Sunstone Gold Ring</a> seems to be the best and more profitable item.
+Of course, the marginal gain cannot be the only factor, the frequency of sold item is also important for example.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">¶</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We saw that using the gw2 api allow to get the live market price of any items.
+The algorithm I designed allowed me to optimize my selling price, hence gaining lot of money in the game.</p>
+<p>I think sharing ther live game data with the community is amazing, a big thumbs up to the GW2 dev team for that!
+It is sadly not so frequent in the video game industry, because too many are ultranationalist-centered (hello japanese games!)...</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="To-go-further">To go further<a class="anchor-link" href="#To-go-further">¶</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>I did not discuss it here but it is of course possible to authenticate to the api.
+This to allow the user to access its character content like the inventory, its guild etc...</p>
+<p>It can be done with,</p>
+<div class="highlight"><pre><span></span><span class="n">client</span> <span class="o">=</span> <span class="n">GuildWars2Client</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s1">'API_KEY_VALUE_HERE'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+

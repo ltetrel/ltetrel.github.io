@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1414977492 source:d:\mes_documents\etudes\ets\cours\processeurs numérique\tp1\tp1\main.c
+	<stdio.h>
+	<stdlib.h>
+

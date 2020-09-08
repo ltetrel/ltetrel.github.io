@@ -1,0 +1,14 @@
+\begin{thebibliography}{1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+
+\bibitem{tendler2002power4}
+Tendler, J.M., Dodson, J.S., Fields, J., Le, H., Sinharoy, B.: Power4 system
+  microarchitecture. IBM Journal of Research and Development  46(1),  5--25
+  (2002)
+
+\bibitem{von2007theory}
+Von~Neumann, J., Morgenstern, O.: Theory of games and economic behavior.
+  Princeton university press (2007)
+
+\end{thebibliography}

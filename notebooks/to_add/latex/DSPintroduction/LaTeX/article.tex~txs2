@@ -1,0 +1,597 @@
+%%%%%%%%%%%%%%%%%%%%%%% file typeinst.tex %%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% This is the LaTeX source for the instructions to authors using
+% the LaTeX document class 'llncs.cls' for contributions to
+% the Lecture Notes in Computer Sciences series.
+% http://www.springer.com/lncs       Springer Heidelberg 2006/05/04
+%
+% It may be used as a template for your own input - copy it
+% to a new file with a new name and use it as the basis
+% for your article.
+%
+% NB: the document class 'llncs' has its own and detailed documentation, see
+% ftp://ftp.springer.de/data/pubftp/pub/tex/latex/llncs/latex2e/llncsdoc.pdf
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\documentclass[runningheads,a4paper]{llncs}
+
+\usepackage{amssymb}
+\setcounter{tocdepth}{3}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows,shapes.geometric,
+	matrix,shapes.symbols,decorations.pathreplacing}
+
+\usepackage{subcaption}
+\captionsetup{compatibility=false}
+
+\usepackage{booktabs}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+\usepackage{url}
+\urldef{\mailsa}\path|loic_tetrel@yahoo.fr|
+%\urldef{\mailsb}\path|acen.chebrek@gmail.com|
+\urldef{\mailsc}\path|catherine.laporte@etsmtl.ca|
+\urldef{\mailsanon}\path|******@*******.***|
+\newcommand{\keywords}[1]{\par\addvspace\baselineskip
+	\noindent\keywordname\enspace\ignorespaces#1}
+
+\begin{document}
+	
+	\mainmatter  % start of an individual contribution
+	
+	% first the title is needed
+	% CL: le titre original me semble un peu long.  Et tant qu'a faire 2 lignes, utilisons le mot entier "Ultrasound" plutot qu'une abreviation.
+	%\title{Learning to improve Graph-Based Estimation of Probe Trajectory for Sensorless Freehand 3D US}
+	\title{Gaussian Process}
+	
+	% a short form should be given in case it is too long for the running head
+	\titlerunning{Gaussian Process}%
+	%\titlerunning{Estimation of Probe Trajectory %of Probe Motion 
+	%for Sensorless Freehand 3D US}% reconstruction}%Reconstruction of the probe motion for freehand 3D US}
+	
+	% the name(s) of the author(s) follow(s) next
+	%
+	% NB: Chinese authors should write their first names(s) in front of
+	% their surnames. This ensures that the names appear correctly in
+	% the running heads and the author index.
+	%
+	% CL: a decommenter pour la version finale non-anonymisee
+	\author{Loïc Tetrel}
+	%\author{**********************************}
+	%
+	%\authorrunning{Estimation of Probe Trajectory %of Probe Motion 
+	%for Sensorless Freehand 3D US}
+	\authorrunning{Gaussian Process
+	}
+	% (feature abused for this document to repeat the title also on left hand pages)
+	
+	% the affiliations are given next; don't give your e-mail address
+	% unless you accept that it will be published
+	%\institute{******************************************\\
+	
+	%
+	% NB: a more complex sample for affiliations and the mapping to the
+	% corresponding authors can be found in the file "llncs.dem"
+	% (search for the string "\mainmatter" where a contribution starts).
+	% "llncs.dem" accompanies the document class "llncs.cls".
+	%
+	
+	\toctitle{Gaussian Process}
+	%Estimation of Probe Trajectory %of Probe Motion 
+	%for Sensorless Freehand 3D US}%of Probe Motion for Freehand 3D US}
+	\maketitle
+	
+	
+	\begin{abstract}
+		Sensorless freehand 3D ultrasound (US) uses speckle decorrelation to estimate small rigid motions between pairs of 2D images. %without a position sensor.
+		Trajectory estimation combines these motion estimates to obtain the position each image relative to the first.  This is prone to the accumulation of measurement bias. %es in the motion estimates.
+		%As an effect of accumulating estimation's biases, the error if full at the end of the acquisition.
+		Whereas previous work concentrated on correcting biases at the source, this paper proposes to reduce error accumulation by carefully choosing the set of measurements used for trajectory estimation.
+		%an additional approach which consist in choosing the least prone to accumulating bias motions to associate.
+		An undirected graph is created with frames as vertices and motion measurements as edges.
+		Using constrained shortest paths in the graph, random trajectories are generated and averaged to obtain trajectory estimate and uncertainty.
+		To improve accuracy, a Gaussian process regressor is trained on tracked US sequences to predict systematic motion measurement error, which is then used to weigh the edges of the graph.  
+		%with a final averaging giving the best trajectory reconstruction and a measure of uncertainty.
+		Results on speckle phantom imagery %for monotonic trajectory 
+		show %a significant reduction in mean target registration error of the 
+		significantly improved trajectory estimates in comparison with the state-of-the-art, promising accurate volumetric reconstruction.
+		\keywords{Freehand 3D ultrasound; Speckle decorrelation; Sensorless reconstruction; Measurement selection; Gaussian process regression}
+	\end{abstract}
+	
+	\section{Introduction}\label{introduction}
+	
+	Compared to traditional 2D ultrasound (US), 3D US allows a better evaluation of the anatomical structures. A 3D probe can be used to obtain US volumes, but it is expensive and offers a limited field of view. %is limited by the width of the probe. 
+	%With conventionnal material, 
+	Using freehand 3D US with a conventional 2D probe, the sonographer sweeps the area of interest to acquire a sequence of 2D frames. Volume reconstruction of this sequence requires the six degree of freedom (6DoF) motions of all the frames %(3D translations and rotation) 
+	relative to the first one. During the acquisition, the probe can be tracked by a position sensor, but this imposes extra cost, is cumbersome and requires calibration. Instead, using the information of the images themselves to perform a sensorless registration of the frames \cite{afsham2015nonlocal,chen1997determination,conrath2012towards,housden2007sensorless,tuthill1998automated} allows easy and inexpensive transducer tracking.\par
+	This is possible because speckle patterns are correlated out-of-plane in nearby images. Under Rayleigh scattering conditions, this phenomenon is entirely predictable from transducer characteristics and can be used to measure elevational displacement~\cite{chen1997determination}.
+	%they related the second order statistic of the speckle to the elevational displacement of the probe in a decorrelation-curve \cite{chen1997determination}. 
+	This approach can be adapted to work outside Rayleigh scattering conditions, allowing measurements in imagery of real tissues~\cite{gee2006sensorless,laporte2011learning,afsham2015nonlocal}. In-plane displacement can be estimated from the position of the correlation peak.  %To retrieve 6DoF  motion, 
+	%the image is 
+	By dividing the image into patches, each with a local 3D displacement estimate, the global 6DoF rigid motion can be estimated by a least squares approach~\cite{tuthill1998automated}.\par
+	%However, in freehand 3D US, 
+	Freehand motion does not produce pure elevational translations. Unfortunately, other types of motion (particularly rotations), also affect speckle correlation, 
+	%The other 6DoF parameters affect speckle-correlation which 
+	leading to biased %elevational translations 
+	motion estimates~\cite{li2002tissue}. %In particular, rotations of the probe has much impact on the decorrelation curve because there is a curvature in the direction of wave’s propagation \cite{kallel1994speckle}. 
+	%Because the elevation estimate does not give sign, problems occurs when the probe trajectory is not monotonic and the frames are intersecting \cite{housden2007sensorless,laporte2008combinatorial}.
+	Moreover, elevational translation measurements are limited by speckle correlation range, so we need to combine multiple measurements to estimate each frame's position relative to the first~\cite{housden2007sensorless}. This results in the accumulation of bias and strongly affects the accuracy of the trajectory estimate. This is the challenge addressed in this paper.\par
+	%To simplify the problem we assumed that the transducer does not move in-plane, we are considering a monotonic movement neither the intersection between two frames, and we are under Rayleigh scattering.\par
+	A few papers proposed to correct measurement biases at the source. Correction of the elevational decorrelation curve was proposed to increase accuracy under probe
+	rotation~\cite{afsham2014generalized,housden2008rotational}.  It was also suggested that 
+	because the measurement biases are systematic, corrections can be learned from tracked synthetic image sequences to improve the accuracy of sensorless motion estimation~\cite{conrath2012towards}. %\cite{conrath2012towards}. 
+	However, we found this approach difficult to generalize to real imagery.\par
+	%But the complexity of the scattering condition in real imagery is not well modelled with synthetic images.
+	%Looking at the patches of the images, other extracted the elevationnal sign working with TSP \cite{laporte2008combinatorial} or RANSAC algorithm \cite{housden2007sensorless}. 
+	Our approach to the problem is to reduce error accumulation by carefully selecting the measurements used for trajectory estimation.  For this purpose, %Housden et al.
+	previous work has
+	%Other approaches have 
+	%focused on the correction of the error's accumulation 
+	proposed %reducing error accumulation by 
+	using %the most 
+	maximally spaced images (thereby reducing the number of error accumulation steps)~\cite{housden2007sensorless}, or fusing multiple redundant elevational motion estimates along with measurements of their uncertainty~\cite{laporte2008combinatorial}. A hypothesis testing approach was also proposed to eliminate biased measurements arising from inaccurate tissue models used outside Rayleigh scattering conditions~\cite{laporte10}. None of these works considered
+	%but they did not %focused in the choose 
+	%consider the choice of 
+	how to choose the \emph{best} motion estimates for trajectory estimate.\par
+	%The use of spaning tree \cite{zhu2016automatic} is also studied but in freehand 3D US it affects the reconstruction accuracy.\par
+	We hypothesize that wisely choosing the motions estimated by speckle decorrelation \emph{and} minimizing the number of measurements involved improves probe trajectory estimation. To this end, a graph-based trajectory estimate method, along with a learning-based technique for characterizing measurement error, are proposed in Section~\ref{sec:method}.  Experimental results %illustrating the
+	illustrating the benefits of this approach are given in Section~\ref{sec:experiments}. Section~\ref{sec:conclusion} summarizes our contribution. %and discusses prospective research directions.
+	%Followed by a statistical analysis of the probe trajectory results with a qualitative focus on one acquisition. A conclusion will summarize the main results and show our prospects.
+	\section{Method}
+	\label{sec:method}
+	A 2D probe is used to acquire a sequence of $N$ frames $\{f_0,f_1,...f_N\}$ (Fig. \ref{fig:frame_acquisition}). The estimated position of frame $N$ is denoted $M_N=m_{0N}$, where $m_{ij}\in SE(3),~i,j \in \{0,...,N\}$, is the rigid motion between $f_i$ and $f_j$ (Fig.~\ref{fig:motion_create}). To simplify experimental validation, we assume that probe motion is monotonic, that there are no intersection between frames, and that we are under Rayleigh scattering conditions. These assumptions could easily be dropped by using methods proposed in the literature~\cite{housden2007sensorless,laporte2008combinatorial,gee2006sensorless,laporte2011learning,afsham2015nonlocal} without invalidating the methods proposed here.\par
+	To reduce the error in $M_{k=1,...,N}$, graph-based trajectory estimation from the %measured motions 
+	$m_{ij}$ is proposed (Fig. \ref{fig:diag}). We first estimate the motion $m_{ij}$ between all pairs of frames $\{f_i,f_j\}$ using speckle decorrelation (Section~\ref{subsec:motionestimation}). A directed graph is then constructed with frames as vertices and the edges representing the motion estimates between pairs of frames. Using a Gaussian process relating measurement error to the %independent 
+	parameters %$\mathfrak{m}_{ij}\in\mathfrak{se}(3)$ 
+	of $m_{ij}$ in a tracked training sequence, %\in \mathfrak{se}(3)$ the associated Lie algebra of $m$, 
+	it is possible to estimate the error of our sensorless measurements (Section \ref{subsec:motionquality}), which we use to weigh the edges of the graph. To retrieve the position $M_k$ of each frame $f_k$, we generate $n$ random trajectories using a constrained shortest path algorithm and estimate their mean and variance %with a Lie-algebraic approach 
+	(Section \ref{subsec:reconstructiongeneration}). 
+	
+	\begin{figure}
+		%\centering
+		\begin{tikzpicture}[level/.style={},decoration={brace,mirror,amplitude=8}]
+		\tikzset{
+			nodet/.style={
+				minimum size=10mm,
+				rectangle, 
+				rounded corners, 
+				% fill=black!10,
+				draw=black, 
+				%very thick,
+				%    text width=5em, 
+				%    minimum height=2em, 
+				text centered},
+			nodeb/.style={
+				minimum size=10mm,
+				rectangle,
+				% fill=black!10,
+				draw=black, 
+				%very thick,
+				%    text width=5em, 
+				%    minimum height=2em, 
+				text centered},
+			line/.style={draw, ->,>=stealth},
+		}
+		%Nodes
+		\matrix (m)[row sep=0.1mm, column sep=6mm] {
+			\node[nodet,dashed, align=center](t1){Sensor-tracked \\ freehand acquisition};	&&\node[nodet, dashed, label={Sec.\ref{subsec:motionquality}},align=center](t2){Learning \\ motion errors};\\
+			\node[nodeb,align=center](b1){Sensorless \\ freehand acquisition};&\node[nodeb,label={Sec. \ref{subsec:motionestimation}},align=center](b2){Motion \\ estimation};&\node[nodeb,align=center](b3){Measurement error \\ $\widehat{e_m} \rightarrow \mathcal{GP}(\mathfrak{m})$};&\node[nodeb,label={Sec. \ref{subsec:reconstructiongeneration}},align=center]	(b4){Graph-based \\ trajectory \\ estimation};\\
+		};
+		%Lines
+		\draw[line] (t1.south east) -- (b2.north west);
+		\draw[line] (b2.north east) -- (t2.south west);
+		\draw[line] (t2.south) -- (b3.north);
+		\draw[line] (b1.east) -- (b2.west);
+		\draw [decorate] ([yshift=-6mm]b1.west) --node[below=3mm]{} ([yshift=-6mm]b1.east);
+		\draw[line] (b2.east) -- (b3.west);
+		\draw [decorate] ([yshift=-6mm]b2.west) --node[below=3mm]{} ([yshift=-6mm]b2.east);
+		\draw[line] (b3.east) -- (b4.west);
+		\draw [decorate] ([yshift=-6mm]b4.west) --node[below=3mm]{} ([yshift=-6mm]b4.east);
+		\end{tikzpicture}\\
+		\hspace*{0.5cm}\begin{subfigure}[b]{0.1\textwidth}
+			\includegraphics[height=2cm]{Figures/frame_acquisition}
+			\caption{}
+			\label{fig:frame_acquisition}
+		\end{subfigure}\hspace*{1.3cm}
+		\begin{subfigure}[b]{0.3\textwidth}
+			\includegraphics[height=1.5cm]{Figures/motion_create}
+			\caption{}
+			\label{fig:motion_create}
+		\end{subfigure}\hspace*{1.8cm}
+		\begin{subfigure}[b]{0.3\textwidth}
+			\includegraphics[height=2cm]{Figures/graph_rnd}
+			\caption{}
+			\label{fig:graph_rnd}
+		\end{subfigure}
+		\caption{Block diagram of the method including training (dashed) and testing (solid). (a) Freehand acquisition. (b) Sensorless motion estimation. (c) %Sensorless estimation of the position and uncertainty of 
+			Reconstruction of frame $f_k$ for $n=3$ constrained shortest paths through $j_1, j_2, j_3$.}
+		\label{fig:diag}
+	\end{figure}
+	
+	\subsection{Rigid motion estimation}\label{subsec:motionestimation}
+	%The estimation of rigid motion $m_{ij}$ between a 
+	Estimating motion between pairs of frames requires %to 
+	calibrating a probe-specific elevational speckle decorrelation model~\cite{tuthill1998automated}. Thus, a speckle phantom is scanned at fixed regular elevational intervals. %using a robot arm.  
+	The images are divided into $p$ non-overlapping patches and the normalized cross-correlation between pairs of corresponding patches is measured.  Measurements corresponding to identical elevational displacements are averaged, yielding $p$ local empirical speckle decorrelation curves.\par 
+	%This gives the relation between the absolute elevationnal displacement $\|z\|$ and the correlation of the speckle $\rho$ :
+	%\begin{equation}\label{eq:speckle_decorrel}
+	%\rho(\|z\|) = \frac{h(-\|z\|)\times \zeta_0^2\otimes h(\|z\|)}{h(0)\times \zeta_0^2\otimes h(0)}
+	%\end{equation}
+	%where $h$ represent the point spread function of our probe and $\zeta_0^2$ is a constant describing the distribution of the scatterers.\par
+	For a new pair of frames $\{f_i,f_j\}$, %and after decomposing our images into $p$ patches, 
+	the in-plane motion of each patch is estimated by maximizing correlation and its out-of-plane motion is read off the local speckle decorrelation curve at peak correlation. 
+	The rigid motion $m_{i,j}$ is found from these $p$ local 3D translation measurements (Fig.~\ref{fig:pair_estim}) using least squares~\cite{umeyama1991least}.
+	%A final %least-square approach by a 
+	%Procrustes alignment %step 
+	%based on the $p$ local 3D translation measurements \cite{umeyama1991least} gives the global 6DoF motion $m_{ij}$ (Fig.~\ref{fig:pair_estim}). 
+	
+	\begin{figure}
+		\centering
+		\begin{subfigure}[b]{0.333\textwidth}
+			\centering
+			\includegraphics[height=1.5cm]{Figures/frame_patch}
+			\caption{}
+			\label{fig:patches}
+		\end{subfigure}~\hspace{-4mm}
+		\begin{subfigure}[b]{0.333\textwidth}
+			\centering
+			\includegraphics[height=1.5cm]{Figures/speckle_decorrel}
+			\caption{}
+			\label{fig:speckle_decorrel}
+		\end{subfigure}~\hspace{4mm}
+		\begin{subfigure}[b]{0.333\textwidth}
+			\centering
+			\includegraphics[height=1.5cm]{Figures/procustes}
+			\caption{}
+		\end{subfigure}
+		\caption{(a) US image divided in $p$ patches. (b) 3D translation estimate of one patch using speckle decorrelation. (c) Estimation of $m_{i,j}$ by Procrustes alignment.}
+		\label{fig:pair_estim}
+	\end{figure}
+	
+	\subsection{Graph-based trajectory estimation} \label{subsec:reconstructiongeneration}
+	Given the motion measurements $m_{ij}$ of a sequence of frames, we want to estimate $M_k$.
+	%the position of frame $k$. 
+	One possibility %way to do this %reconstruct the $N$ frames of the acquisition 
+	is to compose consecutive pairwise transformations:
+	\begin{equation}\label{eq:transform}
+	M_k=m_{0,k} = m_{0,1}\circ m_{1,2}\circ ...\circ m_{k-1,k}.
+	\end{equation} 
+	%Because this is error prone, we propose an other approach. 
+	This is error prone because (1) empirical decorrelation curves are inaccurate for very short distances and (2) it accumulates biases over %a large number of 
+	many measurements.\par  
+	The set of motion measurements can be described by a directed unweighted graph, whose vertices represent the frames and whose edges are available motion estimates between pairs of frames. Then, the estimated position of $f_k$ minimizing the accumulation of biases is Dijkstra's shortest path from %the first 
+	vertex 0 to vertex $k$. \par %any selected vertex $k$ (our $k^{th}$ frame to be reconstructed).\par
+	%The "naive" reconstruction consist in a random generation of many shortest path and a final averaging of the positions generated (figure \ref{fig:diag}).\par
+	\textbf{Averaging multiple solutions.} Assuming that motion measurements are subject to random noise as well as bias, %Hypothesizing that the shortest path is not necessarily the best way to extract the best reconstruction, 
+	we further reduce error by averaging $n$ %several 
+	positions close to the optimal one. %reconstruction.
+	Trajectory $i$ is obtained by %We 
+	randomly selecting a vertex $0 <j_i< k$ and finding the shortest path from %the 
+	vertex 0 to vertex $k$ that uses $j_i$. 
+	%Forcing the path to use a particular vertex does not significantly increase the unweighted path length but may significantly change the reconstruction result. 
+	To average the $n$ positions of $f_k$, we use Govindu et al.'s intrinsic averaging \cite{govindu2004lie} with the shortest path to $f_k$ as an initial guess. 
+	%We extend the algorithm by choosing the minimum elevational distance estimates because they are always underestimated for a decreasing $z$. 
+	%\cite{chen1997determination,laporte2011learning}. 
+	We also %And also performed 
+	compute the standard deviation for the six rigid motion parameters, which is related to the error of the estimated position $M_k$ .
+	%\begin{figure}
+	%    \begin{subfigure}[b]{0.15\textwidth}
+	%      \centering
+	%\includegraphics[height=1.75cm]{Figures/frame_acquisition}
+	%      \caption{}
+	%    \end{subfigure}~
+	%\begin{subfigure}[b]{0.175\textwidth}
+	%      \centering
+	%\includegraphics[height=1cm]{Figures/motion_create}
+	%      \caption{}
+	%    \end{subfigure}~
+	%\begin{subfigure}[b]{0.18\textwidth}
+	%      \centering
+	%\includegraphics[height=2cm]{Figures/graph_create}
+	%      \caption{}
+	%    \end{subfigure}~
+	%\begin{subfigure}[b]{0.18\textwidth}
+	%      \centering
+	%\includegraphics[height=2cm]{Figures/graph_rnd}
+	%      \caption{}
+	%\label{fig:graph_rnd}
+	%    \end{subfigure}
+	%\caption{(a) Freehand acquisition of the frames. (b) Estimation of all the frame's motions. (c) Graph with the bolded shortest path of frame $\mathbf{k}$. (d) Sensorless estimation of the position and uncertainty of frame $\mathbf{k}$ for $3$ constrained nodes $j_1, j_2, j_3$.}
+	%\label{fig:graph_method}
+	%\end{figure}
+	
+	%\begin{equation}
+	%[x,y]=-[y,x]~~~~~~\textrm{anti-symmetry}
+	%\end{equation}
+	%\begin{equation}
+	%[x,[y,z]] + [y,[z,x]] + [z,[x,y]] = 0~~~~~~\textrm{Jacobi identity}
+	%\end{equation}
+	%The Lie  algebra and the  associated Lie group are related by the  exponential mapping. In our case, an euclidean motion $M\in SE(3)$ can be decomposed into two major component : the rotation matrix $R \in SO(3) $ and the translation matrix $t \in \mathbb{R}^3 $. Any 3D rotation is an element of the special orthogonal group $SO(3)$ which satisfy the constraint $RR^ t=I$. Then it exist a relation between the element $M$ belonging to the special euclidean group $SE(3)$ and its associated element $\mathfrak{m}$ in Lie algebra $\mathfrak{se(3)}$ :
+	%\begin{equation}
+	%M = \exp (\mathfrak{m})~~~~~~
+	%\textrm{where}  ~~~~~~
+	%\mathfrak{m} = 
+	%\left[
+	% \begin{array}{cccc}
+	%    \Omega & u\\
+	%    0 & 1
+	%  \end{array}\right]~~~~~~\textrm{and}  ~~~~~~
+	%M = 
+	%\left[
+	% \begin{array}{cccc}
+	%    R & t\\
+	%    0 & 1
+	%  \end{array}\right]
+	%\end{equation}
+	\subsection{Learning to characterize measurement error} \label{subsec:motionquality}
+	We can improve measurement selection %modify the previously described graph 
+	by weighting the graph edges by measurement error. 
+	A typical error measure for sensorless freehand 3D US trajectory estimation is the mean target registration error (mTRE)~\cite{de2005standardized} with respect to position sensor data.  In our context, such data are not available on-line. %Because we are in the automatic case, we can't use the positions sensors on-line to help us to characterize the quality of the pairwise motion measurements.
+	However, %we know that 
+	there is a predictable relationship between the motion parameters and the measurement error \cite{conrath2012towards}. Thus, we hypothesize that there exists a function $g$ such that $\textrm{mTRE} = g(m)$, where $m$ is a sensorless motion measurement. Knowing input-output pairs $\{m_{i,j}, \textrm{mTRE}_{m_{i,j}}\}$ from an accurately tracked sequence, $g$ could, in principle, be learned.
+	%we could estimate $g$ during a training process using an optically (or otherwise) tracked sequence.  
+	However, position sensors are not sufficiently accurate to measure the small motion between two consecutive frames of a typical freehand 3D US acquisition ($\sim5\times10^{-2}$mm).
+	\par
+	\textbf{Error measure.} The first task is to define an error measure $e$ for a sensorless motion measurement $m$, knowing the position sensor output.   The idea is to create a window bounded by two frames $f_l$ and $f_k$ such that the displacement $d_{\kappa \lambda}$ between the two frames leads to negligible sensor error, i.e., $d_{\kappa \lambda}>2$ mm.  We compute $n$ trajectory estimates 
+	$\{\widehat{T_{\kappa \lambda_1}}...\widehat{T_{\kappa \lambda_n}}\}$ from vertex $\kappa$ to vertex $\lambda$ using the constrained random positions of Section~\ref{subsec:reconstructiongeneration} and compute their errors $\{\textrm{mTRE}_1...\textrm{mTRE}_n\}$ with respect to the sensor measurement $T_{lk}$. The computation of one transformation $\widehat{T_{\kappa \lambda_i}}=m_{\kappa,x}\circ...\circ m_{y,\lambda}$ biased by $\textrm{mTRE}_i$ involves many pairwise motion measurements. The process is repeated with different windows and the \emph{error} $e_{m_{i,j}}$ of each sensorless motion measurement $m_{ij}$ is  defined as the average mTRE of all the window-wise position estimates it was involved in (Fig.~\ref{fig:mtremotion}).
+	%The computation of one transformation $\widehat{T_{lk_i}}=m_{l\lambda}\circ...\circ m_{\kappa k}$ biased by $\textrm{mTRE}_i$ involves many pairwise motions
+	%and for each of them we affect this error (fig. \ref{fig:mtremotion}).
+	%The process is repeated with different windows to obtain a set of mTRE for each measurement. 
+	%A final averaging of these sets provides a quality measure $q_{m_{ij}}$ for each motion measurement $m_{ij}$.
+	
+	%\medskip
+	%\noindent
+	%{\it Characterizing motion error}
+	%\begin{verbatim}
+	%   const
+	%     frame_l; frame_k; n;
+	%   var
+	%     rec_i: 1..n;
+	%     mTRE_i = mTRE_1..mTRE_n;
+	%   begin
+	%     rec_i := 1;
+	%     repeat
+	%       mTRE_i = mTRE(frame_l, frame_k);
+	%       
+	%       rec_i := rec_i + 1;
+	%     until rec_i = n
+	%end.
+	%\end{verbatim}
+	
+	\begin{figure}
+		\centering
+		\includegraphics[height=3cm]{Figures/mtre_motion}
+		\caption{Assigning mTREs to motions $m_{\kappa,4}$ (blue) and $m_{9,\lambda}$ (red) for window~$[\kappa,\lambda]$.}
+		\label{fig:mtremotion}
+	\end{figure}
+	\textbf{Error prediction model.} Finding a function $e_m=g(m)$ that relates the estimated motion $m_{i,j}$ to its error $e_{m_{i,j}}$ is a non-linear regression problem which we solve using Gaussian processes ($\mathcal{GP}$)~\cite{rasmussen2006gaussian}. 
+	$\mathcal{GP}$ regression is a Bayesian approach which assumes that $g(m)$ behaves according to $p(g|m_1,...,m_n)=\mathcal{N}(\mathcal{M},\mathcal{K})$, where $\mathcal{M}$ is the mean vector and $\mathcal{K}$ is the covariance function of the motions $m$.
+	We used a pure quadratic mean function and a squared exponential covariance function to capture the smoothness of $e_m$. %_{m_{ij}}$.
+	Error on inputs $m$, outputs $e_m$ and lengthscale $l$ were trained using quasi-newton optimization with the MATLAB Statistics and Machine Learning Toolbox.
+	To have independency between the parameters of the rotation, we mapped the motion from Lie group $SE(3)$ to Lie Algebra $\mathfrak{se}(3)$ with the $\log$ function $\mathfrak{m}=\log(\textrm{m})$~\cite{govindu2004lie}.
+	%CL: dans cette section, il manque des details concernant les parametres ajustables du GP: niveau de bruit, taille du noyau, etc.  Il faudrait expliquer comment ces parametres ont ete ajustes et/ou quelle implementation a ete utilisee.
+	
+	
+	\section{Experiments and results}
+	\label{sec:experiments}
+	\subsection{Data acquisition}
+	Images of a speckle phantom were acquired using an ATL HDI5000 US scanner with a linear 4-7 MHz transducer at a depth of 3~cm.  The phantom was first scanned elevationally over 50~mm at regular 0.05~mm intervals by mounting the transducer on a robot arm following a purely translational trajectory, controlled by a step motor with a precision of 5~$\mu$m.  The images were divided into $8\times8$ patches of size $55 \times 32$~pixels (Fig.~\ref{fig:patches}) and the speckle decorrelation curve corresponding to each patch was computed as described in Section~\ref{subsec:motionestimation}.
+	
+	%Images with a pixel size of $0.08$ mm was acquired on a phantom using an ultrasonix REF with an US transducer REF.
+	%The calibration step for the estimation of the speckle-decorrelation curve was obtain using a two degree of freedom robot with $0.05$ mm spacing. We divided the image into a $8\times8$ grid of 64 patches each with a size of 55 $\times$ 32 pixels.\par
+	
+	Nine freehand sequences tracked with a Micron Tracker optical sensor were then acquired with the transducer moving mainly elevationally, with total displacements up to $30$ mm.
+	%, in-plane motion ranging between 4 and 10~mm and rotations ranging between 2 and 5~$\deg$.  
+	The optically tracked transducer was calibrated temporally and spatially using our adaptation of Rousseau et al.'s plane phantom methods~\cite{rousseau05,rousseau06}.  We found experimentally that this setup produces volume measurements within 97\% accuracy.  
+	
+	\subsection{Evaluation of probe trajectory estimation}
+	We evaluated five approaches for probe trajectory estimation : (1) the nearest neighbor (NN) approach (Eq.~\ref{eq:transform}); 
+	%used as a first assumption in \cite{afsham2015nonlocal}.
+	(2) Housden \textit{et al.}'s approach \cite{housden2007sensorless} which generates a coarse sequence (CSq) with blocks of three nearly equally spaced frames;
+	(3) the farthest neighbor approach (FN), which takes the first and third frames of each block of CSq, and is better suited to monotonic sequences;
+	(4) the average unweighted graph-based trajectory estimate (GA) of Section~\ref{subsec:reconstructiongeneration};
+	(5) the proposed approach (GMeA) which is GA weighted by measurement error (Section~\ref{subsec:motionquality}). %\par
+	For GMeA, the $\mathcal{GP}$ was trained using one freehand sequence.\par
+	%accurate slow freehand acquisition to avoid problems of missing estimations due to low correlation, and with great variability in pairwise motion to maximize diversity. 
+	Each approach was tested on the eight other sequences, labeled S1-S8 with $n=1000$ random positions for GA and GMeA. Table~\ref{tab:mtrebetween} shows the mTRE of the last frame of each sequence (measured at the patch centers) with respect to the optical sensor data, along with the total elevational displacement $|z|$ of the probe. GMeA improves accuracy by $20\%$ compared to FN. For all methods, error increases with $|z|$. This is expected as longer sequences require more measurements for position estimation and error accumulation cannot be avoided entirely. Some trajectories are clearly estimated less accurately than others (e.g., S2 vs S6), probably due to differences in rotational motion.
+	\begin{table}
+		\centering
+		\caption{mTRE of the last frame in S1-S8, as estimated by each method with total elevational displacement $|z|$ for reference and  best results in bold.}
+		\label{tab:mtrebetween}
+		{\renewcommand{\arraystretch}{1.1}
+			\begin{tabular}{l|cccccccc}
+				\toprule
+				% &  S9 & S7 & S6 & S5 & S8 & S3 & S1 & S2\\
+				&  S1 & S2 & S3 & S4 & S5 & S6 & S7 & S8\\
+				total $|z|$    &	$20$ mm	& 	$21$ mm		&	$25$ mm		&	$27$ mm		&	$36$ mm	 & 		$38$ mm		&	$52$ mm	&	$56$ mm	\\
+				\cmidrule(lr){1-9}
+				NN	&		$~~11.041~$	&	$~~11.866~$	&	$~~15.492~$	&	$~~13.897~$	&	$~~10.699~$	&	$~~12.790~$	& $~~15.321~$	&	$~~18.973~$\\
+				CSq&		$4.395$	& 	$3.816$	&	$5.820$	&	$4.683$	&	$6.207$ &	$10.531$		&	$12.655$		&	$13.713$	\\
+				FN	& 	$2.036$	& 	$1.028$	&	$3.758$	&	$2.412$	&	$4.758$	&	$10.486$	&	$10.578$	&	$10.999$\\
+				GA	&		$\mathbf{1.781}$	& 	$0.767$	&	$3.488$	&	$2.055$	&	$3.961$	&	$10.160$	&	$9.790$	&	$10.503$	\\
+				GMeA&		$1.803$	& 	$\mathbf{0.731}$	&	$\mathbf{3.039}$	&	$\mathbf{1.995}$	&	$\mathbf{3.735}$	&	$\mathbf{9.345}$	&	$\mathbf{9.154}$	&	$\mathbf{9.999}$\\
+				\bottomrule
+		\end{tabular}}
+	\end{table}
+	
+	To perform meaningful comparisons over the methods and image sequences, the mTREs of all the frames in each sequence (measured at the patch centers) were normalized by the total probe displacement. %for each frame. %all the frame of the acquisition.
+	%Because a 
+	A Kolmogorov-Smirnov %($\mathcal{K}$-$\mathcal{S}$) 
+	test showed that the results are not normally distributed.  Thus, we performed a Friedman test to evaluate the influence of the methods %(first factor) 
+	on each sequence, except NN and CSq which are clearly less accurate than the others (Table~\ref{tab:mtrebetween}).
+	A Tukey contrast on the ranked means tested the hypothesis that the approaches GA and GMeA have 
+	the same accuracy as FN. Because we worked on minimizing drift, %the accumulation of errors, 
+	the effect of our methods is stronger towards the end of each sequence. 
+	A statistically significant difference between GMeA and FN was found when considering the last 35 frames of each sequence ($p < 0.05$), and for the last 10 frames ($p \ll 0.001$).
+	%If we take at least the last $35$ frames of each sequence, (GMeA)=(FN) is significantly low ($p$<0.05) and really low taking the last frame of each sequence ($p<<0.001$). 
+	GA was not found significantly different from FN.
+	%our methods have more impact when we choose the last frames of each acquisition. %Looking at the 
+	%\begin{figure}
+	%\centering
+	%\includegraphics[height=2.5cm]{Figures/mtre_compare}
+	%\caption{Comparison of the approaches for each acquisition for the last $35$ frames.}
+	%\label{fig:mtrecompare}
+	%\end{figure}
+	%(NN)	&	0.294	&	0.341	&	0.331	&	0.486	&	0.617	&	0.569	&	0.298	&	0.556\\
+	%(CSq)	&	0.243	&	0.247	&	0.273	&	0.164	&	0.232	&	0.183	&	0.173	&	0.221\\
+	%(FN)	&	0.203	&	0.198	&	0.271	&	0.084	&	0.150	&	0.049	&	0.133	&	0.103\\
+	%(GMq)	&	0.203	&	0.192	&	0.256	&	0.081	&	0.139	&	0.041	&	0.117	&	0.100\\
+	%(GA)	&	0.188	&	0.189	&	0.263	&	0.073	&	0.139	&	0.037	&	0.110	&	\textbf{0.090}\\
+	%(GMeA)	&	\textbf{0.175}	&	\textbf{0.183}	&	\textbf{0.244}	&	\textbf{0.072}	&	\textbf{0.123}	&	\textbf{0.035}	&	\textbf{0.105}	&	0.092\\
+	%\begin{table}
+	%\centering
+	%\caption{Statistic within-groups of (GMeA) = (FN)}
+	%\label{tab:mtrebetween}
+	%\begin{tabular}{l|cccc}
+	%\toprule
+	%  Nb of last frames	&	$\quad100\quad$	&	$\quad35\quad$		&	$\quad10\quad$		&	$\qquad1\qquad$	\\
+	%\cmidrule(lr){1-5}
+	%$p$-value				&	$0.328$	&	$0.053$	&	$0.004$	&	$<0.001$\\
+	%diff($\hat m$(mTRE/$d$))	&	$0.0196$	&	$0.0213$	&	$0.0220$	&	$0.0231$\\
+	%\bottomrule
+	%\end{tabular}
+	%\end{table}
+	%\begin{table}
+	%\centering
+	%\caption{Statistic within-groups of (GMeA) = (FN)}
+	%\label{tab:mtrebetween}
+	%\begin{tabular}{l|cccccc}
+	%\toprule
+	%Nb of last frames	&	$\qquad\textrm{all}\qquad$ 	&	$\quad150\quad$	&	$\quad100\quad$	&	$\quad35\quad$		&	$\quad10\quad$		&	$\qquad1\qquad$	\\
+	%\cmidrule(lr){1-7}
+	%$p$-value				&	$0.708$	&	$0.542$	&	$0.328$	&	$0.053$	&	$0.004$	&	$<0.001$\\
+	%diff($\hat m$(mTRE/$d$))	&	$0.0184$	&	$0.0186$	&	$0.0196$	&	$0.0213$	&	$0.0220$	&	$0.0231$\\
+	%\bottomrule
+	%\end{tabular}
+	%\end{table}
+	%We also tested the hypothesis (GMeA = FN) for frames lying beyond an  elevational displacement threshold of $5$ mm. In this case, the samples do not have the same length, so a Kruskal-Wallis test was performed. Again, (GMeA) was found significantly more accurate than FN ($p \ll 0.001$).
+	%resulting in a really low $p$-value ($p<<0.001$) for the frames beyond $5$ mm total elevational displacement. 
+	
+	%Because the impact of measurement selection is mostly felt towards the end of the acquisition, we consider the last $10$ frames of each sequence (Fig.~\ref{fig:mtrecompare}) for statistical analysis.
+	%We tested 
+	%as much impact (same mTRE) than (FN). 
+	%Neither (GA) nor (GMq) are significantly more accurate than (FN); however, (GMeA) is significantly more accurate than FN ($p<0.05$). 
+	
+	%(Fig. \ref{fig:moustache_method_mm}). 
+	
+	%\begin{subfigure}[b]{0.5\textwidth}
+	%      \centering
+	%      \includegraphics[height=2.5cm]{Figures/moustache_method_mm}
+	%      \caption{}
+	%\label{fig:moustache_method_mm}
+	%    \end{subfigure}
+	
+	%
+	%\begin{table}
+	%\centering
+	%\caption{Statistic within-groups. }
+	%\label{tab:mtrewith}
+	%\begin{tabular}{lccccc}
+	%\toprule
+	%	&	(a)	&	(b)	&	(c)	&	(d)	&	(e)\\
+	%\cmidrule(lr){2-6}
+	%$p$	&	0.138	&	0.009	&	0.054	&	0.039	&	0.199\\
+	%$\overline{\textrm{mTRE}}$	&	0.1534	&	0.1410	&	0.1377	&	0.1287	&	0.2142\\
+	%$\hat V$(mTRE)	&	0.0048	&	0.0047	&	0.0041	&	0.0040	&	0.0022\\
+	%$q(0.05)$ 	&	0.051	&	0.041	&	0.040	&	0.032	&	0.143\\
+	%$q(0.95)$ 	&	0.274	&	0.262	&	0.244	&	0.241	&	0.288\\
+	%\bottomrule
+	%\end{tabular}
+	%\end{table}
+	\par %For illustrative purposes, %we show 
+	Fig.~\ref{fig:resfreehand4} shows detailed results for sequence S4.  
+	CSq over-estimates rotations and under-estimates elevational translations because there is confusion between rotation and translation induced decorrelation~\cite{housden2008rotational}. 
+	%Indeed, the elevational translation has a lower impact on the decorrelation curve, contrary to rotations. %It can be seen that 
+	The averaging step of GMeA improves the rotational and translational estimates, whereas FN has more difficulty following %to follow 
+	the optical sensor data. 
+	Choosing the best measurements in the graph, as characterized by  GMeA, improves the %path selected by Dijkstra's algorithm for (GMeA) 
+	trajectory estimate compared to GA.
+	%CL: je trouve les differences entre GMeA et FN tres difficiles a voir sur les graphiques actuels.  Il vaudrait peut-etre mieux retirer CSq pour avoir une meilleure visualisation?  Ou encore n'utiliser que CSq et GMeA, comme pour les reconstructions?
+	%(sec. \ref{subsec:reconstructiongeneration}). 
+	%which is really good for a freehand motion.
+	The standard deviations of the estimated position parameters are a measure of uncertainty for the 3D reconstruction step. They grow with time as
+	there are more plausible motion measurements to choose from.  This difficulty is intrinsic to
+	%they are more possibilities of reconstruction, %explaining 
+	%is one of the difficulties of 
+	the sensorless approach. %registration. 
+	Qualitative results shown in Fig.~\ref{fig:reconstruction} highlight the improved accuracy of volumetric reconstruction with GMeA versus CSq compared to that obtained with the optical sensor.
+	\begin{figure}
+		\centering
+		\begin{subfigure}[b]{0.55\textwidth}
+			\centering
+			\includegraphics[width=7cm]{Figures/res_acqui5.pdf}
+			\caption{}
+		\end{subfigure}~
+		\begin{subfigure}[b]{0.4\textwidth}
+			\centering
+			\begin{tabular}{c}
+				{\vspace{5mm}\includegraphics[height=1.5cm]{Figures/legend_rec}}\\
+				{\vspace{0.5mm}\includegraphics[height=2cm]{Figures/mtre_acqui5}}\\
+			\end{tabular}
+			\caption{}
+			\label{fig:mtre_freehand4}
+		\end{subfigure}~ 
+		\caption{(a) Freehand trajectories of (CSq, FN and GMeA) for the six degrees of freedom in sequence S4. 
+			(b) Error comparison of (NN, CSq, FN, GMeA).}
+		\label{fig:resfreehand4}
+	\end{figure}
+	%CL: il va falloir changer la legende de la figure MATLAB, qui utilise encore "GMqR"
+	
+	%\begin{figure}
+	%\centering
+	%\begin{tabular}{ccc}
+	%  \includegraphics[width=30mm]{Figures/res_acqui_x} &\includegraphics[width=30mm]{Figures/res_acqui_y} &\includegraphics[width=30mm]{Figures/res_acqui_z} \\
+	%%(a) first & (b) second \\[6pt]
+	%  \includegraphics[width=30mm]{Figures/res_acqui_tz} &\includegraphics[width=30mm]{Figures/res_acqui_ty} &\includegraphics[width=30mm]{Figures/res_acqui_tx} \\
+	%%(c) third & (d) fourth \\[6pt]
+	%\end{tabular}
+	%\centering
+	%\includegraphics[height=2cm]{Figures/mtre_acqui}
+	%\caption{(left) - Freehand reconstruction for the six degrees of freedom : all the reconstructions generated (filled in light green) with the estimation of mean and standard deviation (dark green); the optical sensor (dark); Housden \textit{et al.} \cite{housden2007sensorless} (red)\newline
+	%(right)  - mTRE comparison of our approach versus Housden \textit{et al.}}
+	%\label{fig:resfreehand4}
+	%\end{figure}
+	
+	\begin{figure}
+		\centering
+		\includegraphics[height=3cm]{Figures/reconstruction}
+		\caption{(Left to right) Volumetric reconstruction of sequence S4 with optical sensor, GMeA and CSq.}
+		\label{fig:reconstruction}
+	\end{figure}
+	% Pourquoi CSq et pas FN?
+	
+	\section{Conclusion}
+	\label{sec:conclusion}
+	This paper shows that measurement error can effectively be learned from tracked data and used towards improved sensorless freehand 3D US reconstruction.  
+	%the importance of measurement selection in sensorless freehand 3D US. We introduced a new 
+	Our error weighted graph-based method %based on a graph generating an accurate reconstruction 
+	%taking into account measurement quality 
+	%that 
+	significantly improves over the state-of-the-art. 
+	%On average, we achieve a mTRE lower than $5$ mm over sequences longer than $20$ mm. 
+	Future work will concentrate on adapting our method to %the case of 
+	non-Rayleigh scattering conditions. %and quantitative results of volumetric reconstruction.
+	%We prove that the accumulation of error has to be controlled (see the results of NN and CSq) and that choosing more wisely the motions affects the result ($p=0.004$). 
+	%Our contribution start to be significant from the last $35$ frames of each acquisition which correspond to long acquisition at least $\sim25$ mm width. In average on all the acquisition, the mTRE is lower than $5$ mm which is really encouraging for sensorless 3D reconstruction knowing our real freehand motion (lot of rotations and translations).
+	%Future work will concentrate in the problematic of real tissue where we think will lead to better results (because it is easier to qualify a good registration in this context).
+	%The averaging algorithm can be extended to any work leading in the search of shortest path in a graph and improve the result for wide graph.
+	
+	% CL: a de-commenter pour la version finale non-anonymisee
+	%\subsection*{Acknowledgment}
+	%This work was funded by a grant from NSERC.
+	
+	{\small
+		\bibliographystyle{splncs03}
+		\bibliography{article}
+	}
+	
+\end{document}
+

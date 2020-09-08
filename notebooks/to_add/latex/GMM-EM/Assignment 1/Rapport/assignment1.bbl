@@ -1,0 +1,20 @@
+\begin{thebibliography}{1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+
+\bibitem{AlpertGBB07}
+Alpert, S., Galun, M., Basri, R., Brandt", A.: "image segmentation by
+  probabilistic bottom-up aggregation and cue integration.". In: "Proceedings
+  of the IEEE Conference on Computer Vision and Pattern Recognition" ("June"
+  "2007")
+
+\bibitem{Arbel16}
+Arbel, T., Elliott, C.: Lecture course in gaussian mixture models, em, kernel
+  density estimation (February 2016)
+
+\bibitem{wit2012all}
+Wit, E., Heuvel, E.v.d., Romeijn, J.W.: ‘all models are wrong...’: an
+  introduction to model uncertainty. Statistica Neerlandica  66(3),  217--236
+  (2012)
+
+\end{thebibliography}

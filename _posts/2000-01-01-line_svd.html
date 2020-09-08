@@ -1,0 +1,363 @@
+---
+layout: post
+title: Fit a line with Singular Value Decomposition
+date: 2018-06-08
+category: Data-Science
+tags:   Geometry Linear-Algebra
+img: /notebooks/imgs/line_svd/post_img.jpg
+file: /notebooks/line_svd.py
+excerpt_separator: <h2
+---
+    
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Singular value decomposition (SVD) is a widely used method that plays a huge role in data preprocessing for machine learning.
+It is mostly used to filter out noise from the data, reduce its dimensionnality/complexity and to have uncorrelated features.
+SVD will extract the best meaningfull mathematical basis that describe much the data using linear algebra.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="tl;dr">tl;dr<a class="anchor-link" href="#tl;dr">¶</a></h2><ol>
+<li>Organize your input data as a $d\times n$ matrix.</li>
+<li>Center the data by subtracting the mean from the matrix.</li>
+<li>Use SVD to extract eigen vectors from the data, the first vector is the direction of the line.</li>
+<li>The parametric form of the line is described by the direction and average.</li>
+<li>Calculate any point of the line by fixing the free parameter.</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="1.-Theory">1. Theory<a class="anchor-link" href="#1.-Theory">¶</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The key idea behind SVD is that any matrix $M$ with positive determinant can be factorized in the form :
+\begin{equation}
+M = U\Sigma V^* 
+\end{equation}
+Where $U$ and $V^*$ are rotation matrices and $\Sigma$ is a scale matrix.
+Here $V^*$ wil give you the set of vector to project the data onto the new dimension space.</p>
+<p>Check in the following figure, the axis $y_1$ best explain the data because when you project the data into $y_1$, the variance is higher than for $y_2$.</p>
+<p><img alt="manifold" src="/notebooks/imgs//line_svd/svd.svg" style="width: 400px;"/></p>
+<p>For the rest of this tutorial, we will use SVD to fit a 3-dimensionnal line based on some random 3D points (but this method can be extended to $n$-d).</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="2.-Data-generation">2. Data generation<a class="anchor-link" href="#2.-Data-generation">¶</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>First, we generate $n$ points with a random gaussian noise.
+We organize the input data according to a $d$×$n$ matrix, where $d$ is the number of dimensions (or features) and $n$ the number of samples.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [1]:</div>
+<div class="inner_cell">
+<div class="input_area collapsed"><div class="collapse_expand_button far fa-1x fa-minus-square"></div>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1">## imports</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
+
+<span class="c1"># fixing numpy random state for reproducibility</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [2]:</div>
+<div class="inner_cell">
+<div class="input_area"><div class="collapse_expand_button far fa-1x fa-minus-square"></div>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># input data</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">25</span>
+<span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span> <span class="p">[</span><span class="mi">5</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="mi">5</span><span class="o">+</span><span class="mi">5</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="mi">5</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span> <span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">points</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[2]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>array([[-4.88135039e-02,  4.78481063e+00,  4.89723662e+00],
+       [ 4.95511682e+00,  1.00763452e+01,  4.85410589e+00],
+       [ 1.00624128e+01,  1.46082270e+01,  4.53633724e+00],
+       [ 1.51165585e+01,  1.97082750e+01,  4.97110508e+00],
+       [ 1.99319554e+01,  2.45744034e+01,  5.42896394e+00],
+       [ 2.54128707e+01,  3.04797816e+01,  4.66738015e+00],
+       [ 2.97218432e+01,  3.46299879e+01,  4.52138166e+00],
+       [ 3.47008414e+01,  4.00385206e+01,  4.71947082e+00],
+       [ 4.03817256e+01,  4.48600790e+01,  5.35664671e+00],
+       [ 4.45553311e+01,  4.99781517e+01,  5.08533806e+00],
+       [ 5.02354444e+01,  5.47257663e+01,  5.04384967e+00],
+       [ 5.49315661e+01,  6.04812102e+01,  4.88236450e+00],
+       [ 5.98879043e+01,  6.48830660e+01,  4.55625192e+00],
+       [ 6.48181797e+01,  7.01404921e+01,  5.06296805e+00],
+       [ 6.98023688e+01,  7.54397745e+01,  4.83323328e+00],
+       [ 7.48293621e+01,  8.02896174e+01,  5.37107370e+00],
+       [ 8.01845716e+01,  8.51362892e+01,  4.92980323e+00],
+       [ 8.50613985e+01,  8.95116262e+01,  5.39795519e+00],
+       [ 9.02911232e+01,  9.53386905e+01,  4.84689167e+00],
+       [ 9.52467084e+01,  1.00033689e+02,  5.25557441e+00],
+       [ 1.00341030e+02,  1.05389625e+02,  4.84367041e+00],
+       [ 1.05361817e+02,  1.10303418e+02,  5.13127483e+00],
+       [ 1.09679007e+02,  1.15402899e+02,  4.66205509e+00],
+       [ 1.15403902e+02,  1.19523541e+02,  5.03134880e+00],
+       [ 1.19523239e+02,  1.24895154e+02,  4.76073642e+00]])</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="3.-Performing-SVD">3. Performing SVD<a class="anchor-link" href="#3.-Performing-SVD">¶</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Before performing SVD, it is necessary to center the data by subtracting the mean of the data. Without centering, the first eigen vector would explain all the data.
+This is because this method performs just scaling (as we saw earlier), but cannot take into account the bias of the data (i.e. the intercept in linear regression).<br/>
+Sometimes it can also be usefull to normalize the input, because our data has not huge difference in each dimension we don't need to.
+We will use <a href="https://docs.scipy.org/doc/numpy/reference/routines.linalg.html">linear algebra package from numpy</a> for the SVD.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [3]:</div>
+<div class="inner_cell">
+<div class="input_area"><div class="collapse_expand_button far fa-1x fa-minus-square"></div>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># calculating the mean of the points</span>
+<span class="n">avg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># subtracting the mean from all points</span>
+<span class="n">subtracted</span> <span class="o">=</span> <span class="n">points</span> <span class="o">-</span> <span class="n">avg</span>
+
+<span class="c1"># performing SVD</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">subtracted</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="4.-Finding-the-line">4. Finding the line<a class="anchor-link" href="#4.-Finding-the-line">¶</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To estimate the equation of a line, we need its direction (a vector) and one point that goes trough that line.
+Previously, we performed SVD and extracted $V^*$ matrix that describe the eigen vectors. The first eigen vector is the one that best describe the data,
+which in our case is the line that best fits all the points!</p>
+<p>One example of a point that can go through this line is the average of the sample that we calculated previously. Then, any point of the line can be given by:
+\begin{equation}
+p(t) = p_0 + dt
+\end{equation}
+Where $t$ is the free parameter that is allowed to be any real number.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [4]:</div>
+<div class="inner_cell">
+<div class="input_area"><div class="collapse_expand_button far fa-1x fa-minus-square"></div>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># find the direction vector (which is the right singular vector corresponding to the largest singular value)</span>
+<span class="n">direction</span> <span class="o">=</span> <span class="n">V</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>
+
+<span class="c1"># A line is defined by the average and its direction</span>
+<span class="n">p0</span> <span class="o">=</span> <span class="n">avg</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">direction</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[0.70644472 0.70776785 0.00072705]
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can calculate the angle $\alpha$ between two lines with direction $d_0$ and $d_1$ using:
+\begin{equation}
+\alpha = \arccos\Big(\frac{d_a.d_b}{\|d_a\|.\|d_b\|}\Big)
+\end{equation}</p>
+<p>For example, this is the angle between our line and the normal axis $(0, 0, 1)$.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [5]:</div>
+<div class="inner_cell">
+<div class="input_area"><div class="collapse_expand_button far fa-1x fa-minus-square"></div>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">d0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">d0</span><span class="p">,</span><span class="n">d</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">d0</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">d</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">angle</span><span class="o">*</span><span class="mi">180</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>89.95834289649719
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="5.-Plotting-the-line">5. Plotting the line<a class="anchor-link" href="#5.-Plotting-the-line">¶</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Using the parametric form of the line, we can extract two different points by fixing the free parameter (make sure to choose a big one).</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [6]:</div>
+<div class="inner_cell">
+<div class="input_area"><div class="collapse_expand_button far fa-1x fa-minus-square"></div>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">pa</span> <span class="o">=</span> <span class="n">p0</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">)</span><span class="o">*</span><span class="n">d</span>
+<span class="n">pb</span> <span class="o">=</span> <span class="n">p0</span> <span class="o">+</span> <span class="mi">100</span><span class="o">*</span><span class="n">d</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To plot the 3D line, we will use <a href="https://plot.ly/python/">plotly</a> that have really good html embeddings and smooth 3D rendering.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [7]:</div>
+<div class="inner_cell">
+<div class="input_area collapsed"><div class="collapse_expand_button far fa-1x fa-minus-square"></div>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1">## plotly</span>
+<span class="n">trace1</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Scatter3d</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="n">pa</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">pb</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
+    <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="n">pa</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">pb</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+    <span class="n">z</span><span class="o">=</span><span class="p">[</span><span class="n">pa</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">pb</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s1">'lines'</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">'3D fitted line'</span><span class="p">,</span>
+    <span class="n">line</span><span class="o">=</span><span class="n">go</span><span class="o">.</span><span class="n">scatter3d</span><span class="o">.</span><span class="n">Line</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'rgb(255,0,0)'</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span>
+    <span class="n">hoverinfo</span><span class="o">=</span><span class="s1">'none'</span><span class="p">)</span>
+
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span> <span class="n">labels</span> <span class="o">+=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span>  
+<span class="n">trace2</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Scatter3d</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">points</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">points</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">z</span><span class="o">=</span><span class="n">points</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s1">'markers'</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">'Points'</span><span class="p">,</span>
+    <span class="n">marker</span><span class="o">=</span><span class="n">go</span><span class="o">.</span><span class="n">scatter3d</span><span class="o">.</span><span class="n">Marker</span><span class="p">(</span>
+        <span class="n">symbol</span><span class="o">=</span><span class="s1">'cross'</span><span class="p">,</span>
+        <span class="n">opacity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">'rgb(0,200,127)'</span><span class="p">),</span>
+    <span class="n">text</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
+    <span class="n">hoverinfo</span><span class="o">=</span><span class="s1">'text'</span><span class="p">)</span>
+
+<span class="n">layout</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span>
+            <span class="n">title</span><span class="o">=</span><span class="s2">"3D line fitting"</span><span class="p">,</span>
+            <span class="n">scene</span><span class="o">=</span><span class="n">go</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">Scene</span><span class="p">(</span>
+                    <span class="n">xaxis_title</span><span class="o">=</span><span class="s2">"x"</span><span class="p">,</span>
+                    <span class="n">yaxis_title</span><span class="o">=</span><span class="s2">"y"</span><span class="p">,</span>
+                    <span class="n">zaxis_title</span><span class="o">=</span><span class="s2">"z"</span><span class="p">,</span>
+                    <span class="n">camera</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+                           <span class="n">up</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                           <span class="n">center</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                           <span class="n">eye</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mi">0</span><span class="p">))))</span>     
+
+
+<span class="n">fig</span><span class="o">=</span><span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">trace1</span><span class="p">,</span> <span class="n">trace2</span><span class="p">],</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">renderer</span><span class="o">=</span><span class="s2">"iframe_connected"</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="p">{</span><span class="s1">'showLink'</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_html rendered_html output_subarea">
+<iframe allowfullscreen="" frameborder="0" height="545px" scrolling="no" src="/assets/iframes/line_svd/figure_7.html" width="100%"></iframe>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="To-go-further">To go further<a class="anchor-link" href="#To-go-further">¶</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If you want improve your understanding of SVD and its relation with PCA, check this <a href="https://arxiv.org/pdf/1404.1100.pdf">nice paper</a> on the web.
+On the importance of data normalization, check <a href="https://stats.stackexchange.com/questions/22329/how-does-centering-the-data-get-rid-of-the-intercept-in-regression-and-pca">this thread</a>.</p>
+</div>
+</div>
+</div>
+
+

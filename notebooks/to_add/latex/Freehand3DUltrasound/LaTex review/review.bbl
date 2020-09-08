@@ -1,0 +1,49 @@
+\begin{thebibliography}{1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+
+\bibitem{chen1997determination}
+Chen, J.F., Fowlkes, J.B., Carson, P.L., Rubin, J.M.: Determination of
+  scan-plane motion using speckle decorrelation: theoretical considerations and
+  initial test  (1997)
+
+\bibitem{conrath2012towards}
+Conrath, J., Laporte, C.: Towards improving the accuracy of sensorless freehand
+  3d ultrasound by learning. In: Machine Learning in Medical Imaging, pp.
+  78--85. Springer (2012)
+
+\bibitem{housden2006subsample}
+Housden, R.J., Gee, A.H., Treece, G.M., Prager, R.W.: Subsample interpolation
+  strategies for sensorless freehand 3d ultrasound. Ultrasound in medicine \&
+  biology  32(12),  1897--1904 (2006)
+
+\bibitem{kallel1994speckle}
+Kallel, F., Bertrand, M., Meunier, J.: Speckle motion artifact under tissue
+  rotation. Ultrasonics, Ferroelectrics, and Frequency Control, IEEE
+  Transactions on  41(1),  105--122 (1994)
+
+\bibitem{laporte2011learning}
+Laporte, C., Arbel, T.: Learning to estimate out-of-plane motion in ultrasound
+  imagery of real tissue. Medical image analysis  15(2),  202--213 (2011)
+
+\bibitem{rivaz2008ultrasound}
+Rivaz, H., Boctor, E., Foroughi, P., Zellars, R., Fichtinger, G., Hager, G.:
+  Ultrasound elastography: a dynamic programming approach. Medical Imaging,
+  IEEE Transactions on  27(10),  1373--1377 (2008)
+
+\bibitem{schneider2012real}
+Schneider, R.J., Perrin, D.P., Vasilyev, N.V., Marx, G.R., Pedro, J., Howe,
+  R.D.: Real-time image-based rigid registration of three-dimensional
+  ultrasound. Medical image analysis  16(2),  402--414 (2012)
+
+\bibitem{tuthill1998automated}
+Tuthill, T.A., Kr{\"u}cker, J., Fowlkes, J.B., Carson, P.L.: Automated
+  three-dimensional us frame positioning computed from elevational speckle
+  decorrelation. Radiology  209(2),  575--582 (1998)
+
+\bibitem{wagner1983statistics}
+Wagner, R.F., Smith, S.W., Sandrik, J.M., Lopez, H.: Statistics of speckle in
+  ultrasound b-scans. Sonics and Ultrasonics, IEEE Transactions on  30(3),
+  156--163 (1983)
+
+\end{thebibliography}

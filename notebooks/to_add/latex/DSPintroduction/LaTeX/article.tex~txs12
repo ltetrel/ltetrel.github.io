@@ -1,0 +1,132 @@
+%%%%%%%%%%%%%%%%%%%%%%% file typeinst.tex %%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% This is the LaTeX source for the instructions to authors using
+% the LaTeX document class 'llncs.cls' for contributions to
+% the Lecture Notes in Computer Sciences series.
+% http://www.springer.com/lncs       Springer Heidelberg 2006/05/04
+%
+% It may be used as a template for your own input - copy it
+% to a new file with a new name and use it as the basis
+% for your article.
+%
+% NB: the document class 'llncs' has its own and detailed documentation, see
+% ftp://ftp.springer.de/data/pubftp/pub/tex/latex/llncs/latex2e/llncsdoc.pdf
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\documentclass[runningheads,a4paper]{llncs}
+
+\usepackage{amssymb}
+\setcounter{tocdepth}{3}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{amsmath}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows,shapes.geometric,
+	matrix,shapes.symbols,decorations.pathreplacing}
+
+\usepackage{subcaption}
+\captionsetup{compatibility=false}
+
+\usepackage{booktabs}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+\usepackage{url}
+\urldef{\mailsa}\path|loic_tetrel@yahoo.fr|
+%\urldef{\mailsb}\path|acen.chebrek@gmail.com|
+\urldef{\mailsc}\path|catherine.laporte@etsmtl.ca|
+\urldef{\mailsanon}\path|******@*******.***|
+\newcommand{\keywords}[1]{\par\addvspace\baselineskip
+	\noindent\keywordname\enspace\ignorespaces#1}
+
+\begin{document}
+	
+	\mainmatter  % start of an individual contribution
+	
+	% first the title is needed
+	\title{Gaussian Process}
+	
+	% a short form should be given in case it is too long for the running head
+	\titlerunning{Gaussian Process}%
+	
+	% the name(s) of the author(s) follow(s) next
+	%
+	% NB: Chinese authors should write their first names(s) in front of
+	% their surnames. This ensures that the names appear correctly in
+	% the running heads and the author index.
+	%
+	\author{Loïc Tetrel}
+	%
+	\authorrunning{Gaussian Process}
+	% (feature abused for this document to repeat the title also on left hand pages)
+	
+	% the affiliations are given next; don't give your e-mail address
+	% unless you accept that it will be published
+	%\institute{******************************************\\
+	\institute{}
+	
+	%
+	% NB: a more complex sample for affiliations and the mapping to the
+	% corresponding authors can be found in the file "llncs.dem"
+	% (search for the string "\mainmatter" where a contribution starts).
+	% "llncs.dem" accompanies the document class "llncs.cls".
+	%
+	
+	\toctitle{Gaussian Process}
+	
+	\maketitle
+
+	\keywords{Generative model; Filtering; Regression}
+
+	\section{Introduction}\label{introduction}
+	\par Daniel G. Kringe was the first to define a Gaussian Process in a new interpolation method to evaluate mining ressources in geostatistics. In this time, we were talking about Kriging \cite{krige1951statistical}. Later, Rasmussen\cite{rasmussen2006gaussian} propose to develop the Gaussian Process ($\mathcal{GP}$) theory to do machine learning. Since then, it is a famous generative model for AI applications.
+	\section{Theory}\label{introduction}
+	
+	\par The function $f$ is a $\mathcal{GP}$ if every outputs from a function $\{y(x_0),...,y(x_N)\}$ has a multivariate gaussian distribution :
+	
+	\begin{equation}
+	f(x_0,..., x_N) = \mathcal{N}(\mu, \Sigma),
+	\end{equation}
+	
+	where,
+	
+	\begin{equation}
+	\mathbf{\mu} = 
+	\begin{bmatrix}
+	\mu_1\\
+	\vdots\\
+	\mu_N\\
+	\end{bmatrix};
+	\qquad 
+	\Sigma = 
+	\begin{bmatrix}
+	\Sigma(x_1,x_1) & \dots & \Sigma(x_1,x_N) \\
+	\vdots & \ddots & \vdots \\
+	\Sigma(x_N,x_1) & \dots & \Sigma(x_N,x_N) \\
+	\end{bmatrix}.
+	\end{equation}
+	
+	
+	
+	\section{Example}
+	\label{sec:method}
+	
+	\section{Conclusion}
+	\label{sec:conclusion}
+	\url{http://katbailey.github.io/post/gaussian-processes-for-dummies/}
+	 
+	\subsection*{Acknowledgment}
+	Thanks
+	
+	{\small
+		\bibliographystyle{splncs03}
+		\bibliography{article}
+	}
+	
+\end{document}
+

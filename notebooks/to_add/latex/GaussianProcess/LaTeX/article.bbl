@@ -1,0 +1,13 @@
+\begin{thebibliography}{1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+
+\bibitem{krige1951statistical}
+Krige, D.: A statistical approach to some mine valuation and allied problems on
+  the Witwatersrand (1951)
+
+\bibitem{rasmussen2006gaussian}
+Rasmussen, C.E., Williams, C.K.: Gaussian processes for machine learning,
+  vol.~1. MIT press Cambridge (2006)
+
+\end{thebibliography}

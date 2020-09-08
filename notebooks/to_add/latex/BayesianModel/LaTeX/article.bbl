@@ -1,0 +1,9 @@
+\begin{thebibliography}{1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+
+\bibitem{bayes1958essay}
+Bayes, T.: Essay towards solving a problem in the doctrine of chances.
+  University Press (1958)
+
+\end{thebibliography}

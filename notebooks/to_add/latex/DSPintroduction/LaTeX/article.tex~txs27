@@ -1,0 +1,119 @@
+%%%%%%%%%%%%%%%%%%%%%%% file typeinst.tex %%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% This is the LaTeX source for the instructions to authors using
+% the LaTeX document class 'llncs.cls' for contributions to
+% the Lecture Notes in Computer Sciences series.
+% http://www.springer.com/lncs       Springer Heidelberg 2006/05/04
+%
+% It may be used as a template for your own input - copy it
+% to a new file with a new name and use it as the basis
+% for your article.
+%
+% NB: the document class 'llncs' has its own and detailed documentation, see
+% ftp://ftp.springer.de/data/pubftp/pub/tex/latex/llncs/latex2e/llncsdoc.pdf
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\documentclass[runningheads,a4paper]{llncs}
+
+\usepackage{amssymb}
+\setcounter{tocdepth}{3}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{listings}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows,shapes.geometric,
+	matrix,shapes.symbols,decorations.pathreplacing}
+
+\usepackage{subcaption}
+\captionsetup{compatibility=false}
+
+\usepackage{booktabs}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+\usepackage{url}
+\urldef{\mailsa}\path|loic_tetrel@yahoo.fr|
+\newcommand{\keywords}[1]{\par\addvspace\baselineskip
+	\noindent\keywordname\enspace\ignorespaces#1}
+
+\begin{document}
+	
+	\mainmatter  % start of an individual contribution
+	
+	% first the title is needed
+	\title{Introduction to computer architecture}
+	
+	% a short form should be given in case it is too long for the running head
+	\titlerunning{Introduction to computer architecture}%
+	
+	% the name(s) of the author(s) follow(s) next
+	%
+	% NB: Chinese authors should write their first names(s) in front of
+	% their surnames. This ensures that the names appear correctly in
+	% the running heads and the author index.
+	%
+	\author{Loïc Tetrel}
+	%
+	\authorrunning{Introduction to computer architecture}
+	% (feature abused for this document to repeat the title also on left hand pages)
+	
+	% the affiliations are given next; don't give your e-mail address
+	% unless you accept that it will be published
+	%\institute{******************************************\\
+	\institute{}
+	
+	%
+	% NB: a more complex sample for affiliations and the mapping to the
+	% corresponding authors can be found in the file "llncs.dem"
+	% (search for the string "\mainmatter" where a contribution starts).
+	% "llncs.dem" accompanies the document class "llncs.cls".
+	%
+	
+	\toctitle{Introduction to computer architecture}
+	
+	\maketitle
+
+	\keywords{Assembly; CPU; PC architecture;  Von Neumann}
+
+	\section{Introduction}\label{introduction}
+	All modern computers used the so-called Von Newmann architecture. John von Neumann was a child prodigy working on the game theory \cite{von2007theory}, created the first computers, and also developped the Monte Carlo method.
+	\par
+	The brain of this computer is called the CPU (Central Processing Unit) which will perform operations using an ALU (Arithmetic/Logic Unit) and control operations (Control Unit) coming from the instructions. It communicates to its memory units where for example the list of instructions are stored, and to other devices (input or output) using a bus \footnote{From the latin omnibus, declination of omnia which means "to many".}.
+	
+	\begin{figure}
+	\centering
+	\includegraphics[width=0.75\textwidth]{Figures/distrib}
+	\\ \parbox{0.75\textwidth}{\caption[Distribution]{The two models for the fruits.}\label{fig:distrib}} 
+	\end{figure}
+	
+	explanation of the different devices in a computer
+	
+	Assembly language is the lowest level programming language, where the instructions are directly correlated on the architecture of the device.
+	When you compile a program, the compiler will create .asm objects. Theses are set of instruction coded in assembly language, which will later be transformed into binary objects (this is what your CPU understand).
+	
+	\section{Hardware architecture}\label{theory}
+	
+	\section{Assembly language}
+	
+	\subsection{Optimizing your asm code}
+	\label{sec:method}
+	
+	\section{Conclusion}
+	\label{sec:conclusion}
+		 
+	\subsection*{Acknowledgment}
+	Thanks
+	
+	{\small
+		\bibliographystyle{splncs03}
+		\bibliography{article}
+	}
+	
+\end{document}
+

@@ -1,0 +1,8 @@
+neural network
+blockchain
+genetic algorithm
+gaussian process
+gw2 api
+computer intro
+machine learning intro
+color detection - gmm em

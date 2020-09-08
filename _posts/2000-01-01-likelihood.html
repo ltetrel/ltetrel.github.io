@@ -1,0 +1,431 @@
+---
+layout: post
+title: What is the likelihood ?
+date: 2019-04-07
+category: Data-Science
+tags:   Statistics Optimization
+img: /notebooks/imgs/likelihood/post_img.jpg
+file: /notebooks/likelihood.py
+excerpt_separator: <h2
+---
+    
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>When refering to the likelihood of an event in the everyday language, we are often talking about the probability that this event occurs.
+From a mathematical point of view, the likelihood of an event does not have the same meaning!</p>
+<p>In this post I will try to explain you what do we refer by "likelihood", by following a simple example of a coin toss.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="tl;dr">tl;dr<a class="anchor-link" href="#tl;dr">¶</a></h2><ol>
+<li>Likelihood is a function that represents the fitness of the data on a model.</li>
+<li>The (negative) log-likelihood is usually refered as the "cost function".</li>
+<li>Taking the derivative of the log-likelihood gives you a way to find optimal parameters of your model given the data.</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="1.-Theory">1. Theory<a class="anchor-link" href="#1.-Theory">¶</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Likelihood is a function that inform you how well the data $\mathbf{x} = [x_1 \ldots x_n]$ fits
+to a model with parameters $\Theta = [\theta_1 \ldots \theta_n]$.<br/>
+Formalizing it was not an easy process, it took almost a decade for Fisher et al. between 1912 and 1922 <cite><a href="#aldrich1997ra">[1]</a></cite>!</p>
+<p>The likelihood $L(\Theta)$ is defined by the product of each sample's conditionnal probability:
+\begin{equation}
+L(\Theta) = P(X=\mathbf{x}\mid\Theta) = P(x_1\mid\Theta)P(x_2\mid\Theta) \cdots P(x_n\mid\Theta)
+        = \prod^n_{i=1} P(x_i\mid\Theta)
+\end{equation}
+Where $X$ is a random variable, $\mathbf{x}$ is the data.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Because it is computationnaly easier to work with a sum instead a product, we compute the log-likelihood:</p>
+\begin{equation}
+\log L(\Theta) = \log P(x_1\mid\Theta) + \log P(x_2\mid\Theta) + \cdots + \log P(x_n\mid\Theta)
+        = \sum^n_{i=1} \log P(x_i\mid\Theta)
+\end{equation}<p></p>
+<p>The basic idea is to find for which parameters $\Theta$ this function is maximized.</p>
+<blockquote><p><strong>Note</strong>
+It is also possible to minimize the negative log-likelihood, then we call it the "cost function".</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="2.-One-little-example">2. One little example<a class="anchor-link" href="#2.-One-little-example">¶</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Imagine you are walking the street and a street hustler is asking you to flip a coin for 5\$.
+If the result is tail he will give you 11$, otherwise you lose your money.
+You think it's a good trade, so you try 10 times:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [1]:</div>
+<div class="inner_cell">
+<div class="input_area collapsed"><div class="collapse_expand_button far fa-1x fa-minus-square"></div>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1">## imports</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy</span> <span class="k">as</span> <span class="nn">sp</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [2]:</div>
+<div class="inner_cell">
+<div class="input_area"><div class="collapse_expand_button far fa-1x fa-minus-square"></div>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># generating data</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">coin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.6</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">coin</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[1 0 1 1 0 0 1 1 1 1]
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>What a bad luck, you just lost 17\$ !</p>
+<p>So depending on this experience, what is the probability $p$ of having a head ? You should answer something like : 
+\begin{equation} \label{p_estimate}
+p = \frac{n_{head}}{n}
+\end{equation}
+Congratulation, you just used a maximum likelihood estimate ! Maybe you can conclude that the coin is biased because $p = 0.7\neq 0.5$ ?
+Of course you need more tries than that to conclude something, but now let's formalize how you calculated it.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="3.-Theorical-maximum-likelihood-estimation">3. Theorical maximum likelihood estimation<a class="anchor-link" href="#3.-Theorical-maximum-likelihood-estimation">¶</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We suppose that we know the distribution from where our data comes from. For a coin flipping it can be a bernoulli distribution:
+\begin{equation}
+P(X = x) = p^x(1-p)^{1-x}
+\end{equation}</p>
+<p>Where $p$ is the parameter of the model (probability to have a head),
+and $\mathbf{x}$ is the data (head or tail). We want to find the best estimation 
+$\hat{p}$ for the probability of head $p = P(X=1)$ using maximum-likelihood estimation.</p>
+<p>If we write the likelihood function it would be :</p>
+\begin{equation}    
+L(p) = \prod^n_i P(x_i\mid p)
+      = p^{x_1}(1-p)^{(1-x_1)}p^{x_2}(1-p)^{(1-x_2)} \cdots p^{x_n}(1-p)^{(1-x_n)}
+\end{equation}<p>The log likelihood is:</p>
+\begin{equation}    
+\log L(p) = \sum x_i \log p + (n - \sum x_i) \log (1-p)     
+\end{equation}<p></p>
+<p>The maximum is given when the derivative is equal to 0 :</p>
+\begin{equation}
+\frac{dL}{dp} = \frac{\sum x_i}{p} - \frac{n-\sum x_i}{1-p} = 0
+\end{equation}<p>We can now evaluate the best estimation $\hat{p}$ of $p$ :
+\begin{equation}
+\hat{p} = \frac{\sum x_i}{n}
+\end{equation}
+Which is the formula \ref{p_estimate} that we used earlier!</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="4.-Numerical-maximum-likelihood-estimation">4. Numerical maximum likelihood estimation<a class="anchor-link" href="#4.-Numerical-maximum-likelihood-estimation">¶</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Another way to estimate $\hat{p}$ is to compute it numerically, using gradient descent.
+This is the basic idea of machine learning : the input data can be really complicated (thousands of pixels),
+and we make assumptions on the distribution (successive non-linear perceptron models, gaussian processes etc..).</p>
+<p>Let's emulate 1000 coin flipping from a bernoulli distribution with parameter
+$p = 0.7$, and see if we can estimate it correctly at the end.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [3]:</div>
+<div class="inner_cell">
+<div class="input_area"><div class="collapse_expand_button far fa-1x fa-minus-square"></div>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># input data</span>
+<span class="n">p</span> <span class="o">=</span> <span class="mf">0.7</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We hypothetize that our sample comes form a bernoulli distrubution :</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [4]:</div>
+<div class="inner_cell">
+<div class="input_area"><div class="collapse_expand_button far fa-1x fa-minus-square"></div>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">bernoulli</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">p</span><span class="o">**</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Definition of the likelihood (fitness of the data):</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [5]:</div>
+<div class="inner_cell">
+<div class="input_area"><div class="collapse_expand_button far fa-1x fa-minus-square"></div>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">likelihood</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">p</span><span class="o">**</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span><span class="o">*</span><span class="p">((</span><span class="mi">1</span><span class="o">-</span><span class="n">p</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+
+<span class="k">def</span> <span class="nf">log_likelihood</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we can do the gradient descent, used to update the parameter :</p>
+\begin{equation}
+\Theta(t+1) = \Theta(t) - \mu\nabla\Theta(t+1) 
+\end{equation}<p>$\mu$ is the learning rate, which defined how fast you will update your params.</p>
+<p>$\nabla\Theta(t+1)$ is given by taking the gradient over all the parameters (which is in our case just the derivative over $p$).</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [6]:</div>
+<div class="inner_cell">
+<div class="input_area"><div class="collapse_expand_button far fa-1x fa-minus-square"></div>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">derivative_log_likelihood</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="n">sum_xi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">sum_xi</span><span class="o">/</span><span class="n">p</span> <span class="o">-</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">sum_xi</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We also need to fix the hyper-parameters used in gradient-descent.
+These involve for example the learning rate $\mu$, the number of iterations max $i_{max}$ the stopping condition $\epsilon$ and the initial guess for the parameter $\Theta_{init}$.</p>
+<p>I found these a posteriori by testing some values, and keeping the ones which gives the best results (done using a training set).</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [7]:</div>
+<div class="inner_cell">
+<div class="input_area"><div class="collapse_expand_button far fa-1x fa-minus-square"></div>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># optimization</span>
+<span class="n">p</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">learnRate</span> <span class="o">=</span> <span class="mf">1e-6</span>
+<span class="n">iterMax</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">iters</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">lkls</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iterMax</span><span class="p">):</span>
+    <span class="n">lkls</span> <span class="o">+=</span> <span class="p">[</span><span class="n">log_likelihood</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">x</span><span class="p">)]</span>
+    <span class="n">grad</span> <span class="o">=</span> <span class="n">derivative_log_likelihood</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">p</span> <span class="o">-</span> <span class="n">learnRate</span><span class="o">*</span><span class="n">grad</span>
+    <span class="n">iters</span> <span class="o">=</span> <span class="n">iters</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">if</span><span class="p">(</span> <span class="nb">abs</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span><span class="o">&lt;</span><span class="mf">1e-6</span> <span class="p">):</span>
+        <span class="k">break</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Found probability </span><span class="si">%1.6f</span><span class="s2"> in </span><span class="si">%d</span><span class="s2"> with log-likelihood </span><span class="si">%1.3f</span><span class="s2">"</span> <span class="o">%</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">iters</span><span class="p">,</span><span class="n">lkls</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>  
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Found probability 0.707000 in 4573 with log-likelihood -604.816
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can plot the log-likelihood to see how it variate on the parameter space (one dimension in our case).</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [8]:</div>
+<div class="inner_cell">
+<div class="input_area collapsed"><div class="collapse_expand_button far fa-1x fa-minus-square"></div>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1">## plot likelihood</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.99</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">lkls</span> <span class="o">=</span> <span class="n">log_likelihood</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">lkls</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"p"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"log-likelihood"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_png output_subarea">
+<img src="data:image/png;base64,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
+"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can also look at the normalized likelihood</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [9]:</div>
+<div class="inner_cell">
+<div class="input_area collapsed"><div class="collapse_expand_button far fa-1x fa-minus-square"></div>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1">## plot normalized likelihood</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">lkls</span> <span class="o">=</span> <span class="n">likelihood</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
+<span class="n">lkls</span> <span class="o">=</span> <span class="n">lkls</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">lkls</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">lkls</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"p"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"normalized likelihood"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_png output_subarea">
+<img src="data:image/png;base64,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
+"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="5.-Conclusion">5. Conclusion<a class="anchor-link" href="#5.-Conclusion">¶</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Maximum likelihood is probably one of the most important fundamental, without it there is no machine learning!</p>
+<p>We saw two ways to use it, theorically and numerically.
+The latter is mostly used because it is often to complicated to do the calculations.</p>
+</div>
+</div>
+</div>
+
+
+<div class="cell border-box-sizing text_cell rendered">
+    <div class="prompt input_prompt">
+    </div>
+    <div class="inner_cell">
+    <div class="text_cell_render border-box-sizing rendered_html">
+    <h2 id="References">
+        References
+        <a class="anchor-link" href="#References">
+        &#182;
+        </a>
+    </h2>
+    </div>
+    </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+    <div class="prompt input_prompt">
+    </div>
+    <div class="inner_cell">
+    <div class="text_cell_render border-box-sizing rendered_html">
+    <div id="aldrich1997ra">
+<p>1.&emsp;.Aldrich, J., others: RA Fisher and the making of maximum likelihood 1912-1922. Statistical science. 12, 162–176 (1997).</p>
+</div>
+</div>
+    </div>
+    </div>
+    

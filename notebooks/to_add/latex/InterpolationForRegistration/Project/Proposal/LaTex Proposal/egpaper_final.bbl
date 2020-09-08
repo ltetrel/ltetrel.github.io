@@ -1,0 +1,15 @@
+\begin{thebibliography}{1}\itemsep=-1pt
+
+\bibitem{hill2001medical}
+D.~L. Hill, P.~G. Batchelor, M.~Holden, and D.~J. Hawkes.
+\newblock Medical image registration.
+\newblock {\em Physics in medicine and biology}, 46(3):R1, 2001.
+
+\bibitem{wachinger2014gaussian}
+C.~Wachinger, P.~Golland, M.~Reuter, and W.~Wells.
+\newblock Gaussian process interpolation for uncertainty estimation in image
+  registration.
+\newblock In {\em Medical Image Computing and Computer-Assisted
+  Intervention--MICCAI 2014}, pages 267--274. Springer, 2014.
+
+\end{thebibliography}

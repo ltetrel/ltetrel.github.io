@@ -1,0 +1,84 @@
+---
+layout: post
+title: How to install NVIDIA GPU driver and CUDA on ubuntu
+date: 2020-03-14
+category: Software-Development
+tags:   GPU
+img: /notebooks/imgs/cuda/post_img.jpg
+file: /notebooks/cuda.py
+excerpt_separator: <h2
+---
+    
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This post is intended to describe how to install NVIDIA GPU driver and CUDA on ubuntu.<br/>
+I have myself a GTX 560M with ubuntu 18.04.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Requirements">Requirements<a class="anchor-link" href="#Requirements">¶</a></h2><p>Before installing, we will first need to find the different version that your GPU support in the following order (in parenthesis my versions):</p>
+<ol>
+<li>The GPU driver version (390.132)</li>
+<li>CUDA version (9.0)</li>
+<li>OS version (ubuntu 18.04) (and optionnally <code>gcc</code> version)</li>
+</ol>
+<h3 id="GPU-driver-version">GPU driver version<a class="anchor-link" href="#GPU-driver-version">¶</a></h3><p>Got to <a href="https://www.nvidia.com/Download/index.aspx">this page</a> and fill in all the information, and click on search to find the latest driver version your GPU support.</p>
+<p>From here we will download the driver installer that we will use later.</p>
+<p>Right-click on <code>Download</code> and <code>copy the link location</code>.
+Back on your computer, paste the link to download the installer with <code>wget</code>:</p>
+<div class="highlight"><pre><span></span>wget https://www.nvidia.com/content/DriverDownload-March2009/confirmation.php?url<span class="o">=</span>/XFree86/Linux-x86_64/390.132/NVIDIA-Linux-x86_64-390.132.run<span class="p">&amp;</span><span class="nv">lang</span><span class="o">=</span>us<span class="p">&amp;</span><span class="nv">type</span><span class="o">=</span>TITAN
+</pre></div>
+<h3 id="CUDA-version">CUDA version<a class="anchor-link" href="#CUDA-version">¶</a></h3><p>CUDA compatibility depends on your driver version you got in the previous section, check <a href="https://docs.nvidia.com/deploy/cuda-compatibility/index.html#binary-compatibility">here</a> the compatibility matrix to know chich CUDA you can use.</p>
+<h3 id="OS-version">OS version<a class="anchor-link" href="#OS-version">¶</a></h3><p>Check if your ubuntu version is compatible with this CUDA version.
+You should select the right documentation <a href="https://docs.nvidia.com/cuda/archive/">there</a>
+and check the section <code>system-requirements</code>, for example <a href="https://docs.nvidia.com/cuda/archive/9.0/cuda-installation-guide-linux/index.html#system-requirements">https://docs.nvidia.com/cuda/archive/9.0/cuda-installation-guide-linux/index.html#system-requirements</a>.</p>
+<blockquote><p><strong>Warning</strong><br/>
+If your ubuntu version is not compatible with CUDA, you should install the good gcc version.
+After <a href="https://docs.nvidia.com/cuda/archive/9.0/cuda-installation-guide-linux/index.html#system-requirements">cheking the gcc version</a>, you can install it and make it your default one:</p>
+<div class="highlight"><pre><span></span>sudo apt-get install build-essential gcc-6
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 <span class="m">6</span>
+</pre></div>
+</blockquote>
+<h2 id="Installation">Installation<a class="anchor-link" href="#Installation">¶</a></h2><p>Now that we know all the required version, we can start installing the softwares.</p>
+<p>First, we make sure to have the build dependencies installed:</p>
+<div class="highlight"><pre><span></span>sudo apt-get install build-essential
+</pre></div>
+<p>Install the GPU driver by running the installer (we downloaded it previously):</p>
+<div class="highlight"><pre><span></span>sudo bash NVIDIA-Linux-x86_64-390.132.run
+</pre></div>
+<p>To download the CUDA toolkit installer, select the good release there:
+<a href="https://developer.nvidia.com/cuda-toolkit-archive">https://developer.nvidia.com/cuda-toolkit-archive</a></p>
+<p>Fill in the different informations, and at the end select <code>runfile (local)</code>:
+<a href="https://developer.nvidia.com/cuda-90-download-archive?target_os=Linux&amp;target_arch=x86_64&amp;target_distro=Ubuntu&amp;target_version=1704&amp;target_type=runfilelocal">https://developer.nvidia.com/cuda-90-download-archive?target_os=Linux&amp;target_arch=x86_64&amp;target_distro=Ubuntu&amp;target_version=1704&amp;target_type=runfilelocal</a></p>
+<blockquote><p><strong>Note</strong><br/>
+In my case, my CUDA version does not support ubuntu 18.04 so I selected the newest distribution which is 17.04.</p>
+</blockquote>
+<p>Now you can download and run the executable to install the CUDA toolkit.</p>
+<div class="highlight"><pre><span></span>wget https://developer.nvidia.com/compute/cuda/9.0/Prod/local_installers/cuda_9.0.176_384.81_linux-run
+sudo bash cuda_9.0.176_384.81_linux-run
+</pre></div>
+<blockquote><p><strong>Warning</strong><br/>
+After running the CUDA installer, you will be asked if you want to install the NVIDIA Accelerated Graphics Driver for Linux-x86_64. Of course don't do it, we already installed it previously.</p>
+</blockquote>
+<p>You can now follow the <a href="https://docs.nvidia.com/cuda/archive/9.0/cuda-installation-guide-linux/index.html#post-installation-actions">post-installation actions</a>.
+The most important is to add the CUDA paths to the environment variable (system wide), so depending on your CUDA version:</p>
+<div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s2">"export PATH=/usr/local/cuda-9.0/bin:/usr/local/cuda/bin\${PATH:+:\${PATH}}"</span> <span class="p">|</span> sudo tee -a /etc/profile.d/myenvvars.sh
+<span class="nb">echo</span> <span class="s2">"export LD_LIBRARY_PATH=/usr/local/cuda-9.0/lib64:/usr/local/cuda/lib64\${LD_LIBRARY_PATH:+:\${LD_LIBRARY_PATH}}"</span> <span class="p">|</span> sudo tee -a /etc/profile.d/myenvvars.sh
+</pre></div>
+<p>Optionnally check the cuda toolkit samples to test if CUDA is working.</p>
+<p>To help the compiler when linking, add cuda libraries to the library path and check:</p>
+<div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s2">"/usr/local/cuda-9.0/lib64"</span> <span class="p">|</span> sudo tee /etc/ld.so.conf.d/cuda-9.0.conf
+sudo ldconfig -v
+</pre></div>
+<p>Finally, reboot your computer:</p>
+<div class="highlight"><pre><span></span>sudo reboot
+</pre></div>
+</div>
+</div>
+</div>
+
+
