@@ -10,7 +10,7 @@ for nb in ${nb_list[*]}; do
 	nb_filepath="notebooks/$nb"
 	jupytext --to notebook --execute $nb_filepath
 	jupyter nbconvert --to html --template basic ${nb_filepath%%.*}.ipynb
-	rm ${nb_filepath%%.*}.ipynb
+	mv ${nb_filepath%%.*}.ipynb notebooks/ipynb/
 	html=${nb%%.*}.html
 	html_filepath="notebooks/$html"
 	if [ -f $html_filepath ]; then
