@@ -23,8 +23,9 @@ for nb in ${nb_list[*]}; do
 			# replacing iframes paths
 			sed -i "s|src=\"iframe_figures|src=\"/assets/iframes/${nb%%.*}|" $html_filepath
 		fi
-		# replacing image paths in html and linking image folder
+		# replacing image and data paths in html
 		sed -i "s|src=\"imgs|src=\"/notebooks/imgs/|" $html_filepath
+		sed -i "s|src=\"data|src=\"/notebooks/data/|" $html_filepath
 		# if [ ! -d "assets/imgs/${nb%%.*}" ]; then
 		# 	cd assets/imgs/
 		# 	ln -s ../../_notebooks/imgs/${nb%%.*} ${nb%%.*}

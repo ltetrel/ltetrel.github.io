@@ -5,9 +5,18 @@
 # %% [markdown]
 '''
 Bitcoin is a digital currency created in 2009 by Satoshi Nakamoto, he describes it as a "peer-to-peer version of electronic cash" <cite> nakamoto2019bitcoin </cite>.
-One big advantage of cryptocurrency over other market products, is that all the data is open, immutable and public, residing inside the blockchain.
-The openness of the data has made the research behind blockchain really active, mostly on the price forecasting (<cite> jang2017empirical </cite>, <cite> mudassir2020time </cite>).
-Many rush into the blockchain data, but I will show in this post that the bitcoin price itself is already really informative.
+One big advantage of cryptocurrency over other market products is that all the data is open and immutable, residing inside the blockchain.
+The openness and immutability of the data has made the research behind blockchain really active, mostly on the price forecasting (<cite> jang2017empirical </cite>, <cite> mudassir2020time </cite>).
+Many, rightfully, rush into the blockchain data (such as addresses, transactions etc..) which have their own merits, but I will show in this post that the bitcoin price itself is already really informative.
+Understanding how the price behaves will make a substantial difference in the choice of models and parameters for predicting price.
+
+The behaviour of the price is best understood via two main properties of time series: stationarity and seasonality.
+For example, a stationary time series can be much easier to model than a non-stationary.
+In what’s coming, I will share with you my thought process in looking at the price, using statistical tools and python programming.
+'''
+# %% [markdown]
+'''
+<binder></binder>
 '''
 # %% [markdown]
 '''
@@ -18,13 +27,13 @@ Many rush into the blockchain data, but I will show in this post that the bitcoi
 '''
 # %% [markdown]
 '''
-## 1 Fundamental properties of time series
+## 1 A quick primer on time series
 '''
 # %% [markdown]
 '''
-There are two important properties : seasonality and stationarity.
-Seasonnality represents how frequent the data change (for the bitcoin price we can express it in cycles per day), and also when does it starts.
-A stationnary process means that the distribution (statistical properties) of the data does not changes over time, this kind of data is much more easy to model.
+As I said, there are two important properties attached to time series: seasonality and stationarity.
+A stationnary process means that the distribution (statistical properties) of the data does not changes over time, this is why it is much easier to model.
+Seasonnality represents how frequently the data change (for the bitcoin price, we can express it in cycles per day), and also when it starts.
 We will first focus on the analysis of the stationarity, and after the seasonality.
 '''
 # %% [markdown]
@@ -45,8 +54,8 @@ Check also [this figure](https://otexts.com/fpp2/stationarity.html) and try to g
 # %% [markdown]
 '''
 To analyse the seasonality of the bitcoin, we can make a [fourier analysis](https://www.ritchievink.com/blog/2017/04/23/understanding-the-fourier-transform-by-example/) to extract the most proeminent frequencies.
-The magnitude of the fft (or the frequencies values) inform us how the given frequency component affect the price.
-In the other hand, the phase of the fft is interresting to understand when does the dynamic of the price starts.
+The magnitude of the FFT inform us how the given frequency component affect the price.
+In the other hand, the phase of the FFT is interresting to watch when does the dynamic of the price starts.
 If the magnitude or phase has a random white noise trend, then there is no evidence of principal component.
 Check this nice [blog post](https://machinelearningmastery.com/time-series-seasonality-with-python/) if you want to learn more on seasonnality.
 '''
@@ -61,6 +70,7 @@ Check this nice [blog post](https://machinelearningmastery.com/time-series-seaso
 # %% [markdown]
 '''
 The hourly USD price for the bitcoin can be collected using [glassnode](https://studio.glassnode.com/pricing), with their advanced subscription.
+If you don’t want to pay for it, the 24-hour data comes free of charge.
 Here we will use hourly data to get a more precise analysis.
 '''
 # %% [code]
@@ -123,7 +133,7 @@ plt.close()
 # %% [markdown]
 '''
 One way to remove the non-stationnary component on the data is to compute its derivative.
-An other way is to filter the data with a gaussian kernel, and substract it to the original price data.
+Another way is to filter the data with a gaussian kernel, and substract it to the original price data.
 '''
 # %% code
 # derivative
@@ -146,7 +156,8 @@ filt_price = tf.concat([ tf_price,tf.constant(tf_price[-1].numpy(), shape=filter
 price_centered = price - filt_price
 # %% [markdown]
 '''
-We can compare the two methods, the resulting prices are now zero-centered.
+We can compare the two methods (derivative and filetring), the resulting prices are now zero-centered. 
+They are shown with the orange colour in the below charts:
 '''
 # %% code
 ### plot
@@ -166,8 +177,8 @@ plt.show()
 plt.close()
 # %% [markdown]
 '''
-We can also check the auto-correlation for the raw price data, and without the non-stationnary component.
-This will inform us about how well the data is stationnary after the filtering.
+We can also check the auto-correlation for the raw price data, and without the non-stationnary component (with filtering method).
+This will inform us about how well the data is stationnary after the process.
 We will compute the auto-correlations with different delays of up to 2 days every hours.
 '''
 # %% [code]
@@ -192,7 +203,7 @@ for hour in delays:
     autocorr_centered_price += [autocorr(price_centered, hour)]
 # %% [markdown]
 '''
-looking at the plot, it is clear that the auto-correlation for the stationnary data degrades much faster than for the raw price data.
+Looking at the plot, it is clear that the auto-correlation for the stationnary data degrades much faster than for the raw price data.
 This means that we successfully removed the non-stationnary component for the price!
 '''
 # %% [code]
@@ -209,9 +220,10 @@ plt.show()
 plt.close()
 # %% [markdown]
 '''
-Finally, we can check how fast, for a given timestamp, the distribution of the raw price differ within its neighbors.
+Looking into the stationarity component also allows us to determine the window of prediction that is most suitable for the data.
+For example by checking how fast, for a given timestamp, the distribution of the raw price differ with its neighbors.
 By comparing the histogram (i.e. computing the correlation) for each timestamp with its neighbors, one can get an overview of what would be the acceptable range for a prediction.
-With the idea that if the distributions are close to each other, it is obviously easier to predict.
+With the idea that if the distributions are close to each other, it is obviously easier to predict (because they are closed to each other).
 '''
 # %% code
 ### histogram function
@@ -245,7 +257,8 @@ for i in timestamps_range:
 output = np.array(corr)[:, :, 0]
 # %% [markdown]
 '''
-looking at this plot, we can say that ~~it looks like a sunset in black and white~~ an acceptable range for prediction is around +/-15 hours.
+In the following plot, the y-axis describes the samples at a given timestamp for the bitcoin price. From up to down, it follows the chronological order, but this is not important since each sample can be taken independently.
+The x-axis desribes the different offsets to compute the histogramms (from -120 hours to +120 hours), and the resulting correlation with no offset (the current timestamp of the sample, at $h0$).
 '''
 # %% [code]
 ### plot
@@ -261,12 +274,23 @@ plt.show()
 plt.close()
 # %% [markdown]
 '''
+Looking at it, we can say that ~~it looks like a sunset in the ocean~~ the acceptable range for prediction is around +/-15 hours.
+
+>**Note**  
+>The range for the color is verry granular, and sometimes constant.
+>This is because of the number of bins in the histogramm (500) and price values ranging from 0 to 20k\$, meaning the precision is about ~40\$.
+>So if the price moves inside the 40\$ range within a certain period, the histogramms will have a perfect match.
+>```
+'''
+# %% [markdown]
+'''
 ## 2.3 Seasonnality
 '''
 # %% [markdown]
 '''
-Let's compute the fft now, and extract its magnitude and phase components.
-Obviously, the ftt can be used after the non-stationnary component of the price data was removed.
+Let's now switch the seasonality analysis by computing the FFT, and extract its magnitude and phase components.
+As explained before, the FFT will be used here to understand the redundant patterns in the data.
+Obviously, the FFT can only be used after the non-stationnary component of the price data was removed.
 '''
 # %% code
 # fft
@@ -283,9 +307,9 @@ This means that the bitcoin price can "generally" be explained by a sinusoid wit
 ### plot
 fig, axes = plt.subplots(2, figsize=(12, 8))
 axes[0].plot(frequencies[:N // 2], tf.abs(price_fouried)[:N // 2] * 1 / N)
-axes[0].set_title('fft magnitude')
+axes[0].set_title('FFT magnitude')
 axes[1].plot(frequencies[:N // 2], tf.math.angle(price_fouried)[:N // 2])
-axes[1].set_title('fft phase')
+axes[1].set_title('FFT phase')
 axes[1].set(xlabel='cycles per day', ylabel='amplitude')
 if figure_dir:
     plt.savefig(os.path.join(figure_dir, "fft.png"))
@@ -293,13 +317,13 @@ plt.show()
 plt.close()
 # %% [markdown]
 '''
-To finish on seasonality anaylisis, let's take a look at the spectrogram of the data (derived from a time-frequency analysis).
-This will give us lot of informations on the statistical information at each time.
+To finish on seasonality analysis, let's take a look at the spectrogram of the data (derived from a time-frequency analysis).
+A spectrogram is a visual representation during time of a signal's  spectrum of frequencies. 
 The spectrogram can be extracted using a short-fourier transform, which basically runs a fourier transform on a short window, sliding through all the data.
-Here, we will have a window size of 48 samples (hours), with a step of 1 and 125 frequency components.
+Here, we will use a window size of 48 samples (hours), with a step of 1 and 125 frequency components.
 '''
 # %% [code]
-# tensorflow provide a fast implementation of fast fourier transform.
+# tensorflow provides a fast implementation of the fast fourier transform.
 stft = tf.signal.stft(price_dt, frame_length=48, frame_step=1, fft_length=125, pad_end=True)
 print(stft.shape)
 spectrogram = tf.abs(stft).numpy()
@@ -332,6 +356,7 @@ plt.close()
 '''
 # %% [markdown]
 '''
+In the light of the properties that we saw above, one thing can be said with certainty; predicting bitcoin price is no easy task.
 Stationnarity and seasonnality are two really important properties of a time-serie.
 With different methods, it unlocked lot of understanding behind the bitcoin price like the difficulty in modeling it (especially the non-stationnary part) and what patterns exists in the data. 
 '''
@@ -350,6 +375,7 @@ The online version is available [here](https://otexts.com/fpp2/index.html).
 '''
 # %% [markdown]
 '''
+Thanks to [Vahid Zarifpayam](https://twitter.com/Vahidzarif1) for the review of this post.
 Credits goes to [Bitprobe](https://bitprobe.io/).
 '''
 # %% [markdown]

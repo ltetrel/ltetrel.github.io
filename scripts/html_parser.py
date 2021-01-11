@@ -159,17 +159,42 @@ excerpt_separator: <h2
     input_file = ".".join(input_file)
     python_file = input_file + '.py'
     # post picture, jpg or png
-    post_img = input_file + '/' + 'post_img.jpg'
+    post_img = os.path.join(input_file, 'post_img.jpg')
     if not os.path.exists('notebooks/imgs/{}'.format(post_img)):
-        post_img = input_file + '/' + 'post_img.png'
+        post_img = os.path.join(input_file, 'post_img.png')
 
     return front_matter.format(title, curr_date, category, tags, post_img, python_file)
+
+def add_binder(soup, html_file):
+    """Add the binder badge"""
+    input_file = os.path.basename(html_file.name).split('.')[:-1][0]
+#     html = '''<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+# </div><div class="inner_cell">
+# <div class="text_cell_render border-box-sizing rendered_html">
+# <p> <a href="https://mybinder.org/v2/gh/ltetrel/ltetrel.github.io/master?filepath=notebooks%2Fipynb%2F{}.ipynb"><img src="https://mybinder.org/badge_logo.svg"></a> (interactive version) </p>
+# </div>
+# </div>
+# </div>
+#     '''.format(input_file)
+    
+    input_areas = soup.select('binder')
+    for input_area in input_areas:
+        # replace <binder> tag with binder badge
+        tag = soup.new_tag('p')
+        ref_tag = soup.new_tag('a', href="https://mybinder.org/v2/gh/ltetrel/ltetrel.github.io/master?filepath=notebooks%2Fipynb%2F{}.ipynb".format(input_file))
+        img_tag = soup.new_tag('img', src="https://mybinder.org/badge_logo.svg")
+        ref_tag.append(img_tag)
+        tag.append(ref_tag)
+        tag.append(" (interactive version)")
+        input_area.replace_with(tag)
 
 def main():
     html_file = parse_input()
     soup = BeautifulSoup(html_file, 'html.parser', exclude_encodings="ascii")
     # cells wil be collapsed if they begins with "##""
     insert_collapse_buttons(soup)
+    # if <binder> tag is deteccted, it is replace with the binder link
+    add_binder(soup, html_file)
     # bibliography
     bib_entries = get_bib()
     cite_entries = write_refs(soup, bib_entries)
