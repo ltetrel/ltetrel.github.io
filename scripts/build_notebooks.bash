@@ -26,7 +26,7 @@ for nb in ${nb_list[*]}; do
 		# replacing image path in html
 		sed -i "s|src=\"imgs|src=\"/notebooks/imgs/|" $html_filepath
 		# replacing data paths in ipynb files for binder
-		sed -i "s|data/|/notebooks/data/|" notebooks/ipynb/${nb%%.*}.ipynb
+		sed -i "s|data/|../data/|" notebooks/ipynb/${nb%%.*}.ipynb
 		# if [ ! -d "assets/imgs/${nb%%.*}" ]; then
 		# 	cd assets/imgs/
 		# 	ln -s ../../_notebooks/imgs/${nb%%.*} ${nb%%.*}
