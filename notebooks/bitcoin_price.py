@@ -82,6 +82,10 @@ import tensorflow as tf
 
 import warnings
 warnings.filterwarnings("ignore")
+# %% [markdown]
+'''
+First, we want to create a function to load the data.
+'''
 # %% [code]
 # function to read the data
 def read_data(filepath):
@@ -100,6 +104,10 @@ def read_data(filepath):
         price += [curr_price]
         
     return np.array(price, dtype=np.float32), np.array(time, dtype=int)
+# %% [markdown]
+'''
+Now we will load the data by skipping the first year.
+'''
 # %% [code]
 # define paths
 filepath = "data/market/price_usd_close_BTC_1h"
@@ -112,8 +120,7 @@ price = price[8760:]
 time_shifted = time_shifted[8760:]
 # %% [markdown]
 '''
-The non-stationnary behaviour of the data is obvious when looking at the bitcoin price.
-We can also see clearly the big rises of Dec 2017/2020 there.
+Let's look at the bitcoin price over the time,
 '''
 # %% [code]
 ### plot
@@ -126,6 +133,11 @@ if figure_dir:
     plt.savefig(os.path.join(figure_dir, "price.png"))
 plt.show()
 plt.close()
+# %% [markdown]
+'''
+The non-stationnary behaviour of the data is obvious when looking at the bitcoin price.
+We can also see clearly the big rises of Dec 2017/2020 there.
+'''
 # %% [markdown]
 '''
 ## 2.2 Stationnarity
@@ -177,9 +189,8 @@ plt.show()
 plt.close()
 # %% [markdown]
 '''
-We can also check the auto-correlation for the raw price data, and without the non-stationnary component (with filtering method).
-This will inform us about how well the data is stationnary after the process.
-We will compute the auto-correlations with different delays of up to 2 days every hours.
+In order to verify the quality of the process, one can check the auto-correlation for both the raw price data (blue line), and stationnary price data with the filtering method (green line).
+This will inform us about how well the data is stationnary after the process. We will compute the auto-correlations with different delays of up to 2 days every hours.
 '''
 # %% [code]
 ### auto-correlation function
@@ -268,6 +279,8 @@ idx_sliding_range = np.arange(0, len(sliding_range), 30)
 plt.xticks([i for i in idx_sliding_range], ["h{}".format(sliding_range[i]) for i in idx_sliding_range])
 plt.xlabel("time offset (h)")
 plt.ylabel("samples")
+cbar = plt.colorbar()
+cbar.set_label('correlation value')
 if figure_dir:
     plt.imsave(os.path.join(figure_dir, "range_accuracy.png"), output, cmap="gray")
 plt.show()
@@ -280,7 +293,6 @@ Looking at it, we can say that ~~it looks like a sunset in the ocean~~ the accep
 >The range for the color is verry granular, and sometimes constant.
 >This is because of the number of bins in the histogramm (500) and price values ranging from 0 to 20k\$, meaning the precision is about ~40\$.
 >So if the price moves inside the 40\$ range within a certain period, the histogramms will have a perfect match.
->```
 '''
 # %% [markdown]
 '''
@@ -290,7 +302,7 @@ Looking at it, we can say that ~~it looks like a sunset in the ocean~~ the accep
 '''
 Let's now switch the seasonality analysis by computing the FFT, and extract its magnitude and phase components.
 As explained before, the FFT will be used here to understand the redundant patterns in the data.
-Obviously, the FFT can only be used after the non-stationnary component of the price data was removed.
+Because the FFT works better on LTI system (linear and time invariant) it cannot be applied with the raw bitcoin price (which is not stationnary!), therefore we will apply it on the stationnary bitcoin price.
 '''
 # %% code
 # fft
@@ -300,7 +312,7 @@ N = price_fouried.shape[0]
 frequencies = np.linspace(0, 1 / T, N)
 # %% [markdown]
 '''
-There is no clear evidence of a pattern there, although we see evidence for important frequency ranging from 1 to 1.9 cycles per day, with a little peak at 1.52.
+In the below figure, there is no clear evidence of a pattern there, although we see evidence for important frequency ranging from 1 to 1.9 cycles per day, with a little peak at 1.52.
 This means that the bitcoin price can "generally" be explained by a sinusoid with a period of ~15.8 hours.
 '''
 # %% code
@@ -317,20 +329,20 @@ plt.show()
 plt.close()
 # %% [markdown]
 '''
-To finish on seasonality analysis, let's take a look at the spectrogram of the data (derived from a time-frequency analysis).
-A spectrogram is a visual representation during time of a signal's  spectrum of frequencies. 
-The spectrogram can be extracted using a short-fourier transform, which basically runs a fourier transform on a short window, sliding through all the data.
+Another way to analyse seasonnality on a non-stationnary data is to compute its spectogramm (derived from a time-frequency analysis).
+A spectrogram is a visual representation during time of a signal's spectrum of frequencies. It is commonly used for example by [spleeter](https://github.com/deezer/spleeter) to exctract voice from audio signals.
+The spectrogram can be computed using a short-fourier transform, which basically runs a fourier transform on a short window, sliding through all the data.
+
 Here, we will use a window size of 48 samples (hours), with a step of 1 and 125 frequency components.
 '''
 # %% [code]
 # tensorflow provides a fast implementation of the fast fourier transform.
-stft = tf.signal.stft(price_dt, frame_length=48, frame_step=1, fft_length=125, pad_end=True)
-print(stft.shape)
+stft = tf.signal.stft(price, frame_length=48, frame_step=1, fft_length=125, pad_end=True)
 spectrogram = tf.abs(stft).numpy()
 # %% [markdown]
 '''
 Whenever there a big changes in the data (for example Dec. 2017), there is a much higher magnitude response.
-Generally speaking, it seems that the fft looks like a white noise whenever the time.
+Generally speaking, it seems that the FFT looks like a white noise whenever the time.
 '''
 # %% [code]
 ### plot
@@ -338,9 +350,9 @@ Generally speaking, it seems that the fft looks like a white noise whenever the 
 # convert to log scale and transpose so that the time is represented in the x-axis (columns).
 fig, axes = plt.subplots(2, figsize=(12, 8))
 max_time = np.max(time_shifted)
-axes[0].plot(time_shifted, price_centered)
+axes[0].plot(time_shifted, price)
 axes[0].set_xlim([0, max_time])
-axes[0].set_title('Stationnary bitcoin price')
+axes[0].set_title('non-stationnary bitcoin price')
 log_spec = np.log(spectrogram.T)
 axes[1].pcolormesh(time_shifted, np.arange(log_spec.shape[0]), log_spec)
 axes[1].set_xlim([0, max_time])
@@ -357,8 +369,11 @@ plt.close()
 # %% [markdown]
 '''
 In the light of the properties that we saw above, one thing can be said with certainty; predicting bitcoin price is no easy task.
-Stationnarity and seasonnality are two really important properties of a time-serie.
-With different methods, it unlocked lot of understanding behind the bitcoin price like the difficulty in modeling it (especially the non-stationnary part) and what patterns exists in the data. 
+Hopefully we found a way to simplify the process, by removing the non-stationnary component of the data (so it does not depend on time anymore).
+This allowed us to analyse redundant patterns in the data and we found that such a pattern exists.
+This kind of patterns are interresting because they can be latter used as a new feature into a predictive model (think of adding the time of day into a weather prediction model for example).
+
+These findings oppened to us new ways to get an accurate predictive model for the bitcoin price, but this is another story...
 '''
 # %% [markdown]
 '''
@@ -376,6 +391,7 @@ The online version is available [here](https://otexts.com/fpp2/index.html).
 # %% [markdown]
 '''
 Thanks to [Vahid Zarifpayam](https://twitter.com/Vahidzarif1) for the review of this post.
+
 Credits goes to [Bitprobe](https://bitprobe.io/).
 '''
 # %% [markdown]

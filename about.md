@@ -22,7 +22,7 @@ It is mostly based from the modified `Cayman Blog` theme by `lorepirri`. As the 
 It is really nice because it allows anyone to build for free his own website in a few minutes! *Of course, if you are like me and want to optimize and modify the theme, it will mostly take you weeks...*
 
 For the jupyter notebooks, the templates were heavily inspired from the wonderfull <a href="http://peterroelants.github.io/">peterroelants</a> blog (you should definitivelly check it!).
-I am using [jupytext](https://github.com/mwouts/jupytext) to get the notebooks out of python files, and [nbcovnert](https://github.com/jupyter/nbconvert) to build the html. References, post metadata and collapse buttons are injected using python via [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/).
+I am using [jupytext](https://github.com/mwouts/jupytext) to get the notebooks out of python files, and [nbconvert](https://github.com/jupyter/nbconvert) to build the html. References, post metadata and collapse buttons are injected using python via [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/).
 
 Most of the icons are svg embedded in html from [iconmonstr](https://iconmonstr.com/).
 
