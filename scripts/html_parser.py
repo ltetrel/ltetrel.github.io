@@ -185,7 +185,11 @@ def add_binder(soup, html_file):
         img_tag = soup.new_tag('img', src="https://mybinder.org/badge_logo.svg")
         ref_tag.append(img_tag)
         tag.append(ref_tag)
-        tag.append(" (interactive version)")
+        question_tag = soup.new_tag('a', href="/about.html")
+        sup_tag = soup.new_tag('sup')
+        sup_tag.append(" (?)")
+        question_tag.append(sup_tag)
+        tag.append(question_tag)
         input_area.replace_with(tag)
 
 def main():

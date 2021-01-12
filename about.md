@@ -24,10 +24,13 @@ It is really nice because it allows anyone to build for free his own website in 
 For the jupyter notebooks, the templates were heavily inspired from the wonderfull <a href="http://peterroelants.github.io/">peterroelants</a> blog (you should definitivelly check it!).
 I am using [jupytext](https://github.com/mwouts/jupytext) to get the notebooks out of python files, and [nbconvert](https://github.com/jupyter/nbconvert) to build the html. References, post metadata and collapse buttons are injected using python via [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/).
 
+You may see sometimes a badge like this one ![](https://mybinder.org/badge_logo.svg), this means that the post is interactive and compatible with [Binder](https://mybinder.readthedocs.io/en/latest/introduction.html).
+Binder spawn for you a standalone web-based jupyter server to let you play with the underlying notebook and data, so you can modify the code as you want without any consequence!
+
 Most of the icons are svg embedded in html from [iconmonstr](https://iconmonstr.com/).
 
 The tags and posts pages were inspired from [codinfox](https://codinfox.github.io/dev/2015/03/06/use-tags-and-categories-in-your-jekyll-based-github-pages/).
 
-Check the source code at <a href="{{ site.github.repository_url }}">{{ site.github.repository_name }}</a>.
+Check the source code for the website at [{{ site.github.repository_name }}]({{ site.github.repository_url }}).
 
 [Go to the Home Page]({{ '/' | absolute_url }})
