@@ -25,6 +25,7 @@ author: ltetrel
 plugins:
   - jekyll-target-blank
   - jemoji
+  - jekyll-github-metadata
 
 target-blank:
     rel: nofollow
