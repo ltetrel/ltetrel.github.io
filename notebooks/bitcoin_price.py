@@ -5,9 +5,9 @@
 # %% [markdown]
 '''
 Bitcoin is a digital currency created in 2009 by Satoshi Nakamoto, he describes it as a "peer-to-peer version of electronic cash" <cite> nakamoto2019bitcoin </cite>.
-One big advantage of cryptocurrency over other market products is that all the data is open and immutable, residing inside the blockchain.
+One big advantage of bitcoin (and other cryptocurrencies) is that all the data is open and immutable, residing inside the blockchain.
 The openness and immutability of the data has made the research behind blockchain really active, mostly on the price forecasting (<cite> jang2017empirical </cite>, <cite> mudassir2020time </cite>).
-Many, rightfully, rush into the blockchain data (such as addresses, transactions etc..) which have their own merits, but I will show in this post that the bitcoin price itself is already really informative.
+Many, rightfully, rush into the blockchain data (such as addresses, transactions etc..), but I will show in this post that the bitcoin price itself is already really informative.
 Understanding how the price behaves will make a substantial difference in the choice of models and parameters for predicting price.
 
 The behaviour of the price is best understood via two main properties of time series: stationarity and seasonality.
@@ -27,7 +27,7 @@ In what’s coming, I will share with you my thought process in looking at the p
 '''
 # %% [markdown]
 '''
-## 1 A quick primer on time series
+## 1. A quick primer on time series
 '''
 # %% [markdown]
 '''
@@ -38,7 +38,7 @@ We will first focus on the analysis of the stationarity, and after the seasonali
 '''
 # %% [markdown]
 '''
-### 1.1 Stationnarity
+### 1.1. Stationnarity
 '''
 # %% [markdown]
 '''
@@ -49,7 +49,7 @@ Check also [this figure](https://otexts.com/fpp2/stationarity.html) and try to g
 '''
 # %% [markdown]
 '''
-### 1.2 Seasonnality
+### 1.2. Seasonnality
 '''
 # %% [markdown]
 '''
@@ -65,7 +65,7 @@ Check this nice [blog post](https://machinelearningmastery.com/time-series-seaso
 '''
 # %% [markdown]
 '''
-## 2.1 Loading the data
+## 2.1. Loading the data
 '''
 # %% [markdown]
 '''
@@ -140,7 +140,7 @@ We can also see clearly the big rises of Dec 2017/2020 there.
 '''
 # %% [markdown]
 '''
-## 2.2 Stationnarity
+## 2.2. Stationnarity
 '''
 # %% [markdown]
 '''
@@ -296,7 +296,7 @@ Looking at it, we can say that ~~it looks like a sunset in the ocean~~ the accep
 '''
 # %% [markdown]
 '''
-## 2.3 Seasonnality
+## 2.3. Seasonnality
 '''
 # %% [markdown]
 '''
@@ -339,11 +339,7 @@ Here, we will use a window size of 48 samples (hours), with a step of 1 and 125 
 # tensorflow provides a fast implementation of the fast fourier transform.
 stft = tf.signal.stft(price, frame_length=48, frame_step=1, fft_length=125, pad_end=True)
 spectrogram = tf.abs(stft).numpy()
-# %% [markdown]
-'''
-Whenever there a big changes in the data (for example Dec. 2017), there is a much higher magnitude response.
-Generally speaking, it seems that the FFT looks like a white noise whenever the time.
-'''
+
 # %% [code]
 ### plot
 # inspired from https://www.tensorflow.org/tutorials/audio/simple_audio
@@ -362,6 +358,12 @@ if figure_dir:
     plt.savefig(os.path.join(figure_dir, "spectrogram.png"))
 plt.show()
 plt.close()
+
+# %% [markdown]
+'''
+Looking at the figure, whenever there a big changes in the data (for example Dec. 2017), there is a much higher magnitude response.
+Generally speaking, it seems that the FFT looks like a white noise whenever the time.
+'''
 # %% [markdown]
 '''
 ## Conclusion

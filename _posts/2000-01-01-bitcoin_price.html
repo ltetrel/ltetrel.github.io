@@ -1,7 +1,7 @@
 ---
 layout: post
 title: The hidden secrets of the bitcoin price
-date: 2021-01-12
+date: 2021-01-13
 category: Data-Science
 tags:   Cryptocurrency Statistics
 img: /notebooks/imgs/bitcoin_price/post_img.jpg
@@ -13,9 +13,9 @@ excerpt_separator: <h2
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Bitcoin is a digital currency created in 2009 by Satoshi Nakamoto, he describes it as a "peer-to-peer version of electronic cash" <cite><a href="#nakamoto2019bitcoin">[1]</a></cite>.
-One big advantage of cryptocurrency over other market products is that all the data is open and immutable, residing inside the blockchain.
+One big advantage of bitcoin (and other cryptocurrencies) is that all the data is open and immutable, residing inside the blockchain.
 The openness and immutability of the data has made the research behind blockchain really active, mostly on the price forecasting (<cite><a href="#jang2017empirical">[2]</a></cite>, <cite><a href="#mudassir2020time">[3]</a></cite>).
-Many, rightfully, rush into the blockchain data (such as addresses, transactions etc..) which have their own merits, but I will show in this post that the bitcoin price itself is already really informative.
+Many, rightfully, rush into the blockchain data (such as addresses, transactions etc..), but I will show in this post that the bitcoin price itself is already really informative.
 Understanding how the price behaves will make a substantial difference in the choice of models and parameters for predicting price.</p>
 <p>The behaviour of the price is best understood via two main properties of time series: stationarity and seasonality.
 For example, a stationary time series can be much easier to model than a non-stationary.
@@ -44,7 +44,7 @@ In what’s coming, I will share with you my thought process in looking at the p
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="1-A-quick-primer-on-time-series">1 A quick primer on time series<a class="anchor-link" href="#1-A-quick-primer-on-time-series">¶</a></h2>
+<h2 id="1.-A-quick-primer-on-time-series">1. A quick primer on time series<a class="anchor-link" href="#1.-A-quick-primer-on-time-series">¶</a></h2>
 </div>
 </div>
 </div>
@@ -61,7 +61,7 @@ We will first focus on the analysis of the stationarity, and after the seasonali
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="1.1-Stationnarity">1.1 Stationnarity<a class="anchor-link" href="#1.1-Stationnarity">¶</a></h3>
+<h3 id="1.1.-Stationnarity">1.1. Stationnarity<a class="anchor-link" href="#1.1.-Stationnarity">¶</a></h3>
 </div>
 </div>
 </div>
@@ -78,7 +78,7 @@ Check also <a href="https://otexts.com/fpp2/stationarity.html">this figure</a> a
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="1.2-Seasonnality">1.2 Seasonnality<a class="anchor-link" href="#1.2-Seasonnality">¶</a></h3>
+<h3 id="1.2.-Seasonnality">1.2. Seasonnality<a class="anchor-link" href="#1.2.-Seasonnality">¶</a></h3>
 </div>
 </div>
 </div>
@@ -103,7 +103,7 @@ Check this nice <a href="https://machinelearningmastery.com/time-series-seasonal
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="2.1-Loading-the-data">2.1 Loading the data<a class="anchor-link" href="#2.1-Loading-the-data">¶</a></h2>
+<h2 id="2.1.-Loading-the-data">2.1. Loading the data<a class="anchor-link" href="#2.1.-Loading-the-data">¶</a></h2>
 </div>
 </div>
 </div>
@@ -243,7 +243,7 @@ We can also see clearly the big rises of Dec 2017/2020 there.</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="2.2-Stationnarity">2.2 Stationnarity<a class="anchor-link" href="#2.2-Stationnarity">¶</a></h2>
+<h2 id="2.2.-Stationnarity">2.2. Stationnarity<a class="anchor-link" href="#2.2.-Stationnarity">¶</a></h2>
 </div>
 </div>
 </div>
@@ -548,7 +548,7 @@ So if the price moves inside the 40\$ range within a certain period, the histogr
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="2.3-Seasonnality">2.3 Seasonnality<a class="anchor-link" href="#2.3-Seasonnality">¶</a></h2>
+<h2 id="2.3.-Seasonnality">2.3. Seasonnality<a class="anchor-link" href="#2.3.-Seasonnality">¶</a></h2>
 </div>
 </div>
 </div>
@@ -639,14 +639,6 @@ The spectrogram can be computed using a short-fourier transform, which basically
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Whenever there a big changes in the data (for example Dec. 2017), there is a much higher magnitude response.
-Generally speaking, it seems that the FFT looks like a white noise whenever the time.</p>
-</div>
-</div>
-</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In [16]:</div>
@@ -682,6 +674,14 @@ Generally speaking, it seems that the FFT looks like a white noise whenever the 
 "/>
 </div>
 </div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Looking at the figure, whenever there a big changes in the data (for example Dec. 2017), there is a much higher magnitude response.
+Generally speaking, it seems that the FFT looks like a white noise whenever the time.</p>
 </div>
 </div>
 </div>

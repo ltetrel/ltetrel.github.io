@@ -1,0 +1,1 @@
+jupyter_to_medium bitcoin_price.ipynb --integration-token  --title 'The hidden secrets of the bitcoin price' --tags 'bitcoin, statistics, time-series' --canonical-url "https://ltetrel.github.io/data-science/2021/01/12/bitcoin_price.html" --table-conversion 'matplotlib'
