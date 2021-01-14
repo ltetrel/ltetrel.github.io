@@ -10,8 +10,8 @@ The openness and immutability of the data has made the research behind blockchai
 Many, rightfully, rush into the blockchain data (such as addresses, transactions etc..), but I will show in this post that the bitcoin price itself is already really informative.
 Understanding how the price behaves will make a substantial difference in the choice of models and parameters for predicting price.
 
-The behaviour of the price is best understood via two main properties of time series: stationarity and seasonality.
-For example, a stationary time series can be much easier to model than a non-stationary.
+The behaviour of the price is best understood via two main properties of time series: stationarity and seasonality. For example, a stationary time series can be much easier to model than a non-stationary.
+
 In what’s coming, I will share with you my thought process in looking at the price, using statistical tools and python programming.
 '''
 # %% [markdown]
@@ -21,8 +21,8 @@ In what’s coming, I will share with you my thought process in looking at the p
 # %% [markdown]
 '''
 ## tl;dr
-1. Two important properties for a time-serie: stationnarity (distribution depends on the time) and seasonnality (recurrent patterns in the data).
-2. Auto-correlation to check if a data is non-stationnary, derivative or data filtering/substraction to remove the non-stationnary component.
+1. Two important properties for a time-serie: stationnarity (distribution does not depend on the time) and seasonnality (recurrent patterns in the data).
+2. Auto-correlation to check if a data is non-stationnary; derivative or data filtering/substraction to remove the non-stationnary component.
 3. FFT and short FFT to analyse the seasonnality.
 '''
 # %% [markdown]
@@ -31,9 +31,10 @@ In what’s coming, I will share with you my thought process in looking at the p
 '''
 # %% [markdown]
 '''
-As I said, there are two important properties attached to time series: seasonality and stationarity.
+As I said, there are two important properties attached to time series: seasonality and stationarity.  
 A stationnary process means that the distribution (statistical properties) of the data does not changes over time, this is why it is much easier to model.
 Seasonnality represents how frequently the data change (for the bitcoin price, we can express it in cycles per day), and also when it starts.
+
 We will first focus on the analysis of the stationarity, and after the seasonality.
 '''
 # %% [markdown]
@@ -42,10 +43,9 @@ We will first focus on the analysis of the stationarity, and after the seasonali
 '''
 # %% [markdown]
 '''
-One way to detect if a data is stationnay is to compute the autocorrelation of the data, if it degrades quickly it is stationnary.
+One way to detect if a data is stationnay is to compute the autocorrelation of the data, if it degrades quickly it is stationnary.  
 There are many different types of non-stationnary data in the litterature, so I suggest you to read the [following post](https://towardsdatascience.com/stationarity-in-time-series-analysis-90c94f27322)
-if you want to learn more on it.
-Check also [this figure](https://otexts.com/fpp2/stationarity.html) and try to guess which time-serie is stationary!
+if you want to learn more on it. Check also [this figure](https://otexts.com/fpp2/stationarity.html) and try to guess which time-serie is stationary!
 '''
 # %% [markdown]
 '''
@@ -53,10 +53,10 @@ Check also [this figure](https://otexts.com/fpp2/stationarity.html) and try to g
 '''
 # %% [markdown]
 '''
-To analyse the seasonality of the bitcoin, we can make a [fourier analysis](https://www.ritchievink.com/blog/2017/04/23/understanding-the-fourier-transform-by-example/) to extract the most proeminent frequencies.
-The magnitude of the FFT inform us how the given frequency component affect the price.
-In the other hand, the phase of the FFT is interresting to watch when does the dynamic of the price starts.
+To analyse the seasonality of the bitcoin, we can make a [fourier analysis](https://www.ritchievink.com/blog/2017/04/23/understanding-the-fourier-transform-by-example/) to extract the most proeminent frequencies.  
+The magnitude of the FFT inform us how the given frequency component affect the price. In the other hand, the phase of the FFT is interresting to watch when does the dynamic of the price starts.
 If the magnitude or phase has a random white noise trend, then there is no evidence of principal component.
+
 Check this nice [blog post](https://machinelearningmastery.com/time-series-seasonality-with-python/) if you want to learn more on seasonnality.
 '''
 # %% [markdown]
@@ -168,7 +168,7 @@ filt_price = tf.concat([ tf_price,tf.constant(tf_price[-1].numpy(), shape=filter
 price_centered = price - filt_price
 # %% [markdown]
 '''
-We can compare the two methods (derivative and filetring), the resulting prices are now zero-centered. 
+By comparing the two methods (derivative and filetring), we see that the resulting prices are now zero-centered.
 They are shown with the orange colour in the below charts:
 '''
 # %% code
@@ -190,7 +190,9 @@ plt.close()
 # %% [markdown]
 '''
 In order to verify the quality of the process, one can check the auto-correlation for both the raw price data (blue line), and stationnary price data with the filtering method (green line).
-This will inform us about how well the data is stationnary after the process. We will compute the auto-correlations with different delays of up to 2 days every hours.
+This will inform us about how well the data is stationnary after the process.
+
+We will compute the auto-correlations with different delays of up to 2 days every hours.
 '''
 # %% [code]
 ### auto-correlation function
@@ -233,6 +235,7 @@ plt.close()
 '''
 Looking into the stationarity component also allows us to determine the window of prediction that is most suitable for the data.
 For example by checking how fast, for a given timestamp, the distribution of the raw price differ with its neighbors.
+
 By comparing the histogram (i.e. computing the correlation) for each timestamp with its neighbors, one can get an overview of what would be the acceptable range for a prediction.
 With the idea that if the distributions are close to each other, it is obviously easier to predict (because they are closed to each other).
 '''
@@ -268,8 +271,10 @@ for i in timestamps_range:
 output = np.array(corr)[:, :, 0]
 # %% [markdown]
 '''
-In the following plot, the y-axis describes the samples at a given timestamp for the bitcoin price. From up to down, it follows the chronological order, but this is not important since each sample can be taken independently.
-The x-axis desribes the different offsets to compute the histogramms (from -120 hours to +120 hours), and the resulting correlation with no offset (the current timestamp of the sample, at $h0$).
+In the following plot, the y-axis describes some samples taken at different timestamps of the bitcoin price.
+From up to down, it follows the chronological order, but this is not important since each sample can be taken independently.
+The x-axis desribes the different offsets to compute the histogramms (from -120 hours to +120 hours).
+And the color is the resulting correlation between these distributions and the distribution at timestamp $h_0$ (the current timestamp of the sample).
 '''
 # %% [code]
 ### plot
@@ -300,9 +305,9 @@ Looking at it, we can say that ~~it looks like a sunset in the ocean~~ the accep
 '''
 # %% [markdown]
 '''
-Let's now switch the seasonality analysis by computing the FFT, and extract its magnitude and phase components.
+Let's now switch the seasonality analysis by computing the FFT, and extract its magnitude and phase components.  
 As explained before, the FFT will be used here to understand the redundant patterns in the data.
-Because the FFT works better on LTI system (linear and time invariant) it cannot be applied with the raw bitcoin price (which is not stationnary!), therefore we will apply it on the stationnary bitcoin price.
+Because the FFT works better on LTI (linear and time invariant) systems, it cannot be applied with the raw bitcoin price (which is not stationnary!). Therefore we will apply it on the stationnary bitcoin price.
 '''
 # %% code
 # fft
@@ -329,11 +334,11 @@ plt.show()
 plt.close()
 # %% [markdown]
 '''
-Another way to analyse seasonnality on a non-stationnary data is to compute its spectogramm (derived from a time-frequency analysis).
-A spectrogram is a visual representation during time of a signal's spectrum of frequencies. It is commonly used for example by [spleeter](https://github.com/deezer/spleeter) to exctract voice from audio signals.
+Another way to analyse seasonnality on a non-stationnary data is to compute its spectogramm (derived from a time-frequency analysis).  
+A spectrogram is a visual representation during time of a signal's spectrum of frequencies. It is commonly used (for example by [spleeter](https://github.com/deezer/spleeter)) to exctract voice from audio signals.
 The spectrogram can be computed using a short-fourier transform, which basically runs a fourier transform on a short window, sliding through all the data.
 
-Here, we will use a window size of 48 samples (hours), with a step of 1 and 125 frequency components.
+Here, we will use a window size of 48 samples (hours), with a step of 1 and 62 frequency components.
 '''
 # %% [code]
 # tensorflow provides a fast implementation of the fast fourier transform.
@@ -361,7 +366,7 @@ plt.close()
 
 # %% [markdown]
 '''
-Looking at the figure, whenever there a big changes in the data (for example Dec. 2017), there is a much higher magnitude response.
+Looking at the figure, whenever there are big changes in the data (for example Dec. 2017), there is a much higher magnitude response.
 Generally speaking, it seems that the FFT looks like a white noise whenever the time.
 '''
 # %% [markdown]
@@ -370,10 +375,10 @@ Generally speaking, it seems that the FFT looks like a white noise whenever the 
 '''
 # %% [markdown]
 '''
-In the light of the properties that we saw above, one thing can be said with certainty; predicting bitcoin price is no easy task.
+In the light of the properties that we saw above, one thing can be said with certainty; predicting bitcoin price is no easy task because of its time dependency.  
 Hopefully we found a way to simplify the process, by removing the non-stationnary component of the data (so it does not depend on time anymore).
 This allowed us to analyse redundant patterns in the data and we found that such a pattern exists.
-This kind of patterns are interresting because they can be latter used as a new feature into a predictive model (think of adding the time of day into a weather prediction model for example).
+The reccurent patterns are interresting, because they can be latter used as a new feature into a predictive model (think of adding the time of day into a weather prediction model for example).
 
 These findings oppened to us new ways to get an accurate predictive model for the bitcoin price, but this is another story...
 '''
@@ -392,8 +397,7 @@ The online version is available [here](https://otexts.com/fpp2/index.html).
 '''
 # %% [markdown]
 '''
-Thanks to [Vahid Zarifpayam](https://twitter.com/Vahidzarif1) for the review of this post.
-
+Thanks to [Vahid Zarifpayam](https://twitter.com/Vahidzarif1) for the review of this post.  
 Credits goes to [Bitprobe](https://bitprobe.io/).
 '''
 # %% [markdown]
