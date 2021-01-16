@@ -292,7 +292,7 @@ plt.show()
 plt.close()
 # %% [markdown]
 '''
-Looking at it, we can say that ~~it looks like a sunset in the ocean~~ the acceptable range for prediction is around +/-15 hours.
+Looking at it, we can say that the acceptable range for prediction is around +/-15 hours.
 
 >**Note**  
 >The range for the color is verry granular, and sometimes constant.
