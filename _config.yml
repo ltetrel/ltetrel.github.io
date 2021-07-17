@@ -7,7 +7,7 @@ url: "https://ltetrel.github.io" # change this to the base hostname & protocol f
 
 exclude: ["/notebooks/data", "/notebooks/to_add", "/notebooks/*.csl", "/notebooks/*.bib"]
 
-google_analytics:
+google_analytics: G-CB28MR7ZJ5
 
 # cayman-blog date format
 # refer to http://shopify.github.io/liquid/filters/date/ if you want to customize this
