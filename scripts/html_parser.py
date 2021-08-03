@@ -72,7 +72,8 @@ def get_bib():
     bib_entries = dict()
     for i in range(num):
         bib = ''.join(bibliography.bibliography()[i])
-        bib = '{}.&emsp;' + bib[2:]
+        # remove beginning digits and \. from bib entries
+        bib = '{}.&emsp;' + re.sub("^\d+\.", "", bib)
         bib_entries[bibliography.keys[i]] = bib
 
     return bib_entries
@@ -115,7 +116,7 @@ def write_refs(soup, bib_entries):
             # does the provided ref exists in the bib?
             if ref in bib_entries.keys():
                 # was it already created or not?
-                if not ref in cite_entries.keys() :
+                if not ref in cite_entries.keys():
                     cite_entries[ref] = [id_ref, bib_entries[ref].format(id_ref)]
                     id_ref = id_ref + 1
                 # replace provided <cite> tag with updated <cite>
