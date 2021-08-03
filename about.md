@@ -11,6 +11,9 @@ It is mostly focused on data science and geeky stuff.
 Most of the images used in the posts comes from the royalty free image bank [pexels](https://www.pexels.com/).
 
 This a a long-term project I have been working for months (years?) but it is hard to conciliate free-time and working on it!
+If you want to support my work, please consider making a donation :)
+
+[![Donate with Bitcoin](https://en.cryptobadges.io/badge/small/12eAEKU4rgvhLCxvdkxKJYocJdEFRyNrta)](https://en.cryptobadges.io/donate/12eAEKU4rgvhLCxvdkxKJYocJdEFRyNrta)
 
 # How this website was made ?
 
