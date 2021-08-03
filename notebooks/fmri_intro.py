@@ -65,7 +65,8 @@ Functionnal MRI is an approximated measure of the brain activity.
 When activity occurs in the brain, neurons fires and consumes energy through oxygen.
 After this short-term consumption (called the initial dip), the brain slowly over-compensate the demand of oxygen to a much higher number than the consumption.  
 This is what is refered as Blood-oxygen-level-dependent (BOLD) signal, and serves as the canonical response to model the activity of the brain (haemodynamic response function or HRF).
-<img src="imgs/fmri_intro/bold.jpg" alt="3d_view" style="width: 500px;"/>
+
+<img src="imgs/fmri_intro/bold.jpg" alt="3d_view" style="width: 400px;"/>
 
 The relationship between electrical activity and the BOLD signal is complex and still remains a debate among researchers <cite> logothetis2004interpreting </cite>.
 
@@ -264,6 +265,7 @@ IPython.display.Audio("data/fmri_intro/audio_example.wav")
 visual_example = plt.imread("data/fmri_intro/visual_example.png")
 plt.figure()
 plt.imshow(visual_example, cmap="gray")
+plt.axis('off')
 plt.show()
 # %% [markdown]
 '''
