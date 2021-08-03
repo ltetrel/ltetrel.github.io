@@ -10,9 +10,7 @@ This is a [now page](https://nownownow.com/about), and it was inspired by [the /
 
 * Review posts
 
-* binder link ? (move the ipynb files into the asset folder, create a new variable in front matter, add icons next to download)
-
-* Having website detecetd by google
+* Series of post: https://engineering.chrobinson.com/how-to/linking-a-series-of-jekyll-posts/
 
 * RSS feed
 
