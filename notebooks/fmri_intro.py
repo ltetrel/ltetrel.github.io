@@ -381,7 +381,7 @@ z_map = fmri_glm.compute_contrast(contrast_def, output_type='z_score')
 _, threshold = nilearn.glm.threshold_stats_img(z_map, alpha=.05)
 
 # plot
-nilearn.plotting.view_img(z_map, threshold=threshold, black_bg=True, title="audio vs visual (p<0.001)")
+nilearn.plotting.view_img(z_map, threshold=threshold, black_bg=True, title="audio vs visual (p<0.05)")
 
 # %% [markdown]
 '''

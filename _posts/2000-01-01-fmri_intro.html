@@ -1,7 +1,7 @@
 ---
 layout: post
 title: A gentle introduction to neuroscience and task f-MRI study
-date: 2021-08-03
+date: 2021-08-04
 category: Data-Science
 tags:   Health-Care Open-Science Statistics
 img: /notebooks/imgs/fmri_intro/post_img.jpg
@@ -760,7 +760,7 @@ To do so, we will first define the appropriate <a href="https://en.wikipedia.org
 <span class="n">_</span><span class="p">,</span> <span class="n">threshold</span> <span class="o">=</span> <span class="n">nilearn</span><span class="o">.</span><span class="n">glm</span><span class="o">.</span><span class="n">threshold_stats_img</span><span class="p">(</span><span class="n">z_map</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=.</span><span class="mi">05</span><span class="p">)</span>
 
 <span class="c1"># plot</span>
-<span class="n">nilearn</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">view_img</span><span class="p">(</span><span class="n">z_map</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="n">threshold</span><span class="p">,</span> <span class="n">black_bg</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"audio vs visual (p&lt;0.001)"</span><span class="p">)</span>
+<span class="n">nilearn</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">view_img</span><span class="p">(</span><span class="n">z_map</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="n">threshold</span><span class="p">,</span> <span class="n">black_bg</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"audio vs visual (p&lt;0.05)"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -773,7 +773,7 @@ To do so, we will first define the appropriate <a href="https://en.wikipedia.org
 <iframe frameborder="0" height="270.0" srcdoc="&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;en&quot;&gt;
 &lt;head&gt;
-    &lt;title&gt;audio vs visual (p&lt;0.001)&lt;/title&gt;
+    &lt;title&gt;audio vs visual (p&lt;0.05)&lt;/title&gt;
     &lt;meta charset=&quot;UTF-8&quot; /&gt;
 &lt;/head&gt;
 &lt;body&gt;
@@ -803,7 +803,7 @@ To do so, we will first define the appropriate <a href="https://en.wikipedia.org
   $( window ).on('load',function() {
     // Create brain slices
     var brain = brainsprite(
-    {&quot;canvas&quot;: &quot;3Dviewer&quot;, &quot;sprite&quot;: &quot;spriteImg&quot;, &quot;nbSlice&quot;: {&quot;X&quot;: 91, &quot;Y&quot;: 109, &quot;Z&quot;: 91}, &quot;overlay&quot;: {&quot;sprite&quot;: &quot;overlayImg&quot;, &quot;nbSlice&quot;: {&quot;X&quot;: 91, &quot;Y&quot;: 109, &quot;Z&quot;: 91}, &quot;opacity&quot;: 1}, &quot;colorBackground&quot;: &quot;#000000&quot;, &quot;colorFont&quot;: &quot;#FFFFFF&quot;, &quot;crosshair&quot;: true, &quot;affine&quot;: [[2.0, 0.0, 0.0, -90.0], [0.0, 2.0, 0.0, -126.0], [0.0, 0.0, 2.0, -72.0], [0.0, 0.0, 0.0, 1.0]], &quot;flagCoordinates&quot;: true, &quot;title&quot;: &quot;audio vs visual (p&lt;0.001)&quot;, &quot;flagValue&quot;: false, &quot;numSlice&quot;: {&quot;X&quot;: 48.32063633825874, &quot;Y&quot;: 24.740268843844085, &quot;Z&quot;: 34.70538081760067}, &quot;colorMap&quot;: {&quot;img&quot;: &quot;colorMap&quot;, &quot;min&quot;: -6.292802810668945, &quot;max&quot;: 6.292802810668945}}
+    {&quot;canvas&quot;: &quot;3Dviewer&quot;, &quot;sprite&quot;: &quot;spriteImg&quot;, &quot;nbSlice&quot;: {&quot;X&quot;: 91, &quot;Y&quot;: 109, &quot;Z&quot;: 91}, &quot;overlay&quot;: {&quot;sprite&quot;: &quot;overlayImg&quot;, &quot;nbSlice&quot;: {&quot;X&quot;: 91, &quot;Y&quot;: 109, &quot;Z&quot;: 91}, &quot;opacity&quot;: 1}, &quot;colorBackground&quot;: &quot;#000000&quot;, &quot;colorFont&quot;: &quot;#FFFFFF&quot;, &quot;crosshair&quot;: true, &quot;affine&quot;: [[2.0, 0.0, 0.0, -90.0], [0.0, 2.0, 0.0, -126.0], [0.0, 0.0, 2.0, -72.0], [0.0, 0.0, 0.0, 1.0]], &quot;flagCoordinates&quot;: true, &quot;title&quot;: &quot;audio vs visual (p&lt;0.05)&quot;, &quot;flagValue&quot;: false, &quot;numSlice&quot;: {&quot;X&quot;: 48.32063633825874, &quot;Y&quot;: 24.740268843844085, &quot;Z&quot;: 34.70538081760067}, &quot;colorMap&quot;: {&quot;img&quot;: &quot;colorMap&quot;, &quot;min&quot;: -6.292802810668945, &quot;max&quot;: 6.292802810668945}}
     );
   });
   &lt;/script&gt;
