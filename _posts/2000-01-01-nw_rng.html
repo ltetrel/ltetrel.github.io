@@ -1,0 +1,136 @@
+---
+layout: post
+title: New World™ gathering luck
+date: 2021-10-27
+category: Data-Science
+tags:   Statistics Video-Games
+img: /notebooks/imgs/nw_rng/post_img.jpg
+file: /notebooks/nw_rng.py
+excerpt_separator: <h2
+---
+    
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>That post should help you understand what are the requirements to gather a rare ressource in New World.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="tl;dr">tl;dr<a class="anchor-link" href="#tl;dr">¶</a></h2><ol>
+<li>New World RNG is based (mostly) on a d100k roll</li>
+<li>Bernoulli distribution can be used to compute the probability to get rare ressources</li>
+<li><a href="/assets/tools/nw_gather_calculator.html">Link to my gathering luck calculator</a></li>
+</ol>
+<h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction">¶</a></h2><p>New World™ is a massively multiplayer online role-playing game (MMORPG) developed by Amazon Games Orange County. In this game, you play as a colonizer in the mid-seventeenth century.
+Your goal is to survive in this island by crafting, trading, and killings opponents (be it monsters or other players), all of that in an atmosphere surrounded by mystery and magic (powered by the "azoth" ressource).</p>
+<p>To be able to perform well in this universe, you need to constantly improve yourself by upgrading your armor, buying consummmables or leveling-up...
+This is why trading and crafting is so critical in MMOs, and more specifically collecting ressources (ores, herbs etc...) and their rare version.
+One crucial component is the random number generator (RNG) running on the server, this is what determine your loot.</p>
+<h2 id="RNG-in-New-World">RNG in New World<a class="anchor-link" href="#RNG-in-New-World">¶</a></h2><p>I will not elaborate too much on this since Mala Zedik already made a <a href="https://www.newworldpacifist.com/resources/rng-explained">great post on this</a> (btw good luck for his "pacifist" run!).
+Basically to summarize it, each time you gather/kill something, you will roll a "virtual" dice. The number of faces depends on the thing your are trying to loot on (monster, chest...),
+and 82% of them are based on a 100 000 dice roll (ROL). If you reach a certain threshold, then you are elligible to gain that rare loot, if not then too bad!</p>
+<p>Given the probability of obtaining one (rare) ressource,
+one can easilly infer how much minimum of tries he needs to perform (i.e. how many monster needs to be killed/ ressources needs to be gathered) using the Bernoulli distribution.</p>
+<h2 id="Bernoulli-distribution">Bernoulli distribution<a class="anchor-link" href="#Bernoulli-distribution">¶</a></h2><p>We define the probability $p$ as the probability to get the rare ressource, and $q= 1-p$, the probability to miss the rare ressource.
+Let $X$ be a random variable, following $n$ Bernoulli trials and given that dice rolls are independents, the probability for exactly $k$ successes (i.e. successfull rare loots) is <cite><a href="#dodge2008concise">[1]</a></cite>:</p>
+\begin{equation}
+P(X = k) = \binom{n}{k} \cdot p^kq^{n - k}
+\end{equation}<p>In our context, we don't need exactly $k$ drops, we are interrested in getting at least $k$ ressources ( if we have more then this is better).
+To model this we need to define the cummulative distribution $P(X \ge k)$, that can be formulated as a complement probability:</p>
+\begin{equation}
+P(X \ge k) = 1 - P(X &lt; k)
+\end{equation}<p>This is actually much more convenient to use, for example to compute the probability to get at least $k=1$ rare ressource you can simply define:</p>
+\begin{equation}
+P(X \ge 1) = 1 - P(X &lt; 1) = 1 - P(X = 0) = 1 - q^n
+\end{equation}<p>Instead of:</p>
+\begin{equation}
+P(X \ge 1) = P(X = 1) + P(X = 2) + P(X = 3) \dots
+\end{equation}<p>Where you would need to compute the outcome for almost all events (i.e. probability of 1 drop or 2 drops or 3 drops etc...).</p>
+<p>As you can see with the Bernoulli formula, it will never be possible to achieve 100% accuracy (if $p &lt; 1$), that is why we can define an "acceptable" error $\alpha$.
+For example, we can compute the minimum number of trials to get at least one ressource ($k=1$), with a 95% confidence ($\alpha=0.05$).
+In python, the following algorithm should do the job:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [1]:</div>
+<div class="inner_cell">
+<div class="input_area"><div class="collapse_expand_button far fa-1x fa-minus-square"></div>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">import</span> <span class="nn">scipy.special</span>
+
+<span class="n">ressMin</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1">#minimum number of resources to drop</span>
+<span class="n">probTrue</span> <span class="o">=</span> <span class="mf">0.05</span> <span class="c1">#probability to drop one ressource</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.05</span> <span class="c1">#acceptance error</span>
+<span class="c1">#reduce computation usage</span>
+<span class="n">ressMin</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">ressMin</span><span class="p">,</span> <span class="mf">1e3</span><span class="p">)</span>
+<span class="n">max_iters</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e4</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_iters</span><span class="p">):</span>
+  <span class="n">p_bernoulli</span> <span class="o">=</span> <span class="mf">0.</span>
+  <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ressMin</span><span class="p">):</span>
+    <span class="n">p_bernoulli</span> <span class="o">=</span> <span class="p">(</span><span class="n">scipy</span><span class="o">.</span><span class="n">special</span><span class="o">.</span><span class="n">comb</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="n">probTrue</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">probTrue</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="n">k</span><span class="p">))</span> <span class="o">+</span> <span class="n">p_bernoulli</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">p_bernoulli</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">-</span> <span class="mf">1e-6</span><span class="p">)):</span>
+    <span class="k">break</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Minimal tries: "</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Minimal tries:  59
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Gathering-luck-calculator-tool">Gathering luck calculator tool<a class="anchor-link" href="#Gathering-luck-calculator-tool">¶</a></h2><p>I implemented <a href="/assets/tools/nw_gather_calculator.html">a tool</a> that you can use to check your probability of dropping something.</p>
+<blockquote><p><strong>Warning</strong><br/>
+At the time of writing, luck bonuses are based on version 1.0.2.</p>
+<p>The true loot luck is based from <a href="https://www.newworldpacifist.com/resources/rng-explained">Mala Zedik post</a> from the closed Beta.</p>
+</blockquote>
+</div>
+</div>
+</div>
+
+
+<div class="cell border-box-sizing text_cell rendered">
+    <div class="prompt input_prompt">
+    </div>
+    <div class="inner_cell">
+    <div class="text_cell_render border-box-sizing rendered_html">
+    <h2 id="References">
+        References
+        <a class="anchor-link" href="#References">
+        &#182;
+        </a>
+    </h2>
+    </div>
+    </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+    <div class="prompt input_prompt">
+    </div>
+    <div class="inner_cell">
+    <div class="text_cell_render border-box-sizing rendered_html">
+    <div id="dodge2008concise">
+<p>1.&emsp;Dodge, Y.: The concise encyclopedia of statistics. Springer Science & Business Media (2008).</p>
+</div>
+</div>
+    </div>
+    </div>
+    
