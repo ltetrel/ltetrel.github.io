@@ -4,7 +4,7 @@
 '''
 # %% [markdown]
 '''
-Bitcoin is a digital currency created in 2009 by Satoshi Nakamoto, he describes it as a "peer-to-peer version of electronic cash" <cite> nakamoto2019bitcoin </cite>.
+Bitcoin is a digital currency created in 2008 by Satoshi Nakamoto, he describes it as a "peer-to-peer version of electronic cash" <cite> nakamoto2008bitcoin </cite>.
 One big advantage of bitcoin (and other cryptocurrencies) is that all the data is open and immutable, residing inside the blockchain.
 The openness and immutability of the data has made the research behind blockchain really active, mostly on the price forecasting (<cite> jang2017empirical </cite>, <cite> mudassir2020time </cite>).
 Many, rightfully, rush into the blockchain data (such as addresses, transactions etc..), but I will show in this post that the bitcoin price itself is already really informative.
