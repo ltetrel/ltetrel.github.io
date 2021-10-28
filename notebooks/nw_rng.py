@@ -4,7 +4,7 @@
 '''
 # %% [markdown]
 '''
-That post should help you understand what are the requirements to gather a rare ressource in New World.
+This post is about the random generation number of the MMO New World. It should help you understand what are the requirements to gather a rare ressource.
 '''
 # %% [markdown]
 '''
