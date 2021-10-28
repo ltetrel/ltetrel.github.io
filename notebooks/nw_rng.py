@@ -72,7 +72,7 @@ For example, we can compute the minimum number of trials to get at least one res
 '''
 # %% [markdown]
 '''
-2. Hands on
+## 3. Hands on
 '''
 # %% [markdown]
 '''
