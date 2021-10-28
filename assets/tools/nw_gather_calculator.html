@@ -36,6 +36,17 @@ title: New World - Gathering luck calculator
     document.getElementById("foodRolBonus").value = foodRolBonus;
     computeBernoulli()
   }
+  function computeToolLuck() {
+    if (document.getElementById("toolGatherLuck").value > 9.4)
+      document.getElementById("toolGatherLuck").value = 9.4;
+    if (document.getElementById("toolGatherLuck").value < 0)
+      document.getElementById("toolGatherLuck").value = 0;
+    var toolGatherLuck = document.getElementById("toolGatherLuck").value;
+
+    // additionnal division after output from the from the nw database forum
+    document.getElementById("toolRolBonus").value = 100000*toolGatherLuck/(100*10);
+    computeBernoulli()
+  }
   function computeArmorLuck() {
     if (document.getElementById("armorGatherLuck").value > 47.5)
       document.getElementById("armorGatherLuck").value = 47.5;
@@ -43,7 +54,8 @@ title: New World - Gathering luck calculator
       document.getElementById("armorGatherLuck").value = 0;
     var armorGatherLuck = document.getElementById("armorGatherLuck").value;
 
-    document.getElementById("armorRolBonus").value = 100000*armorGatherLuck/100;
+    // additionnal division after output from the from the nw database forum
+    document.getElementById("armorRolBonus").value = 100000*armorGatherLuck/(100*10);
     computeBernoulli()
   }
   function computeAmuletLuck() {
@@ -53,7 +65,8 @@ title: New World - Gathering luck calculator
       document.getElementById("amuletGatherLuck").value = 0;
     var amuletGatherLuck = document.getElementById("amuletGatherLuck").value;
 
-    document.getElementById("amuletRolBonus").value = 100000*amuletGatherLuck/100;
+    // additionnal division after output from the from the nw database forum
+    document.getElementById("amuletRolBonus").value = 100000*amuletGatherLuck/(100*10);
     computeBernoulli()
   }
   function computeTrophyLuck() {
@@ -82,6 +95,7 @@ title: New World - Gathering luck calculator
     document.getElementById("ressMinRol").value = 0;
     document.getElementById("gatheringLevel").value = 0;
     document.getElementById("foodList").selectedIndex = 0;
+    document.getElementById("toolGatherLuck").value = 0;
     document.getElementById("armorGatherLuck").value = 0;
     document.getElementById("amuletGatherLuck").value = 0;
     document.getElementById("trophyHouse1").selectedIndex = 0;
@@ -93,6 +107,7 @@ title: New World - Gathering luck calculator
     tierSelection();
     computeLevelLuck();
     computeFoodLuck();
+    computeToolLuck();
     computeArmorLuck();
     computeAmuletLuck();
     computeTrophyLuck()
@@ -103,22 +118,24 @@ title: New World - Gathering luck calculator
     var table = document.getElementById("recapTable");
     var levelRolBonus = document.getElementById("levelRolBonus").value;
     var foodRolBonus = document.getElementById("foodRolBonus").value;
+    var toolRolBonus = document.getElementById("toolRolBonus").value;
     var armorRolBonus = document.getElementById("armorRolBonus").value;
     var amuletRolBonus = document.getElementById("amuletRolBonus").value;
     var trophyRolBonus = document.getElementById("trophyRolBonus").value;
     var territoryRolBonus = document.getElementById("territoryRolBonus").value;
     var miscRolBonus = document.getElementById("miscRolBonus").value;
-    var totalRolBonus = +levelRolBonus + +foodRolBonus + +armorRolBonus + +amuletRolBonus + +trophyRolBonus + +territoryRolBonus + +miscRolBonus
+    var totalRolBonus = +levelRolBonus + +foodRolBonus + +toolRolBonus + +armorRolBonus + +amuletRolBonus + +trophyRolBonus + +territoryRolBonus + +miscRolBonus
 
     var cells = table.rows.item(1).cells;
     cells.item(1).innerHTML = levelRolBonus;
     cells.item(2).innerHTML = foodRolBonus;
-    cells.item(3).innerHTML = armorRolBonus;
-    cells.item(4).innerHTML = amuletRolBonus;
-    cells.item(5).innerHTML = trophyRolBonus;
-    cells.item(6).innerHTML = territoryRolBonus;
-    cells.item(7).innerHTML = miscRolBonus;
-    cells.item(8).innerHTML = totalRolBonus;
+    cells.item(3).innerHTML = toolRolBonus;
+    cells.item(4).innerHTML = armorRolBonus;
+    cells.item(5).innerHTML = amuletRolBonus;
+    cells.item(6).innerHTML = trophyRolBonus;
+    cells.item(7).innerHTML = territoryRolBonus;
+    cells.item(8).innerHTML = miscRolBonus;
+    cells.item(9).innerHTML = totalRolBonus;
   }
   function computeBernoulli() {
     var tierList = document.getElementById("tierList");
@@ -126,6 +143,7 @@ title: New World - Gathering luck calculator
     var ressMinRol = document.getElementById("ressMinRol").value;
     var levelRolBonus = document.getElementById("levelRolBonus").value;
     var foodRolBonus = document.getElementById("foodRolBonus").value;
+    var toolRolBonus = document.getElementById("armorRolBonus").value;
     var armorRolBonus = document.getElementById("armorRolBonus").value;
     var amuletRolBonus = document.getElementById("amuletRolBonus").value;
     var trophyRolBonus = document.getElementById("trophyRolBonus").value;
@@ -135,7 +153,7 @@ title: New World - Gathering luck calculator
     let htmlOutput = "";
     populateTable();
 
-    var totalRolBonus = +levelRolBonus + +foodRolBonus + +armorRolBonus + +amuletRolBonus + +trophyRolBonus + +territoryRolBonus + +miscRolBonus
+    var totalRolBonus = +levelRolBonus + +foodRolBonus + +toolRolBonus + +armorRolBonus + +amuletRolBonus + +trophyRolBonus + +territoryRolBonus + +miscRolBonus
     var maxRol = maxTrueRol + totalRolBonus
     var probTrue = (maxRol - ressMinRol)/(maxTrueRol)
     if (probTrue > 1){
@@ -225,7 +243,11 @@ title: New World - Gathering luck calculator
       </select>
       <input type="hidden" id = "foodRolBonus" value=0 size = "2" readonly>
     </p>
-    
+  <p>
+    <b> Tool % gathering luck</b> (<i>Discipline</i>)
+    <input type = "text" id = "toolGatherLuck" value=0 size = "3" onchange = "computeToolLuck()">
+    <input type="hidden" id = "toolRolBonus" value=0 size = "2" readonly>
+  </p>  
   <p>
     <b> Total armor % gathering luck</b> (<i>Reinforced</i>)
     <input type = "text" id = "armorGatherLuck" value=0 size = "3" onchange = "computeArmorLuck()">
@@ -277,6 +299,7 @@ title: New World - Gathering luck calculator
       <td style="border: 2px solid grey">Modifier</td>
       <td>Level</td>
       <td>Food</td>
+      <td>Tool</td>
       <td>Armor</td>
       <td>Amulet</td>
       <td>Trophy</td>
@@ -286,6 +309,7 @@ title: New World - Gathering luck calculator
     </tr>
     <tr style="border: 2px solid grey">
       <td style="border: 2px solid grey">+ ROL</td>
+      <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
