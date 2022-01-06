@@ -15,7 +15,7 @@ This post is about the random generation number of the MMO New World. It should 
 ## tl;dr
 1. New World RNG is based (mostly) on a d100k roll
 2. Bernoulli distribution can be used to compute the probability to get rare ressources
-3. [Link to my gathering luck calculator](/assets/tools/nw_gather_calculator.html)
+3. [Link to my gathering luck calculator](https://polak0v.github.io/assets/nw_gathering_luck_calculator.html)
 
 ## 1. Introduction
 
@@ -131,7 +131,7 @@ Obviusly, the probability decrease when increasing the minimum successful tries 
 '''
 ## Gathering luck calculator tool
 
-I implemented [a tool](/assets/tools/nw_gather_calculator.html) that you can use to check your probability of dropping something.
+I implemented [a tool](https://polak0v.github.io/assets/nw_gathering_luck_calculator.html) that you can use to check your probability of dropping something.
 
 >**Warning**  
 >At the time of writing, luck bonuses are based on version 1.0.2.
