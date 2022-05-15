@@ -1,0 +1,5 @@
+[0] Config.pm:302> INFO - This is Biber 2.9
+[0] Config.pm:305> INFO - Logfile is 'awesome-cv.blg'
+[16] biber:313> INFO - === Sat May 14, 2022, 16:27:41
+[77] Utils.pm:185> ERROR - Cannot find control file 'awesome-cv.bcf'! - did you pass the "backend=biber" option to BibLaTeX?
+[78] Biber.pm:114> INFO - ERRORS: 1

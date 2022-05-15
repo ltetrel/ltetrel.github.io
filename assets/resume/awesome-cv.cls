@@ -81,7 +81,7 @@
 % Needed to deal a paragraphs
 \RequirePackage{parskip}
 % Needed to deal hyperlink
-\RequirePackage[hidelinks,unicode]{hyperref}
+\RequirePackage[colorlinks=false]{hyperref}
 \hypersetup{%
   pdftitle={},
   pdfauthor={},
@@ -701,3 +701,81 @@
       \letterenclosurestyle{\@letterenclname: \@letterenclosure} \\
     }
 }
+%-------------------------------------------------------------------------------
+%                Bibliography
+%-------------------------------------------------------------------------------
+%\RequirePackage[style=verbose, maxnames=99, sorting=ydnt]{biblatex}
+\RequirePackage[ % BibLaTeX
+	sorting=ydnt, % Sorts entries by year (descending order), name, title
+	style=numeric-comp,
+	giveninits=false,
+	doi=false,
+	isbn=false,
+	url=false,
+	eprint=false,
+	backref = false, % include back references in bibliography
+	maxcitenames=1, % affects only the citations in the document body
+	minbibnames=5,
+	maxbibnames=5, % affects only the bibliography, pass 99 to print all
+	backend=biber % {Options: bibtex, biber}
+	]{biblatex}
+
+% Add hyperlink to title
+\newbibmacro{string+doi}[1]{%
+	\iffieldundef{doi}{#1}{\href{http://dx.doi.org/\thefield{doi}}{#1}}}
+\DeclareFieldFormat{title}{\usebibmacro{string+doi}{\mkbibemph{#1}}}
+\DeclareFieldFormat[article]{title}{\usebibmacro{string+doi}{\mkbibquote{#1}}}
+\DeclareFieldFormat[misc]{title}{\usebibmacro{string+doi}{\mkbibquote{#1}}}
+\DeclareFieldFormat[phdthesis]{title}{\usebibmacro{string+doi}{\mkbibquote{#1}}}
+\DeclareFieldFormat[report]{title}{\usebibmacro{string+doi}{\mkbibquote{#1}}}
+\DeclareFieldFormat[inproceedings]{title}{\usebibmacro{string+doi}{\mkbibquote{#1}}}
+\DeclareFieldFormat[incollection]{title}{\usebibmacro{string+doi}{\mkbibquote{#1}}}
+
+% Avoid splitting entries across page break (only for 3 or fewer lines)
+% Tip: http://tex.stackexchange.com/a/51261
+\AtBeginEnvironment{thebibliography}{%
+   \clubpenalty10000
+   \@clubpenalty \clubpenalty
+   \widowpenalty10000
+   \interlinepenalty5000}
+
+% make author bold
+\def\makenamesetup{%
+	\def\bibnamedelima{~}%
+	\def\bibnamedelimb{ }%
+	\def\bibnamedelimc{ }%
+	\def\bibnamedelimd{ }%
+	\def\bibnamedelimi{ }%
+	\def\bibinitperiod{.}%
+	\def\bibinitdelim{~}%
+	\def\bibinithyphendelim{.-}}
+\newcommand*{\makename}[2]{\begingroup\makenamesetup\xdef#1{#2}\endgroup}
+
+\newcommand*{\boldname}[3]{%
+	\def\lastname{#1}%
+	\def\firstname{#2}%
+	\def\firstinit{#3}}
+\boldname{}{}{}
+% Patch new definitions
+\renewcommand{\mkbibnamegiven}[1]{%
+	\makename{\currname}{#1}%
+	\makename{\findname}{\firstname}%
+	\makename{\findinit}{\firstinit}%
+	\ifboolexpr{ test {\ifdefequal{\currname}{\findname}}%
+		or test {\ifdefequal{\currname}{\findinit}} }%
+	{\mkbibbold{#1}}{#1}%
+}
+\renewcommand{\mkbibnamefamily}[1]{%
+	\makename{\currname}{#1}%
+	\makename{\findname}{\lastname}%
+	\ifboolexpr{ test {\ifdefequal{\currname}{\findname}} }%
+	{\mkbibbold{#1}}{#1}%
+}
+
+% Customized format, based on the Fancy CV template created by Adrien Friggeri
+% See https://github.com/ashee/cv (MIT license)
+%\DeclareFieldFormat[article]{title}{#1\par}
+%\DeclareFieldFormat[inproceedings]{title}{#1\par}
+%\DeclareFieldFormat[misc]{title}{#1\par}
+%\DeclareFieldFormat[report]{title}{#1\par}
+%s\DeclareFieldFormat[incollection]{title}{#1\par}

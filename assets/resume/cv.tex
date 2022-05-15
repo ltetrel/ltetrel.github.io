@@ -48,7 +48,7 @@
 %----------------------------------------------------------------------------------------
 
 \name{Loïc}{Tetrel}
-\address{Montréal (QC), CANADA}
+\address{Remote / Montréal (QC), CANADA}
 \mobile{(phone number upon request)}
 
 \email{loic.tetrel.pro@gmail.com}
@@ -59,15 +59,19 @@
 %\stackoverflow{SOid}{SOname}
 %\twitter{@twit}
 
-%\position{Junior Software Engineer{\enskip\cdotp\enskip}Computer Vision} %Your expertise/fields
-\quote{\textbf{Data science engineer} (M. A. Sc.) specialized in applied \textbf{medical imaging research}.\\I define myself as a \textbf{curious} and \textbf{autonomous} person with ease in \textbf{communication}.} % A quote or statement
+\position{Senior Data Science Engineer{\enskip\cdotp\enskip} - Medical Imaging} %Your expertise/fields
+\quote{With \textbf{5+ years} of experience building \textbf{data science} projects in medical imaging for both \textbf{industry and academia}, my main goal is always to deliver high quality work. I define myself as \textbf{curious} and \textbf{autonomous}.} % A quote or statement
 %\position{}
 %\quote{} % A quote or statement
 
 \makecvfooter{\textbf{*} References available upon request.}{Loïc Tetrel{\enskip\cdotp\enskip}Résumé}{\thepage} % Specify the letter footer with 3 arguments: (<left>, <center>, <right>), leave any of these blank if they are not needed
 
-%----------------------------------------------------------------------------------------
+%-------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%-------------------------------------------------------------------------------
+\addbibresource{bibliography.bib}
 
+%-------------------------------------------------------------------------------
 \begin{document}
 
 \photo[rectangle,noedge,left]{qrcode.png}
@@ -78,14 +82,19 @@
 %	Each section is imported separately, open each file in turn to modify content
 %----------------------------------------------------------------------------------------
 
+\vspace{-2mm}
 \input{cv-sections/professional.tex}
 \input{cv-sections/education.tex}
 \input{cv-sections/skills.tex}
 \input{cv-sections/experience.tex}
 \input{cv-sections/project.tex}
 \input{cv-sections/volunteer.tex}
-\vspace{-5mm}
 \input{cv-sections/awards.tex}
+% \input not working for publications
+\cvsection{Publications}
+\vspace{-20mm}
+\boldname{Tetrel}{Lo{\"i}c}{L.}
+\printbibliography[title={\ }]
 \input{cv-sections/interests.tex}
 %\input{cv-sections/references.tex}
 
