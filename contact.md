@@ -17,7 +17,7 @@ Really curious about technology in general, video games 🤖 and reading 📖 (f
 
 # Contact
 
-You can contact me via my mail at <a href="mailto:loic.tetrel.pro@gmail.com"> loic.tetrel.pro@gmail.com</a>.
+You can contact me via my mail at <a href="mailto:loic.tetrel.pro@proton.me"> loic.tetrel.pro@proton.me</a>.
 Take a look at my [résumé](/assets/resume/cv.pdf) if you like my profile.
 
 [Go to the Home Page]({{ '/' | absolute_url }})
