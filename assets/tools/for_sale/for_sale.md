@@ -128,7 +128,7 @@ drying:
 </style>
 
 <div class="row">
-  <div class="column"> <h1> ITEMS FOR SALE </h1> <br> <br> <b>Contact</b> <br> loic.tetrel@proton.me </div>
+  <div class="column"> <h1> ITEMS FOR SALE </h1> <br> <br> <b>Contact</b> <br> <a href="mailto:loic.tetrel@proton.me"> loic.tetrel@proton.me </a> </div>
   <div class="column"> <a href="https://ltetrel.github.io/assets/tools/for_sale/for_sale"> <img src="./qr-code.png" alt="drawing" style="width:30%;"/> </a> </div>
 </div> 
 
