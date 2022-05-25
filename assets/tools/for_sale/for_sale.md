@@ -31,14 +31,14 @@ millberget:
 
 lack-table:
   title: <b>Coffee table</b> <br> <i> Ikea Lack </i>
-  price: 25 $CAD
+  price: 35 $CAD
   old_price: 70
   img: ./imgs/lack-coffee-table-black-brown__57537_pe163119_s5.jpg
   link: https://www.ikea.com/ca/en/p/lack-coffee-table-black-brown-00104291/
 
 lack-tv:
   title: <b>TV bench</b> <br> <i> Ikea Lack </i>
-  price: 30 $CAD
+  price: 20 $CAD
   old_price: 80
   img: ./imgs/lack-tv-bench-black-brown__0955258_pe803699_s5.jpg
   link: https://www.ikea.com/ca/en/p/lack-tv-bench-black-brown-20498904/
