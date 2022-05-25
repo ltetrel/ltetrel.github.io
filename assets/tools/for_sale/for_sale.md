@@ -9,8 +9,8 @@ guitar:
   link: https://sixstringacoustic.com/fender-t-bucket-300ce-review-acoustics-under-300-reviews
 
 moheda: 
-  title: <b>Corner sofa</b> <br> <i> Ikea Moheda </i>
-  price: 400 $CAD
+  title: <b>Corner sofa-bed</b> <br> <i> Ikea Moheda </i>
+  price: 300 $CAD
   old_price: 1250
   img: ./imgs/moheda_ikea_sofa.jpg
   link: https://en.ikea-club.org/item/10213954.html
@@ -19,48 +19,48 @@ micke:
   title: <b>Desk</b> <br> <i> Ikea Micke </i>
   price: 45 $CAD
   old_price: 89
-  img: ./imgs/micke-desk-black-brown__0736021_pe740348_s5.png
+  img: ./imgs/micke-desk-black-brown__0736021_pe740348_s5.jpg
   link: https://www.ikea.com/ca/en/p/micke-desk-black-brown-20244747/#content
 
 millberget:
   title: <b>Desk chair</b> <br> <i> Ikea Millberget </i>
   price: 50 $CAD
   old_price: 149
-  img: ./imgs/millberget-swivel-chair-murum-beige__1020141_pe831795_s5.png
+  img: ./imgs/millberget-swivel-chair-murum-beige__1020141_pe831795_s5.jpg
   link: https://www.ikea.com/ca/en/p/millberget-swivel-chair-murum-beige-90489393/#content
 
 lack-table:
   title: <b>Coffee table</b> <br> <i> Ikea Lack </i>
-  price: 35 $CAD
+  price: 25 $CAD
   old_price: 70
-  img: ./imgs/lack-coffee-table-black-brown__57537_pe163119_s5.png
+  img: ./imgs/lack-coffee-table-black-brown__57537_pe163119_s5.jpg
   link: https://www.ikea.com/ca/en/p/lack-coffee-table-black-brown-00104291/
 
 lack-tv:
   title: <b>TV bench</b> <br> <i> Ikea Lack </i>
   price: 30 $CAD
   old_price: 80
-  img: ./imgs/lack-tv-bench-black-brown__0955258_pe803699_s5.png
+  img: ./imgs/lack-tv-bench-black-brown__0955258_pe803699_s5.jpg
   link: https://www.ikea.com/ca/en/p/lack-tv-bench-black-brown-20498904/
 
 brimness:
   title: <b>Bookcase</b> <br> <i> Ikea Brimness </i>
   price: 75 $CAD
   old_price: 149
-  img: ./imgs/brimnes-bookcase-black__0427999_pe583197_s5.png
+  img: ./imgs/brimnes-bookcase-black__0427999_pe583197_s5.jpg
   link: https://www.ikea.com/ca/en/p/brimnes-bookcase-black-40301223/#content
 
 poaeng:
   title: <b>Armchair</b> <br> <i> Ikea Poaeng </i>
   price: 120 $CAD
   old_price: 239
-  img: ./imgs/poaeng-armchair-brown-glose-dark-brown__0093855_pe231459_s5.png
+  img: ./imgs/poaeng-armchair-brown-glose-dark-brown__0093855_pe231459_s5.jpg
   link: https://www.ikea.com/kw/en/p/poaeng-armchair-brown-glose-dark-brown-s89860765/
 
 sultan:
   title: <b>Matress Queen size</b> <br> <i> Ikea Sultan hansbo </i>
   price: SOLD!
-  old_price: 400
+  old_price: 300
   img: ./imgs/sultan-hansbo-memory-foam-pillowtop-mattress.jpg
   link: https://www.ikeaddict.com/ikeapedia/en/Product/80206889/ca-en/sultan-hansbo-memory-foam-pillowtop-mattress-white-light-gray/Entry/
 
@@ -75,35 +75,35 @@ malm-3-drawer:
   title: <b>3-drawer chest</b> <br> <i> Ikea Malm </i>
   price: 75 $CAD
   old_price: 149
-  img: ./imgs/malm-3-drawer-chest-white__0484875_pe621342_s5.png
+  img: ./imgs/malm-3-drawer-chest-white__0484875_pe621342_s5.jpg
   link: https://www.ikea.com/ca/en/p/malm-3-drawer-chest-white-90473151/
 
 malm-2-drawer:
   title: <b>2-drawer chest</b> <br> <i> Malm </i>
   price: 35 $CAD
   old_price: 70
-  img: ./imgs/malm-2-drawer-chest-white__0626822_pe693007_s5.png
+  img: ./imgs/malm-2-drawer-chest-white__0626822_pe693007_s5.jpg
   link: https://www.ikea.com/ca/en/p/malm-2-drawer-chest-white-80214549/#content
 
 malm-6-drawer:
   title: <b> 6-drawer chest </b> <br> <i> Ikea Malm </i>
   price: 115 $CAD
   old_price: 229
-  img: ./imgs/malm-6-drawer-chest-white__0484891_pe621335_s5.png
+  img: ./imgs/malm-6-drawer-chest-white__0484891_pe621335_s5.jpg
   link: https://www.ikea.com/ca/en/p/malm-6-drawer-chest-white-60360476/#content
 
 knubbig:
   title: <b> Table lamp <b> <br> <i> Ikea Knubbig </i>
   price: 9 $CAD
   old_price: 18
-  img: ./imgs/knubbig-table-lamp-cherry-blossoms-white__0609349_pe684470_s5.png
+  img: ./imgs/knubbig-table-lamp-cherry-blossoms-white__0609349_pe684470_s5.jpg
   link: https://www.ikea.com/ca/en/p/knubbig-table-lamp-cherry-blossoms-white-40222339/
 
 tagarp:
   title: <b> Floor lamp <b> <br> <i> Ikea Tagarp </i>
   price: 9 $CAD
   old_price: 18
-  img: ./imgs/tagarp-floor-uplighter-reading-lamp-black-white__0965083_pe809330_s5.png
+  img: ./imgs/tagarp-floor-uplighter-reading-lamp-black-white__0965083_pe809330_s5.jpg
   link: https://www.ikea.com/ca/en/p/tagarp-floor-uplighter-reading-lamp-black-white-70486395/
 
 drying:
@@ -114,12 +114,26 @@ drying:
   link: https://www.amazon.ca/AmazonBasics-Foldable-Drying-Rack-Chrome/dp/B00H7P1GPO?th=1
 ---
 
+<style>
+.column {
+  float: left;
+  width: 50%;
+}
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+</style>
 
-# ITEMS FOR SALE
-## Contact: loic.tetrel@proton.me
+<div class="row">
+  <div class="column"> <h1> ITEMS FOR SALE </h1> <br> <br> <b>Contact</b> <br> loic.tetrel@proton.me </div>
+  <div class="column"> <a href="https://ltetrel.github.io/assets/tools/for_sale/for_sale"> <img src="./qr-code.png" alt="drawing" style="width:30%;"/> </a> </div>
+</div> 
 
 ---
-<i> Click on item for information </i>
+<i> Click on item for description </i>
 
 | {{page.guitar.title}} | {{page.moheda.title}} | {{page.micke.title}} | {{page.millberget.title}} |
 | ~~{{page.guitar.old_price}}~~ {{page.guitar.price}} | ~~{{page.moheda.old_price}}~~ {{page.moheda.price}} | ~~{{page.micke.old_price}}~~ {{page.micke.price}} | ~~{{page.micke.old_price}}~~ {{page.micke.price}} |
