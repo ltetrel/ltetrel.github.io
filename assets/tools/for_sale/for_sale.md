@@ -45,14 +45,14 @@ lack-tv:
 
 brimness:
   title: <b>Bookcase</b> <br> <i> Ikea Brimness </i>
-  price: 75 $CAD
+  price: SOLD!
   old_price: 149
   img: ./imgs/brimnes-bookcase-black__0427999_pe583197_s5.jpg
   link: https://www.ikea.com/ca/en/p/brimnes-bookcase-black-40301223/#content
 
 poaeng:
   title: <b>Armchair</b> <br> <i> Ikea Poaeng </i>
-  price: 120 $CAD
+  price: SOLD!
   old_price: 239
   img: ./imgs/poaeng-armchair-brown-glose-dark-brown__0093855_pe231459_s5.jpg
   link: https://www.ikea.com/kw/en/p/poaeng-armchair-brown-glose-dark-brown-s89860765/
