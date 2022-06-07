@@ -1,0 +1,90 @@
+---
+layout: post
+title: Access the GoPro videos without the app
+date: 2022-06-07
+category: Software-Development
+tags:   Media-Server
+img: /notebooks/imgs/gopro/post_img.jpg
+file: /notebooks/gopro.py
+excerpt_separator: </p
+---
+    
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This post will guide you step by step on how to access your video files over LAN wifi without the official app, from your GoPro directly to your computer.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction">¶</a></h2><p>GoPro is a well known action camera founded by Woodman Labs. As many of big manufacturers, they like to build their own eco-system to keep their clients inside it
+(so they don't easilly switch when they are used to the frontend).
+This is a pure marketing technic that personally I hate, and make simple things as copying files from one device to another a living hell (hi Apple!).</p>
+<p>In this case, we have videos captured froma GoPro, and we want to transfer them to our computer.
+The easiest way is to download the GoPro software or app, and download from there.
+If you are like me and don't like to install too useless softwares on your computer to keep it clean and not a garbage, follow this guide!</p>
+<h2 id="Requirements">Requirements<a class="anchor-link" href="#Requirements">¶</a></h2><p>Before you start make sure you have a stable wifi, and enable it on your desktop.
+Since we will use wifi to connect to the GoPro devide, if you are not using ethernet you will lose your internet connection.
+Optionnally, if you want to automatically scrap all the content on your desktop, you will need to install <a href="https://manpages.ubuntu.com/manpages/bionic/man1/wget.1.html">wget</a>.</p>
+<div class="highlight"><pre><span></span>sudo apt install wget
+</pre></div>
+<h3 id="GoPro-in-server-mode">GoPro in server mode<a class="anchor-link" href="#GoPro-in-server-mode">¶</a></h3><p>If you have the app installed, they ask you to put your GoPro ready in application mode.
+What happens is that your GoPro is actually creating a local web server, then the app access this server and let you download the files.
+Instead, we will bypass the app and access the GoPro server directly!</p>
+<ol>
+<li>Power the GoPro, so it will not shut down during the entire process.</li>
+<li>Make sure that you enabled remote connections under <code>settings/connection/remote connections/yes</code></li>
+<li>Go into application mode with <code>settings/connections/connect a peripheral/gopro application</code></li>
+</ol>
+<blockquote><p><strong>Warning</strong><br/>
+Pluging your GoPro is important because when the device is put into application mode, it won't put itself on sleep. Be also carefull that the camera (and mostly the lens!) doesn't get too hot.</p>
+</blockquote>
+<h3 id="Downloading-the-video-files">Downloading the video files<a class="anchor-link" href="#Downloading-the-video-files">¶</a></h3><p>Now we want to access the server to be able to download files.</p>
+<ol>
+<li>On you desktop, connect to the new wifi named <code>GPXXXXXXXX</code> (with 8 digits).</li>
+<li>You will find the credentials for the wifi under <code>settings/connections/camera info</code>.</li>
+</ol>
+<p>When you are connected, you should be able to access locally your file at <a href="http://10.5.5.9:8080/videos/DCIM/100GOPRO/">http://10.5.5.9:8080/videos/DCIM/100GOPRO/</a>.
+Voila! You have access to your files and you can play them on your browser, or manually download them.</p>
+<blockquote><p><strong>Note</strong><br/>
+The actual important video files are the <code>*.MP4</code>, the other files <code>*.LRV</code> are a specific GoPro format used by their app for previews.</p>
+</blockquote>
+<h3 id="Scrap-the-files">Scrap the files<a class="anchor-link" href="#Scrap-the-files">¶</a></h3><p>Of course, downloading the files one by one is a time consuming process.
+Ideally you would like to get all the videos directly inside a folder:</p>
+<div class="highlight"><pre><span></span><span class="nb">cd</span> my/folder
+wget -A .MP4 -r --no-parent http://10.5.5.9:8080/videos/DCIM/100GOPRO/
+</pre></div>
+<blockquote><p><strong>Note</strong><br/>
+Normally it should download at relatively high speed (&gt;5MB/s), but it depends of the speed of your LAN network.</p>
+</blockquote>
+<h3 id="(optionnally)-Transcode-the-media">(optionnally) Transcode the media<a class="anchor-link" href="#(optionnally)-Transcode-the-media">¶</a></h3><p>There is a high chance that you will not be able to play the media on your browser. This is because GoPro uses HEVC format (which is the update from h264) by default, and most browser does not support this format.
+If you need more information about the HEVC format, check <a href="https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Video_codecs">this amazing post</a> from mozilla, but to summarize,
+it allows a more efficient compression compare to its previous version.</p>
+<p>To disable HEVC, you can do that under the GoPro seetings in <code>general/video compression/h.264 and HEVC</code>.
+If you have you files already in HEVC, you can still transcode it to h.264 using <a href="https://ffmpeg.org/">ffmpeg</a>.
+As an example if you <a href="{% link _posts/2000-01-01-jellyfin.html %}#Installing-FFmpeg">have already compiled ffmpeg with nvidia</a>:</p>
+<div class="highlight"><pre><span></span>ffmpeg -vsync <span class="m">0</span> -hwaccel cuda -hwaccel_output_format cuda -i GXxxxxxx.MP4 -map <span class="m">0</span>:a:0 -c:a copy -map <span class="m">0</span>:v:0 -c:v:0 h264_nvenc -preset slow -b:v 36M GXxxxxxx_h264.mp4
+</pre></div>
+<p>To guide you on which options to use for compression, check <a href="https://trac.ffmpeg.org/wiki/Encode/H.264">the ffmpeg wiki</a>.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="To-go-further">To go further<a class="anchor-link" href="#To-go-further">¶</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Because the GoPro acts as a server, there is nothing stopping you accessing the media on another device than your desktop.
+For example you could view the videos on your tv with a kodi device, remotely and without buying the hdmi cable.</p>
+</div>
+</div>
+</div>
+
+
