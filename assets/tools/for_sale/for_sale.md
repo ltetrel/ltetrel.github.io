@@ -73,7 +73,7 @@ malm-bed:
 
 malm-3-drawer:
   title: <b>3-drawer chest</b> <br> <i> Ikea Malm </i>
-  price: 75 $CAD
+  price: SOLD!
   old_price: 149
   img: ./imgs/malm-3-drawer-chest-white__0484875_pe621342_s5.jpg
   link: https://www.ikea.com/ca/en/p/malm-3-drawer-chest-white-90473151/
@@ -87,7 +87,7 @@ malm-2-drawer:
 
 malm-6-drawer:
   title: <b> 6-drawer chest </b> <br> <i> Ikea Malm </i>
-  price: 115 $CAD
+  price: SOLD!
   old_price: 229
   img: ./imgs/malm-6-drawer-chest-white__0484891_pe621335_s5.jpg
   link: https://www.ikea.com/ca/en/p/malm-6-drawer-chest-white-60360476/#content
