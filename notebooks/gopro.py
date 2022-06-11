@@ -11,12 +11,12 @@ This post will guide you step by step on how to access your video files over LAN
 ## Introduction
 
 GoPro is a well known action camera founded by Woodman Labs. As many of big manufacturers, they like to build their own eco-system to keep their clients inside it
-(so they don't easilly switch when they are used to the frontend).
+(so client won't easilly switch product because they are used to the frontend).
 This is a pure marketing technic that personally I hate, and make simple things as copying files from one device to another a living hell (hi Apple!).
 
 In this case, we have videos captured froma GoPro, and we want to transfer them to our computer.
 The easiest way is to download the GoPro software or app, and download from there.
-If you are like me and don't like to install too useless softwares on your computer to keep it clean and not a garbage, follow this guide!
+If you are like me and don't like to install too useless softwares on your computer to keep it clean (so it is not a garbage), follow this guide!
 
 ## Requirements
 
@@ -44,6 +44,7 @@ Instead, we will bypass the app and access the GoPro server directly!
 ### Downloading the video files
 
 Now we want to access the server to be able to download files.
+Place the GoPro near your desktop, then:
 
 1. On you desktop, connect to the new wifi named `GPXXXXXXXX` (with 8 digits).
 2. You will find the credentials for the wifi under `settings/connections/camera info`.
