@@ -3,8 +3,8 @@ layout: null
 
 guitar:
   title: <b> Guitar electro-acoustic </b> <br><i> Fender T bucket 300 CE </i>
-  price: 169 $CAD
-  old_price: 335
+  price: SOLD!
+  old_price: " "
   img: ./imgs/guitar_fender.jpg
   link: https://sixstringacoustic.com/fender-t-bucket-300ce-review-acoustics-under-300-reviews
 
