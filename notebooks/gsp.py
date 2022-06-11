@@ -191,7 +191,7 @@ The goal of this post is to explain how we can interact with graphs supporting o
 # \end{equation}
 # %% [markdown]
 '''
-## 1.5 Graph convolution
+## 1.5 Global graph convolution
 '''
 # %% [markdown]
 # Now that we can transform the input data from graph/vertex domain (node $i$) to the spectral domain (frequency $\lambda_l$), we can apply the previous eq \ref{fourierconvolution} to perform graph convolution. We perform the convolution of the data $x$ with filter $h$ into the spectral domain $\lambda_l$, but we want our outputs to be in the graph domain $i$:
@@ -212,7 +212,9 @@ The goal of this post is to explain how we can interact with graphs supporting o
 # >
 # > Be carefull of the element wise multiplication in the spectral domain between the filter $\hat{H}$ and transformed data $V^TX$!
 
-# One drawback with this method is that is does not work well for dynamic graphs (structure that changes in time) because the eigen vector needs to be recomputed each time! You can also see that this operation is quite complex, hopefully it can be simplified using for example Chebyshev polynomials <cite>hammond2011wavelets</cite>.
+# One drawback with this method is that is does not work well for dynamic graphs (structure that changes in time) because the eigen vector needs to be recomputed each time!
+# You can also see that this operation is quite complex, hopefully it can be simplified using for example Chebyshev polynomials <cite>hammond2011wavelets</cite>.
+# The Chebyshev approximation allows to perform local convolution (taking into acount just adjacent nodes) instead of global convolution, which reduces consequently the compute time.
 # %% [markdown]
 '''
 ## 2. Hands on
@@ -614,7 +616,8 @@ plt.show()
 # A first reference that helped me a lot for my understanding is the Stanford class [CS224W: Machine Learning with Graphs](https://web.stanford.edu/class/cs224w/).
 # Also the [Persagen Consulting web page](https://persagen.com/resources/graph_signal_processing.html) which are specialized in molecular genetics, but still is a really good ressource.
 # 
-# The extension of GSP applied to deep learning is the hot topic of graph convolution networks (GCN). If you are curious about them definitively look at this wonderfull [distill interactive post](https://distill.pub/2021/understanding-gnns/). Also, I was lucky to work with Dr Zhang on specifically applying those to neuroimaging data (fMRI), check [her work](https://drive.google.com/file/d/1mBl_nKBRm1peIu3ouz6kqkMlWJpJQw6V/view)!
+# The extension of GSP applied to deep learning is the hot topic of graph convolution networks (GCN). If you are curious about them definitively look at this wonderfull [distill interactive post](https://distill.pub/2021/understanding-gnns/).
+# Also, I was lucky to work with Dr Zhang specifically on applying GCNs to neuroimaging data (fMRI), check [her work](https://drive.google.com/file/d/1mBl_nKBRm1peIu3ouz6kqkMlWJpJQw6V/view)!
 # 
 # Finally, the set of tutorials from [pygsp](https://pygsp.readthedocs.io/en/latest/examples/kernel_localization.html) are also a great way to understand each component of GSP.
 # %% [markdown]
