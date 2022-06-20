@@ -168,7 +168,7 @@ The goal of this post is to explain how we can interact with graphs supporting o
 # \end{pmatrix}
 # \end{equation}
 
-# A node that is connected to many other nodes will have a bigger influence than its neighbours. To mitigate this, it is common to normalize the laplacian matrix using the following formula:
+# A node that is connected to many other nodes will have a much bigger influence than its neighbours. To mitigate this, it is common to normalize the laplacian matrix using the following formula:
 # 
 # \begin{equation}\label{eq:normlaplacian}
 # L = I - D^{-1/2}AD^{-1/2}

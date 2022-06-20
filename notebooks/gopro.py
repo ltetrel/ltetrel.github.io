@@ -14,7 +14,7 @@ GoPro is a well known action camera founded by Woodman Labs. As many of big manu
 (so client won't easilly switch product because they are used to the frontend).
 This is a pure marketing technic that personally I hate, and make simple things as copying files from one device to another a living hell (hi Apple!).
 
-In this case, we have videos captured froma GoPro, and we want to transfer them to our computer.
+In this case, we have videos captured from a GoPro, and we want to transfer them to our computer.
 The easiest way is to download the GoPro software or app, and download from there.
 If you are like me and don't like to install too useless softwares on your computer to keep it clean (so it is not a garbage), follow this guide!
 

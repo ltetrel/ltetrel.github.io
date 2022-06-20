@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Graph signal processing - application to trafic data analysis
-date: 2022-06-11
+date: 2022-06-20
 category: Data-Science
 tags:   Geometry Linear-Algebra
 img: /notebooks/imgs/gsp/post_img.jpg
@@ -180,7 +180,7 @@ L = \begin{pmatrix}
 1 &amp; 1 &amp; 0 &amp; 1 &amp; 0 &amp; 0\\
 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0\\
 \end{pmatrix}
-\end{equation}<p>A node that is connected to many other nodes will have a bigger influence than its neighbours. To mitigate this, it is common to normalize the laplacian matrix using the following formula:</p>
+\end{equation}<p>A node that is connected to many other nodes will have a much bigger influence than its neighbours. To mitigate this, it is common to normalize the laplacian matrix using the following formula:</p>
 \begin{equation}\label{eq:normlaplacian}
 L = I - D^{-1/2}AD^{-1/2}
 \end{equation}<p>Whith the identity matrix $I$.</p>
@@ -198,7 +198,7 @@ x(i) \xrightarrow{\mathscr{G}_\mathscr{F}} X(\lambda_l) =\sum_{i=0}^{N-1} x(i)\m
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="1.5-Graph-convolution">1.5 Graph convolution<a class="anchor-link" href="#1.5-Graph-convolution">¶</a></h2>
+<h2 id="1.5-Global-graph-convolution">1.5 Global graph convolution<a class="anchor-link" href="#1.5-Global-graph-convolution">¶</a></h2>
 </div>
 </div>
 </div>
@@ -215,7 +215,9 @@ X \circledast H &amp; = V \hat{H} * (V^T X)
 \end{align}<blockquote><p><strong>Warning</strong>:</p>
 <p>Be carefull of the element wise multiplication in the spectral domain between the filter $\hat{H}$ and transformed data $V^TX$!</p>
 </blockquote>
-<p>One drawback with this method is that is does not work well for dynamic graphs (structure that changes in time) because the eigen vector needs to be recomputed each time! You can also see that this operation is quite complex, hopefully it can be simplified using for example Chebyshev polynomials <cite><a href="#hammond2011wavelets">[4]</a></cite>.</p>
+<p>One drawback with this method is that is does not work well for dynamic graphs (structure that changes in time) because the eigen vector needs to be recomputed each time!
+You can also see that this operation is quite complex, hopefully it can be simplified using for example Chebyshev polynomials <cite><a href="#hammond2011wavelets">[4]</a></cite>.
+The Chebyshev approximation allows to perform local convolution (taking into acount just adjacent nodes) instead of global convolution, which reduces consequently the compute time.</p>
 </div>
 </div>
 </div>
@@ -1548,7 +1550,8 @@ We saw a specific example using traffic data, and although we could go much furt
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>A first reference that helped me a lot for my understanding is the Stanford class <a href="https://web.stanford.edu/class/cs224w/">CS224W: Machine Learning with Graphs</a>.
 Also the <a href="https://persagen.com/resources/graph_signal_processing.html">Persagen Consulting web page</a> which are specialized in molecular genetics, but still is a really good ressource.</p>
-<p>The extension of GSP applied to deep learning is the hot topic of graph convolution networks (GCN). If you are curious about them definitively look at this wonderfull <a href="https://distill.pub/2021/understanding-gnns/">distill interactive post</a>. Also, I was lucky to work with Dr Zhang on specifically applying those to neuroimaging data (fMRI), check <a href="https://drive.google.com/file/d/1mBl_nKBRm1peIu3ouz6kqkMlWJpJQw6V/view">her work</a>!</p>
+<p>The extension of GSP applied to deep learning is the hot topic of graph convolution networks (GCN). If you are curious about them definitively look at this wonderfull <a href="https://distill.pub/2021/understanding-gnns/">distill interactive post</a>.
+Also, I was lucky to work with Dr Zhang specifically on applying GCNs to neuroimaging data (fMRI), check <a href="https://drive.google.com/file/d/1mBl_nKBRm1peIu3ouz6kqkMlWJpJQw6V/view">her work</a>!</p>
 <p>Finally, the set of tutorials from <a href="https://pygsp.readthedocs.io/en/latest/examples/kernel_localization.html">pygsp</a> are also a great way to understand each component of GSP.</p>
 </div>
 </div>

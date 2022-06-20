@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Access the GoPro videos without the app
-date: 2022-06-07
+date: 2022-06-20
 category: Software-Development
 tags:   Media-Server
 img: /notebooks/imgs/gopro/post_img.jpg
@@ -20,11 +20,11 @@ excerpt_separator: </p
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction">¶</a></h2><p>GoPro is a well known action camera founded by Woodman Labs. As many of big manufacturers, they like to build their own eco-system to keep their clients inside it
-(so they don't easilly switch when they are used to the frontend).
+(so client won't easilly switch product because they are used to the frontend).
 This is a pure marketing technic that personally I hate, and make simple things as copying files from one device to another a living hell (hi Apple!).</p>
-<p>In this case, we have videos captured froma GoPro, and we want to transfer them to our computer.
+<p>In this case, we have videos captured from a GoPro, and we want to transfer them to our computer.
 The easiest way is to download the GoPro software or app, and download from there.
-If you are like me and don't like to install too useless softwares on your computer to keep it clean and not a garbage, follow this guide!</p>
+If you are like me and don't like to install too useless softwares on your computer to keep it clean (so it is not a garbage), follow this guide!</p>
 <h2 id="Requirements">Requirements<a class="anchor-link" href="#Requirements">¶</a></h2><p>Before you start make sure you have a stable wifi, and enable it on your desktop.
 Since we will use wifi to connect to the GoPro devide, if you are not using ethernet you will lose your internet connection.
 Optionnally, if you want to automatically scrap all the content on your desktop, you will need to install <a href="https://manpages.ubuntu.com/manpages/bionic/man1/wget.1.html">wget</a>.</p>
@@ -41,7 +41,8 @@ Instead, we will bypass the app and access the GoPro server directly!</p>
 <blockquote><p><strong>Warning</strong><br/>
 Pluging your GoPro is important because when the device is put into application mode, it won't put itself on sleep. Be also carefull that the camera (and mostly the lens!) doesn't get too hot.</p>
 </blockquote>
-<h3 id="Downloading-the-video-files">Downloading the video files<a class="anchor-link" href="#Downloading-the-video-files">¶</a></h3><p>Now we want to access the server to be able to download files.</p>
+<h3 id="Downloading-the-video-files">Downloading the video files<a class="anchor-link" href="#Downloading-the-video-files">¶</a></h3><p>Now we want to access the server to be able to download files.
+Place the GoPro near your desktop, then:</p>
 <ol>
 <li>On you desktop, connect to the new wifi named <code>GPXXXXXXXX</code> (with 8 digits).</li>
 <li>You will find the credentials for the wifi under <code>settings/connections/camera info</code>.</li>
