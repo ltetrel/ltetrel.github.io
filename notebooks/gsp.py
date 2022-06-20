@@ -467,7 +467,7 @@ _ = ax.set_xlabel("$\lambda_l$")
 # %% [code]
 ### Eigen vector plot and visualization
 # {% raw %} /!\ This is specific for liquid to escape the braces
-eig_to_plot = [1, 50, 100]
+eig_to_plot = [1, 40, 120]
 fig, ax = plt.subplots(nrows=2, ncols=len(eig_to_plot), figsize=(5*len(eig_to_plot), 10))
 for ii, ii_eig in enumerate(eig_to_plot):
     #eigen plots
