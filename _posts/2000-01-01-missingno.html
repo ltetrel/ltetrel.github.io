@@ -1,0 +1,70 @@
+---
+layout: post
+title: How to obtain MissingNo. offline in PokéClicker
+date: 2022-06-28
+category: Software-Development
+tags:   Video-Games
+img: /notebooks/imgs/missingno/post_img.jpg
+file: /notebooks/missingno.py
+excerpt_separator: </p
+---
+    
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>PokéClicker is a famous online clicker game which attracted a lot of players recently.
+Today we will focus on a specific pokemon that can be obtained through a surprising way, MissingNo.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Who-is-this-pokemon-?">Who is this pokemon ?<a class="anchor-link" href="#Who-is-this-pokemon-?">¶</a></h2><p>In the pokemon serie, there was a strange monster that appeared to some of the players, MissingNo.
+It could not be encountered in the wild, but rather after a bug like the <a href="https://bulbapedia.bulbagarden.net/wiki/Old_man_glitch">old man glitch</a>.
+This pokemon resulted from a wrong pokédex entry during a fight, he is actually not unique and has <a href="https://bulbapedia.bulbagarden.net/wiki/MissingNo.">a lot of variations</a>.</p>
+<p><img alt="drawing" src="/notebooks/imgs//missingno/sprite.jpg" width="500"/></p>
+<h2 id="MissingNo.-in-PokéClicker">MissingNo. in PokéClicker<a class="anchor-link" href="#MissingNo.-in-PokéClicker">¶</a></h2><p>This pokémon was added to PokéClicker mostly as an easter egg and cannot be obtainable through normal manner.
+He is used for error handling (if there is a bug within the game), and his pokédex entry is #0.
+Hopefully, we can easilly access the game's data to found a way to obtain it.</p>
+<h2 id="Obtaining-the-pokmon-using-the-javascript-console">Obtaining the pokmon using the javascript console<a class="anchor-link" href="#Obtaining-the-pokmon-using-the-javascript-console">¶</a></h2><p>Pokéclicker is an open-source, community driven game that is mostly developped using Javascript.
+The source code is <a href="https://github.com/pokeclicker/pokeclicker">available on github</a> if you are curious.</p>
+<p>Most of the important functions are public, hence is it really easy to access the in-game memory using any web browser.
+Indeed, nowadays most if not all browser acts as an IDE and hence have access to a debug environement. Thanks to that, anyone can modify the data completely offline!
+For the rest, I will provide the instructions for firefox only, but it should be easilly transferrable to chrome, or edge.</p>
+<ol>
+<li>First make a save of your game, just in case.</li>
+<li>Then simply press <code>F12</code> to access the web console, or click on the settings icon (up right) then <code>More tools/Web Developer Tools</code>.</li>
+<li>You can now use the public function to gain a pokemon, using <code>id=0</code> as a parameter:</li>
+</ol>
+<div class="highlight"><pre><span></span>App.game.party.gainPokemonById<span class="o">(</span><span class="m">0</span><span class="o">)</span>
+</pre></div>
+<p>Congratulations, you just obtained MissingNo. !</p>
+<blockquote><p><strong>Note</strong>:</p>
+<p>I should not tell you that, but you can of course change the id to another pokémon...</p>
+<p>There is also another optionnal parameter. If you want it to be shiny, put the parameter to <code>1</code>:</p>
+<div class="highlight"><pre><span></span>App.game.party.gainPokemonById<span class="o">(</span><span class="m">0</span>, <span class="m">1</span><span class="o">)</span>
+</pre></div>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="To-go-further">To go further<a class="anchor-link" href="#To-go-further">¶</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Obviously this is not the only function that you can have access to!
+If you want to cheat, after typing <code>App.game</code> you will see the list of available class/functions.
+Check for example <code>App.game.wallet.gainMoney</code> 💰 😈 💰</p>
+<p>Use it sporadically (or not at all) if you don't want to ruin your gameplay.</p>
+</div>
+</div>
+</div>
+
+
