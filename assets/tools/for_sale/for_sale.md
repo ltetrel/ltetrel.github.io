@@ -10,7 +10,7 @@ guitar:
 
 moheda: 
   title: <b>Corner sofa-bed</b> <br> <i> Ikea Moheda </i>
-  price: 300 $CAD
+  price: 150 $CAD
   old_price: 1250
   img: ./imgs/moheda_ikea_sofa.jpg
   link: https://en.ikea-club.org/item/10213954.html
@@ -66,7 +66,7 @@ sultan:
 
 malm-bed:
   title: <b>Bed frame</b> <br> <i> Ikea Malm </i>
-  price: 135 $CAD
+  price: 100 $CAD
   old_price: 269
   img: ./imgs/malm-bed-frame-high-white-luroey__0749130_pe745499_s5.jpg
   link: https://www.ikea.com/ca/en/p/malm-bed-frame-high-white-luroey-s29009482/#content
@@ -129,7 +129,7 @@ salma:
 
 iiyama:
   title: <b> Iiyama LCD monitor </b> <br> <i> 1920 x 1200 and 24"</i>
-  price: 89 $CAD
+  price: 69 $CAD
   old_price: 500
   img: ./imgs/iiyama_screen.jpg
   link: https://iiyama.com/gl_en/products/prolite-b2403ws-1/
