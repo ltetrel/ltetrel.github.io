@@ -10,36 +10,36 @@ guitar:
 
 moheda: 
   title: <b>Corner sofa-bed</b> <br> <i> Ikea Moheda </i>
-  price: 150 $CAD
-  old_price: 1250
+  price: SOLD!
+  old_price: " "
   img: ./imgs/moheda_ikea_sofa.jpg
   link: https://en.ikea-club.org/item/10213954.html
 
 micke: 
   title: <b>Desk</b> <br> <i> Ikea Micke </i>
-  price: 45 $CAD
-  old_price: 89
+  price: SOLD!
+  old_price: " "
   img: ./imgs/micke-desk-black-brown__0736021_pe740348_s5.jpg
   link: https://www.ikea.com/ca/en/p/micke-desk-black-brown-20244747/#content
 
 millberget:
   title: <b>Desk chair</b> <br> <i> Ikea Millberget </i>
-  price: 50 $CAD
-  old_price: 149
+  price: SOLD!
+  old_price: " "
   img: ./imgs/millberget-swivel-chair-murum-beige__1020141_pe831795_s5.jpg
   link: https://www.ikea.com/ca/en/p/millberget-swivel-chair-murum-beige-90489393/#content
 
 lack-table:
   title: <b>Coffee table</b> <br> <i> Ikea Lack </i>
-  price: 35 $CAD
-  old_price: 70
+  price: SOLD!
+  old_price: " "
   img: ./imgs/lack-coffee-table-black-brown__57537_pe163119_s5.jpg
   link: https://www.ikea.com/ca/en/p/lack-coffee-table-black-brown-00104291/
 
 lack-tv:
   title: <b>TV bench</b> <br> <i> Ikea Lack </i>
-  price: 20 $CAD
-  old_price: 80
+  price: SOLD!
+  old_price: " "
   img: ./imgs/lack-tv-bench-black-brown__0955258_pe803699_s5.jpg
   link: https://www.ikea.com/ca/en/p/lack-tv-bench-black-brown-20498904/
 
@@ -66,8 +66,8 @@ sultan:
 
 malm-bed:
   title: <b>Bed frame</b> <br> <i> Ikea Malm </i>
-  price: 100 $CAD
-  old_price: 269
+  price: SOLD!
+  old_price: " "
   img: ./imgs/malm-bed-frame-high-white-luroey__0749130_pe745499_s5.jpg
   link: https://www.ikea.com/ca/en/p/malm-bed-frame-high-white-luroey-s29009482/#content
 
@@ -115,22 +115,22 @@ drying:
 
 knapper:
   title: <b> Standing mirror </b> <br> <i> Ikea Knapper </i>
-  price: 50 $CAD
-  old_price: 90
+  price: SOLD!
+  old_price: " "
   img: ./imgs/knapper_standing_mirror.jpg
   link: https://www.ikea.com/us/en/p/knapper-floor-mirror-white-00396242/
 
 salma:
   title: <b> Dining glass table </b> <br> <i> Ikea Salma <br>(with 2 chairs for free)</i>
-  price: 80 $CAD
-  old_price: 189
+  price: SOLD!
+  old_price: " "
   img: ./imgs/salmi_glass_table.jpg
   link: https://en.ikea-club.org/item/70102298.html
 
 iiyama:
   title: <b> Iiyama LCD monitor </b> <br> <i> 1920 x 1200 and 24"</i>
-  price: 69 $CAD
-  old_price: 500
+  price: SOLD!
+  old_price: " "
   img: ./imgs/iiyama_screen.jpg
   link: https://iiyama.com/gl_en/products/prolite-b2403ws-1/
 ---
