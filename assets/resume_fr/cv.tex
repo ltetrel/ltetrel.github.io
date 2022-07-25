@@ -1,0 +1,103 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Awesome Resume/CV
+% XeLaTeX Template
+% Version 1.1 (9/1/2016)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Claud D. Park (posquit0.bj@gmail.com) with modifications by 
+% Vel (vel@latextemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+% Important note:
+% This template must be compiled with XeLaTeX, the below lines will ensure this
+%!TEX TS-program = xelatex
+%s!TEX encoding = UTF-8 Unicode
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[11pt, a4paper]{awesome-cv} % A4 paper size by default, use 'letterpaper' for US letter
+
+\geometry{left=1cm, top=1cm, right=1cm, bottom=1.5cm, footskip=.5cm} % Configure page margins with geometry
+
+\fontdir[fonts/] % Specify the location of the included fonts
+
+% Color for highlights
+\colorlet{awesome}{awesome-skyblue} % Default colors include: awesome-emerald, awesome-skyblue, awesome-red, awesome-pink, awesome-orange, awesome-nephritis, awesome-concrete, awesome-darknight
+%\definecolor{awesome}{HTML}{CA63A8} % Uncomment if you would like to specify your own color
+
+% Colors for text - uncomment and modify
+%\definecolor{darktext}{HTML}{414141}
+%\definecolor{text}{HTML}{414141}
+%\definecolor{graytext}{HTML}{414141}
+%\definecolor{lighttext}{HTML}{414141}
+
+\renewcommand{\acvHeaderSocialSep}{\quad\textbar\quad} % If you would like to change the social information separator from a pipe (|) to something else
+
+%----------------------------------------------------------------------------------------
+%	PERSONAL INFORMATION
+%	Comment any of the lines below if they are not required
+%----------------------------------------------------------------------------------------
+
+\name{Loïc}{Tetrel}
+\address{France (Auvergne-Rhône-Alpes) / Télé-travail}
+\mobile{(numéro mobile sur demande)}
+
+\email{loic.tetrel.pro@proton.me}
+\homepage{ltetrel.github.io/}
+\github{ltetrel}
+\linkedin{loïc tetrel}
+%\skype{skypeid}
+%\stackoverflow{SOid}{SOname}
+%\twitter{@twit}
+
+\position{Data Scientist{\enskip\cdotp\enskip}Imagerie médicale} %Your expertise/fields
+\quote{Avec \textbf{+5 ans} d'expérience à construire des projets en \textbf{data science} pour l'imagerie médicale, que ce soit dans le \textbf{privé ou public}, je m'assure de fournir un travail de haute qualité. Je me définis comme \textbf{curieux et autonome}.} % A quote or statement
+%\position{}
+%\quote{} % A quote or statement
+
+\makecvfooter{\textbf{*} Références disponibles sur demande.}{Loïc Tetrel{\enskip\cdotp\enskip}CV}{\thepage} % Specify the letter footer with 3 arguments: (<left>, <center>, <right>), leave any of these blank if they are not needed
+
+%-------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%-------------------------------------------------------------------------------
+\addbibresource{bibliography.bib}
+
+%-------------------------------------------------------------------------------
+\begin{document}
+
+\photo[rectangle,noedge,left]{qrcode.png}
+\makecvheader % Print the header
+
+%----------------------------------------------------------------------------------------
+%	CV/RESUME CONTENT
+%	Each section is imported separately, open each file in turn to modify content
+%----------------------------------------------------------------------------------------
+
+\vspace{-3mm}
+\input{cv-sections/professional.tex}
+\input{cv-sections/education.tex}
+\input{cv-sections/skills.tex}
+\input{cv-sections/experience.tex}
+\input{cv-sections/project.tex}
+\input{cv-sections/volunteer.tex}
+\input{cv-sections/awards.tex}
+% \input not working for publications
+\cvsection{Publications}
+\vspace{-20mm}
+\boldname{Tetrel}{Lo{\"i}c}{L.}
+\printbibliography[title={\ }]
+\input{cv-sections/interests.tex}
+%\input{cv-sections/references.tex}
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
