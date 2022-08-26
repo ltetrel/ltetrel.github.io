@@ -1,15 +1,15 @@
 [0] Config.pm:302> INFO - This is Biber 2.9
 [0] Config.pm:305> INFO - Logfile is 'cv.blg'
-[16] biber:313> INFO - === Sun May 15, 2022, 03:03:35
+[15] biber:313> INFO - === Fri Aug 26, 2022, 12:18:55
 [28] Biber.pm:371> INFO - Reading 'cv.bcf'
-[65] Biber.pm:857> INFO - Found 8 citekeys in bib section 0
-[73] Biber.pm:3981> INFO - Processing section 0
-[79] Biber.pm:4154> INFO - Looking for bibtex format file 'bibliography.bib' for section 0
-[79] bibtex.pm:1468> INFO - LaTeX decoding ...
-[86] bibtex.pm:1294> INFO - Found BibTeX data source 'bibliography.bib'
-[147] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[147] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[147] Biber.pm:3809> INFO - Sorting list 'ydnt/global//global/global' of type 'entry' with template 'ydnt' and locale 'en-US'
-[147] Biber.pm:3815> INFO - No sort tailoring available for locale 'en-US'
-[156] bbl.pm:617> INFO - Writing 'cv.bbl' with encoding 'UTF-8'
-[159] bbl.pm:720> INFO - Output to cv.bbl
+[62] Biber.pm:857> INFO - Found 8 citekeys in bib section 0
+[70] Biber.pm:3981> INFO - Processing section 0
+[76] Biber.pm:4154> INFO - Looking for bibtex format file 'bibliography.bib' for section 0
+[76] bibtex.pm:1468> INFO - LaTeX decoding ...
+[83] bibtex.pm:1294> INFO - Found BibTeX data source 'bibliography.bib'
+[140] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[140] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[140] Biber.pm:3809> INFO - Sorting list 'ydnt/global//global/global' of type 'entry' with template 'ydnt' and locale 'en-US'
+[140] Biber.pm:3815> INFO - No sort tailoring available for locale 'en-US'
+[150] bbl.pm:617> INFO - Writing 'cv.bbl' with encoding 'UTF-8'
+[153] bbl.pm:720> INFO - Output to cv.bbl
