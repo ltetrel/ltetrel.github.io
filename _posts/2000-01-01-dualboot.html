@@ -12,7 +12,7 @@ excerpt_separator: </p
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This is a guide explaining how to dual-boot a system with both Windows and Linus, using grub.</p>
+<p>This is a guide explaining how to dual-boot a system with both Windows and Linux, using grub.</p>
 </div>
 </div>
 </div>
@@ -20,8 +20,8 @@ excerpt_separator: </p
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction">¶</a></h2><p>Dual-booting is quite common and really usefull, the idea is to be able to launch multiple OS from a single computer (motherboard).
-The main reason I personnally use dual-boot is that I prefer to work under linux for security, convenience and its open-source nature. When I need to play games, I boot Windows.
-Let's hope that the <a href="https://www.steamdeck.com/en/">Steam Deck</a> popularity makes the linux video game ecosystem a reality, thanks to <a href="https://www.protondb.com/">Proton</a> tool!</p>
+The main reason I personnally use dual-boot is that I prefer to work under Linux for security, convenience and its open-source nature. When I need to play games, I boot Windows.
+Let's hope that the <a href="https://www.steamdeck.com/en/">Steam Deck</a> popularity makes the Linux video game ecosystem a reality, thanks to <a href="https://www.protondb.com/">Proton</a> tool!</p>
 <h2 id="Choosing-between-a-logical-or-physical-disk">Choosing between a logical or physical disk<a class="anchor-link" href="#Choosing-between-a-logical-or-physical-disk">¶</a></h2><p>Before everything else, you first need to choose between using one or multiple physical drives.</p>
 <h3 id="Physical-drive">Physical drive<a class="anchor-link" href="#Physical-drive">¶</a></h3><p>If you use physical drives, you will need at least two disks (HDD or SATA).
 SATA is more costly than HDD and more performant but has less lifespan and storage capacity.</p>
@@ -48,7 +48,7 @@ Go to the boot menu order, and check that your Windows USB key appears and has t
 Each constructor has its own menu so double-check how to acces your BIOS and modify the settings, for example <a href="https://www.dell.com/support/contents/fr-fr/article/product-support/self-support-knowledgebase/fix-common-issues/bios-uefi">DELL</a> or <a href="https://www.msi.com/support/technical_details/NB_Boot_OS_Entry#Restore%20the%20BIOS%20settings">MSI</a>.</p>
 </blockquote>
 <p>Once Windows is installed, shut-down the desktop, remove the usb, poweron the desktop, check in the BIOS that the Windows drive has highest boot priority, restart, you should boot on Windows.</p>
-<p>Now repeat the same process to install Ubuntu on the second drive. Make sure that the usb linux stick is plugged-in and has highest boot priority. When asked, choose UEFI installation (should be the default) instead of BIOS/LEGACY.</p>
+<p>Now repeat the same process to install Ubuntu on the second drive. Make sure that the usb Linux stick is plugged-in and has highest boot priority. When asked, choose UEFI installation (should be the default) instead of BIOS/LEGACY.</p>
 <blockquote><p><strong>Note</strong><br/>
 This is not the role of this post, but if you need to setup <a href="https://jumpcloud.com/blog/how-to-enable-full-disk-encryption-on-an-ubuntu-20-04-desktop">disk encryption</a> you should do that during installation.</p>
 </blockquote>
