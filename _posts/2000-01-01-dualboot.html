@@ -1,0 +1,131 @@
+---
+layout: post
+title: The ultimate guide to Windows/Linux dual-boot
+date: 2023-09-02
+category: Computer-Science
+tags:   Open-Science
+img: /notebooks/imgs/dualboot/post_img.jpg
+file: /notebooks/dualboot.py
+excerpt_separator: </p
+---
+    
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This is a guide explaining how to dual-boot a system with both Windows and Linus, using grub.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction">¶</a></h2><p>Dual-booting is quite common and really usefull, the idea is to be able to launch multiple OS from a single computer (motherboard).
+The main reason I personnally use dual-boot is that I prefer to work under linux for security, convenience and its open-source nature. When I need to play games, I boot Windows.
+Let's hope that the <a href="https://www.steamdeck.com/en/">Steam Deck</a> popularity makes the linux video game ecosystem a reality, thanks to <a href="https://www.protondb.com/">Proton</a> tool!</p>
+<h2 id="Choosing-between-a-logical-or-physical-disk">Choosing between a logical or physical disk<a class="anchor-link" href="#Choosing-between-a-logical-or-physical-disk">¶</a></h2><p>Before everything else, you first need to choose between using one or multiple physical drives.</p>
+<h3 id="Physical-drive">Physical drive<a class="anchor-link" href="#Physical-drive">¶</a></h3><p>If you use physical drives, you will need at least two disks (HDD or SATA).
+SATA is more costly than HDD and more performant but has less lifespan and storage capacity.</p>
+<p>I recommend you to buy physical drives for efficiency, of course if you have access to the motherboard.
+It should be easy to plug two physicall drives, almost all today's motherboard support at least 2 SATA ports (to plug up to two SATA drives), and maybe some M.2 ports.
+For a good overview of the different SSD, check <a href="https://www.cdw.com/content/cdw/en/articles/hardware/ssd-types-m2-sata-nvme-u2.html">this article</a>.</p>
+<h3 id="Logical-drive">Logical drive<a class="anchor-link" href="#Logical-drive">¶</a></h3><p>On the other hand you can use logical drives, which is the idea to decompose your drive into multiple independent partitions.
+It is less performant than physical disks, but you can in theory emulate an infinite amount of disks.
+To create new partitions, you can use the pre-installed <code>Disks</code> tool on Ubuntu.</p>
+<h2 id="Preparing-the-installation-media">Preparing the installation media<a class="anchor-link" href="#Preparing-the-installation-media">¶</a></h2><p>From there, you will need to have access to a desktop that is connected to the internet.
+We will create two installation media (two usb with at least 8GB) for Windows and ubuntu, that each requires ISO images.
+Those usb sticks will be later used by your desktop, to install the different OS.
+For the Windows ISO, download it through <a href="https://www.microsoft.com/fr-fr/software-download/windows10ISO">that page</a> and for ubuntu you can find it <a href="https://ubuntu.com/download/desktop">here</a>.</p>
+<p>Now, the rest depend on which system you have downloaded the ISO images.</p>
+<h3 id="Windows">Windows<a class="anchor-link" href="#Windows">¶</a></h3><p>If the current desktop you are working with is running Windows, use the following guide to make the <a href="https://ubuntu.com/tutorials/create-a-usb-stick-on-windows#1-overview">ubuntu installation media</a> and  <a href="https://www.microsoft.com/en-us/software-download/windows10">Windows installation media</a>.</p>
+<h3 id="Ubuntu">Ubuntu<a class="anchor-link" href="#Ubuntu">¶</a></h3><p>Otherwise, if the current desktop is running ubuntu, use the system <a href="https://discourse.ubuntu.com/t/create-a-bootable-usb-stick-on-ubuntu/14011">Startup Disk Creator</a> for the ubuntu installation media
+ and <a href="https://linuxhint.com/woeusb-bootable-media/">WoeUSB</a> for Windows.</p>
+<h2 id="Starting-the-OS-installation">Starting the OS installation<a class="anchor-link" href="#Starting-the-OS-installation">¶</a></h2><p><img src="/notebooks/imgs//dualboot/disk.jpg" width="400"/></p>
+<p>I recommend you to first start with Windows, because it has the bad habbit of messing up with other disks.</p>
+<p>Plug the USB Windows installation on your desktop, reboot your computer and enter the BIOS menu. This one should be accessible by hitting the <code>DEL</code> key on your keyboard when booting.</p>
+<p>From this menu you want to select <code>UEFI boot</code>, and make sure to not select <code>LEGACY</code>. Here we are making sure that the firmware choose the UEFI booting method, because it is the standard nowadays.
+Go to the boot menu order, and check that your Windows USB key appears and has top priority. Now restart again the computer and you should boot on the USB installation media.</p>
+<blockquote><p><strong>Note</strong><br/>
+Each constructor has its own menu so double-check how to acces your BIOS and modify the settings, for example <a href="https://www.dell.com/support/contents/fr-fr/article/product-support/self-support-knowledgebase/fix-common-issues/bios-uefi">DELL</a> or <a href="https://www.msi.com/support/technical_details/NB_Boot_OS_Entry#Restore%20the%20BIOS%20settings">MSI</a>.</p>
+</blockquote>
+<p>Once Windows is installed, shut-down the desktop, remove the usb, poweron the desktop, check in the BIOS that the Windows drive has highest boot priority, restart, you should boot on Windows.</p>
+<p>Now repeat the same process to install Ubuntu on the second drive. Make sure that the usb linux stick is plugged-in and has highest boot priority. When asked, choose UEFI installation (should be the default) instead of BIOS/LEGACY.</p>
+<blockquote><p><strong>Note</strong><br/>
+This is not the role of this post, but if you need to setup <a href="https://jumpcloud.com/blog/how-to-enable-full-disk-encryption-on-an-ubuntu-20-04-desktop">disk encryption</a> you should do that during installation.</p>
+</blockquote>
+<h2 id="Switching-between-different-OS">Switching between different OS<a class="anchor-link" href="#Switching-between-different-OS">¶</a></h2><p>From there you should have a working setup congratulation!
+But how can you easilly switch between the different OS?</p>
+<h3 id="With-the-BIOS">With the BIOS<a class="anchor-link" href="#With-the-BIOS">¶</a></h3><p>If you hit the <code>F11</code> key after powering-on the PC, you should be able to acces the BIOS booting setup. From there you can select to boot from either Windows or Ubuntu. Double-check that the two OS are working as expectly.</p>
+<h3 id="With-Linux">With Linux<a class="anchor-link" href="#With-Linux">¶</a></h3><p>This guide is not over, we don't always want to acces the BIOS boot menu to change between OS right?
+Let me present to you <a href="https://www.gnu.org/software/grub/">GNU GRUB</a>.</p>
+<p>The <code>grub</code> tool aims to help you manage your multi-boot configuration, under your Ubuntu OS. That means that once everything is setup, you can make the Ubuntu drive top-priority in the BIOS and don't care of the Windows boot selection. We will see that there are more customization than just the raw boot menu from the BIOS.</p>
+<h4 id="Making-your-system-aware-of-Windows">Making your system aware of Windows<a class="anchor-link" href="#Making-your-system-aware-of-Windows">¶</a></h4><p>First of all boot on Ubuntu, we will check that the different disk are setup accordingly.</p>
+<p>Run the following:</p>
+<div class="highlight"><pre><span></span>sudo fdisk -l
+</pre></div>
+<p>You should have multiple outputs, but we want to check for the Windows disk wich should look like this:</p>
+<pre><code>Disk /dev/nvme0n1: 477 GiB, 512110190592 bytes, 1000215216 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: ****
+
+Device          Start        End   Sectors   Size Type
+/dev/nvme0n1p1   2048     206847    204800   100M EFI System
+/dev/nvme0n1p2 206848     239615     32768    16M Microsoft reserved
+/dev/nvme0n1p3 239616 1000212589 999972974 476.8G Microsoft basic data</code></pre>
+<p>The most important for Linux is to be able to detect the first partition (<code>EFI System</code>).
+It should be the first partition of size 100MB, with type <code>EFI System</code>.
+If the type is different, for example <code>Microsoft basic data</code> (which can happen after a Windows boot repair), you can change that
+using the <code>Disks</code> utility form Ubuntu.
+Click on the 100M partition of the Windows disk, options and <code>Edit Partition</code>.
+Now change it to <code>EFI System</code> and optionnally add a name <code>Windows EFI system</code>.</p>
+<p>Now we will use a tool to make <code>grub</code> detect the window partition.</p>
+<div class="highlight"><pre><span></span>sudo apt install os-prober
+</pre></div>
+<p>Running <code>os-prober</code> should output something like this:</p>
+<pre><code>$ sudo os-prober
+/dev/nvme0n1p1@/efi/Microsoft/Boot/bootmgfw.efi:Windows Boot Manager:Windows:efi</code></pre>
+<p>If the output is empty or does not mention Windows, check <a href="https://superuser.com/questions/1217809/grub-cant-see-what-os-prober-found">this thread</a>.</p>
+<p>Now we can update the grub configuration file:</p>
+<div class="highlight"><pre><span></span>sudo update-grub
+</pre></div>
+<p>Reboot your PC, you should see the grub menu with a choice between ubuntu and windows.</p>
+<p><img src="/notebooks/imgs//dualboot/grub_menu.jpg" width="400"/></p>
+<p>If the grub menu does not appear, make sure to set the <code>GRUB_TIMEOUT_STYLE</code> parameter to <code>menu</code> in <code>/etc/default/grub</code>, an re-run <code>update-grub</code>.</p>
+<h4 id="grub-menu-customization">grub menu customization<a class="anchor-link" href="#grub-menu-customization">¶</a></h4><p>It is possible to customize some grub behaviour.
+All the options are available in the <code>/etc/default/grub</code> file.</p>
+<p>Let's say on Windows you have applications that launch on startup (for example Steam and big picture mode for gamers).
+You can make the Windows boot by default by changing <code>GRUB_DEFAULT</code> for example:</p>
+<pre><code>GRUB_DEFAULT="Windows Boot Manager (on /dev/nvme0n1p1)"</code></pre>
+<p>There are plenty of configurations to play with, check <a href="https://www.gnu.org/software/grub/manual/grub/grub.html#Simple-configuration">here</a> for more details.</p>
+<p>Even <a href="https://www.gnome-look.org/browse?cat=109&amp;ord=latest">custom themes</a> exists!</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="To-go-further">To go further<a class="anchor-link" href="#To-go-further">¶</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Some additionnal notes regarding Windows disk migration.</p>
+<p>I recently stumbled into issues when I upgraded my Windows disk.
+Basically I used <a href="https://clonezilla.org/">clonezilla</a> to copy from my old (smaller) disk to the new (bigger) one.</p>
+<p>Unfortunately it did not work as expected and was not able to boot on Windows anymore, nor using the boot-repair from Windows nor <code>bootrec</code> helped. Hopefully I was able to re-create the EFI/MSR partitions using <a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/create-partition-primary">diskpart</a>.
+Make sure to play with the <a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/create-partition-primary#parameters">offset parameter</a> so the partitions are well aligned:</p>
+<pre><code>Device      Start        End   Sectors   Size Type
+/dev/***     2048     206847    204800   100M EFI System
+/dev/***   206848     239615     32768    16M Microsoft reserved
+/dev/***   239616 1000212589 999972974 476.8G Microsoft basic data</code></pre>
+<p>Then <a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/bcdboot">bcdboot</a> helps to populate the EFI files.
+A complete guide is available <a href="https://woshub.com/how-to-repair-deleted-efi-partition-in-windows-7/">at this page</a>.</p>
+</div>
+</div>
+</div>
+
+
