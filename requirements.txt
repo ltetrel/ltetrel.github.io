@@ -1,9 +1,9 @@
 matplotlib==3.1.2
 nilearn==0.8.0
-numpy==1.18.4
+numpy==1.22
 pandas==0.25.1
 pickleshare==0.7.5
-scipy==1.4.1
+scipy==1.10.0
 scikit-learn==0.22
 tensorflow==2.11.1
 plotly==5.3.1
