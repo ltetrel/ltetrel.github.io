@@ -33,13 +33,7 @@
             </span>
             <a class="post-link" href="{{ post.url | absolute_url }}" title="{{ post.title }}">{{ post.title | escape }}</a>
             <span class="post-excerpt">
-            {{ post.excerpt | markdownify | newline_to_br | strip_newlines | replace: '<br />', ' ' 
-            | replace: '<div class="cell border-box-sizing text_cell rendered">', ' '
-            | replace: '<div class="prompt input_prompt">', ' '
-            | replace: '<div class="inner_cell">', ' '
-            | replace: '<div class="text_cell_render border-box-sizing rendered_html">', ' '
-            | replace: '<div class="text_cell_render border-box-sizing rendered_html">', ' '
-            | replace: '</div>', ' ' | truncatewords: 30 }}
+            {{ post.excerpt | markdownify | newline_to_br | strip_newlines | strip_html | truncatewords: 30 }}
             </span>
         </div>
     </div>

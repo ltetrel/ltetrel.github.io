@@ -150,7 +150,7 @@ category: {}
 tags:  {}
 img: /notebooks/imgs/{}
 file: /notebooks/{}
-excerpt_separator: </p
+excerpt_separator: </p>
 ---
     '''
     # post date
