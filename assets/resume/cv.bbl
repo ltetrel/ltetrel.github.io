@@ -1,5 +1,5 @@
 % $ biblatex auxiliary file $
-% $ biblatex bbl format version 2.9 $
+% $ biblatex bbl format version 3.2 $
 % Do not modify the above lines!
 %
 % This is an auxiliary file used by the 'biblatex' package.
@@ -26,12 +26,12 @@
            familyi={C\bibinitperiod},
            given={Yohan},
            giveni={Y\bibinitperiod}}}%
-        {{hash=1e52724828301177d39fbd96a0f32fd9}{%
+        {{hash=8ea16d2a45ffa8fed93f07b4de5d48bc}{%
            family={Tetrel},
            familyi={T\bibinitperiod},
-           given={Lo{ï}c},
+           given={Loïc},
            giveni={L\bibinitperiod}}}%
-        {{hash=e0f1b4a5483ad840895a5b63fd608942}{%
+        {{hash=f629153ba111aa5f9ad5155beb0dd3e1}{%
            family={Markiewicz},
            familyi={M\bibinitperiod},
            given={Christopher\bibnamedelima J.},
@@ -58,13 +58,13 @@
            giveni={T\bibinitperiod}}}%
       }
       \strng{namehash}{4a727427dcaff21d7284ce7cd05949b6}
-      \strng{fullhash}{ef63b6e5ebf8d75332453457323bdc7b}
-      \strng{bibnamehash}{4073b00b4b325f9cc2f1fe1f2e4d07fe}
-      \strng{authorbibnamehash}{4073b00b4b325f9cc2f1fe1f2e4d07fe}
+      \strng{fullhash}{b8956f61137757453ce2a1c55a09497f}
+      \strng{bibnamehash}{325b417bde4dc5bcf7b6d66f29900665}
+      \strng{authorbibnamehash}{325b417bde4dc5bcf7b6d66f29900665}
       \strng{authornamehash}{4a727427dcaff21d7284ce7cd05949b6}
-      \strng{authorfullhash}{ef63b6e5ebf8d75332453457323bdc7b}
+      \strng{authorfullhash}{b8956f61137757453ce2a1c55a09497f}
       \field{sortinit}{2}
-      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{addendum}{Poster presented at OHBM 2022, Glasgow, Scotland}
@@ -83,10 +83,10 @@
            familyi={D\bibinitperiod},
            given={Elizabeth},
            giveni={E\bibinitperiod}}}%
-        {{hash=1e52724828301177d39fbd96a0f32fd9}{%
+        {{hash=8ea16d2a45ffa8fed93f07b4de5d48bc}{%
            family={Tetrel},
            familyi={T\bibinitperiod},
-           given={Lo{ï}c},
+           given={Loïc},
            giveni={L\bibinitperiod}}}%
         {{hash=c50e7f670a7548207d81c04eab421443}{%
            family={Bermudez},
@@ -128,13 +128,13 @@
         {OSF Preprints}%
       }
       \strng{namehash}{b8db7066a400e42252c5bc4c3b45f915}
-      \strng{fullhash}{f01e292576a9fc9e2a0f2871da8a14a7}
-      \strng{bibnamehash}{8deb15321d5f362e6d4dd0185795b69f}
-      \strng{authorbibnamehash}{8deb15321d5f362e6d4dd0185795b69f}
+      \strng{fullhash}{0f13323947ae177fbccee204ddf86d04}
+      \strng{bibnamehash}{746f0a044cef56b3e7912c0d4649b279}
+      \strng{authorbibnamehash}{746f0a044cef56b3e7912c0d4649b279}
       \strng{authornamehash}{b8db7066a400e42252c5bc4c3b45f915}
-      \strng{authorfullhash}{f01e292576a9fc9e2a0f2871da8a14a7}
+      \strng{authorfullhash}{0f13323947ae177fbccee204ddf86d04}
       \field{sortinit}{2}
-      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{addendum}{Poster presented at OHBM 2020, Online}
@@ -152,10 +152,10 @@
     \endentry
     \entry{lussier2022standardized}{article}{}
       \name{author}{12}{}{%
-        {{hash=a714f1cd94a88d8fc60be30edb4f974d}{%
+        {{hash=b7ce2903801a36873ad4bf111c11de9e}{%
            family={Lussier},
            familyi={L\bibinitperiod},
-           given={D{é}sir{é}e},
+           given={Désirée},
            giveni={D\bibinitperiod}}}%
         {{hash=37c40a583de4e7ef12b03cb58dfc488c}{%
            family={Clarke},
@@ -167,27 +167,27 @@
            familyi={W\bibinitperiod},
            given={Hao-Ting},
            giveni={H\bibinithyphendelim T\bibinitperiod}}}%
-        {{hash=13ddf88b849924db210d8aa947d8ffc6}{%
-           family={Bor{é}},
+        {{hash=6fd412d3250d11b5775e723e6ce3fe1d}{%
+           family={Boré},
            familyi={B\bibinitperiod},
            given={Arnaud},
            giveni={A\bibinitperiod}}}%
-        {{hash=1e52724828301177d39fbd96a0f32fd9}{%
+        {{hash=8ea16d2a45ffa8fed93f07b4de5d48bc}{%
            family={Tetrel},
            familyi={T\bibinitperiod},
-           given={Lo{ï}c},
+           given={Loïc},
            giveni={L\bibinitperiod}}}%
         {{hash=2696d9c2ca8ec40bd665d90ac27dff87}{%
            family={Duchesne},
            familyi={D\bibinitperiod},
            given={Simon},
            giveni={S\bibinitperiod}}}%
-        {{hash=4e4c569beb0ca70893ad310545d409d8}{%
+        {{hash=e0529bf51d94c9b9e9a2f938046591a0}{%
            family={Devenyi},
            familyi={D\bibinitperiod},
            given={Gabriel\bibnamedelima A.},
            giveni={G\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
-        {{hash=895e4e20c2c0f418a0cfdf7be9bb22be}{%
+        {{hash=c4fe06336ad71be2fd0559c3cc96f061}{%
            family={Chakravarty},
            familyi={C\bibinitperiod},
            given={M.\bibnamedelimi Mallar},
@@ -197,7 +197,7 @@
            familyi={D\bibinitperiod},
            given={Maxime},
            giveni={M\bibinitperiod}}}%
-        {{hash=6d4b130c80e882a50bd368311b2c2e3e}{%
+        {{hash=9d125afe529ce6a87ff503299120b7b1}{%
            family={Dixon},
            familyi={D\bibinitperiod},
            given={Roger\bibnamedelima A.},
@@ -213,14 +213,14 @@
            given={Pierre},
            giveni={P\bibinitperiod}}}%
       }
-      \strng{namehash}{307882cffb9f31b7982f3070cf399a1e}
-      \strng{fullhash}{d59076d8c7ea5ada425a7ccf1d422131}
-      \strng{bibnamehash}{1bf3c94a1a353928e5221279ab432e39}
-      \strng{authorbibnamehash}{1bf3c94a1a353928e5221279ab432e39}
-      \strng{authornamehash}{307882cffb9f31b7982f3070cf399a1e}
-      \strng{authorfullhash}{d59076d8c7ea5ada425a7ccf1d422131}
+      \strng{namehash}{076317fb6251b998f9baf752471f9c45}
+      \strng{fullhash}{b82901129055bb4ebf259a7ff88885e8}
+      \strng{bibnamehash}{22eb80eccf5c6e99a83cf1a63d12f9f0}
+      \strng{authorbibnamehash}{22eb80eccf5c6e99a83cf1a63d12f9f0}
+      \strng{authornamehash}{076317fb6251b998f9baf752471f9c45}
+      \strng{authorfullhash}{b82901129055bb4ebf259a7ff88885e8}
       \field{sortinit}{2}
-      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{addendum}{Poster presented at AAIC 2022, San Diego, CA}
@@ -245,10 +245,10 @@
     \endentry
     \entry{tetrel2021fast}{inproceedings}{}
       \name{author}{2}{}{%
-        {{hash=1e52724828301177d39fbd96a0f32fd9}{%
+        {{hash=8ea16d2a45ffa8fed93f07b4de5d48bc}{%
            family={Tetrel},
            familyi={T\bibinitperiod},
-           given={Lo{ï}c},
+           given={Loïc},
            giveni={L\bibinitperiod}}}%
         {{hash=1cb5f32b2d41b6fd761bf7a52c27a4de}{%
            family={Bellec},
@@ -256,14 +256,15 @@
            given={Pierre},
            giveni={P\bibinitperiod}}}%
       }
-      \strng{namehash}{99ce80784cb73f8e0b96ba60c00a09bb}
-      \strng{fullhash}{06d343971f3c287a6d5e1d903851dad3}
-      \strng{bibnamehash}{06d343971f3c287a6d5e1d903851dad3}
-      \strng{authorbibnamehash}{06d343971f3c287a6d5e1d903851dad3}
-      \strng{authornamehash}{99ce80784cb73f8e0b96ba60c00a09bb}
-      \strng{authorfullhash}{06d343971f3c287a6d5e1d903851dad3}
+      \strng{namehash}{c83e120f4be4c085e5922e8f9679095e}
+      \strng{fullhash}{99804d04a6de023efd25c2968f33a1a0}
+      \strng{bibnamehash}{99804d04a6de023efd25c2968f33a1a0}
+      \strng{authorbibnamehash}{99804d04a6de023efd25c2968f33a1a0}
+      \strng{authornamehash}{c83e120f4be4c085e5922e8f9679095e}
+      \strng{authorfullhash}{99804d04a6de023efd25c2968f33a1a0}
+      \field{extraname}{1}
       \field{sortinit}{2}
-      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{addendum}{Poster presented at OHBM 2021, Online}
@@ -280,10 +281,10 @@
            familyi={Z\bibinitperiod},
            given={Yu},
            giveni={Y\bibinitperiod}}}%
-        {{hash=1e52724828301177d39fbd96a0f32fd9}{%
+        {{hash=8ea16d2a45ffa8fed93f07b4de5d48bc}{%
            family={Tetrel},
            familyi={T\bibinitperiod},
-           given={Lo{ï}c},
+           given={Loïc},
            giveni={L\bibinitperiod}}}%
         {{hash=0f3fc06fb9fcbb01b9cc0985eaf0a71c}{%
            family={Thirion},
@@ -297,13 +298,13 @@
            giveni={P\bibinitperiod}}}%
       }
       \strng{namehash}{367ada10cf7a486d27eb01f137df4757}
-      \strng{fullhash}{3f46f17f2593413b5f30615d576c0b1c}
-      \strng{bibnamehash}{3f46f17f2593413b5f30615d576c0b1c}
-      \strng{authorbibnamehash}{3f46f17f2593413b5f30615d576c0b1c}
+      \strng{fullhash}{646ae24aca70dee258c2d65986114f10}
+      \strng{bibnamehash}{646ae24aca70dee258c2d65986114f10}
+      \strng{authorbibnamehash}{646ae24aca70dee258c2d65986114f10}
       \strng{authornamehash}{367ada10cf7a486d27eb01f137df4757}
-      \strng{authorfullhash}{3f46f17f2593413b5f30615d576c0b1c}
+      \strng{authorfullhash}{646ae24aca70dee258c2d65986114f10}
       \field{sortinit}{2}
-      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{issn}{1053-8119}
@@ -324,74 +325,42 @@
       \endverb
       \keyw{fMRI,Brain decoding,Brain dynamics,Cognitive states,Graph convolutional network,Deep learning}
     \endentry
-    \entry{zhang2019benchmarking}{inproceedings}{}
-      \name{author}{3}{}{%
-        {{hash=9a4f4a1ff661cd600eb26523a5ba8bb4}{%
-           family={Zhang},
-           familyi={Z\bibinitperiod},
-           given={Yu},
-           giveni={Y\bibinitperiod}}}%
-        {{hash=1e52724828301177d39fbd96a0f32fd9}{%
-           family={Tetrel},
-           familyi={T\bibinitperiod},
-           given={Lo{ï}c},
-           giveni={L\bibinitperiod}}}%
-        {{hash=1cb5f32b2d41b6fd761bf7a52c27a4de}{%
-           family={Bellec},
-           familyi={B\bibinitperiod},
-           given={Pierre},
-           giveni={P\bibinitperiod}}}%
-      }
-      \strng{namehash}{367ada10cf7a486d27eb01f137df4757}
-      \strng{fullhash}{d21a542c2cdb184b3cff776804540447}
-      \strng{bibnamehash}{d21a542c2cdb184b3cff776804540447}
-      \strng{authorbibnamehash}{d21a542c2cdb184b3cff776804540447}
-      \strng{authornamehash}{367ada10cf7a486d27eb01f137df4757}
-      \strng{authorfullhash}{d21a542c2cdb184b3cff776804540447}
-      \field{sortinit}{2}
-      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{addendum}{Poster presented at MAIN 2019, Montreal, Canada}
-      \field{title}{Benchmarking 3d-CNN models for brain decoding on CPU servers}
-      \field{year}{2019}
-    \endentry
     \entry{tetrel2016estimation}{thesis}{}
       \name{author}{1}{}{%
-        {{hash=1e52724828301177d39fbd96a0f32fd9}{%
+        {{hash=8ea16d2a45ffa8fed93f07b4de5d48bc}{%
            family={Tetrel},
            familyi={T\bibinitperiod},
-           given={Lo{ï}c},
+           given={Loïc},
            giveni={L\bibinitperiod}}}%
       }
       \list{institution}{1}{%
-        {{É}cole de technologie sup{é}rieure}%
+        {École de technologie supérieure}%
       }
-      \strng{namehash}{1e52724828301177d39fbd96a0f32fd9}
-      \strng{fullhash}{1e52724828301177d39fbd96a0f32fd9}
-      \strng{bibnamehash}{1e52724828301177d39fbd96a0f32fd9}
-      \strng{authorbibnamehash}{1e52724828301177d39fbd96a0f32fd9}
-      \strng{authornamehash}{1e52724828301177d39fbd96a0f32fd9}
-      \strng{authorfullhash}{1e52724828301177d39fbd96a0f32fd9}
+      \strng{namehash}{8ea16d2a45ffa8fed93f07b4de5d48bc}
+      \strng{fullhash}{8ea16d2a45ffa8fed93f07b4de5d48bc}
+      \strng{bibnamehash}{8ea16d2a45ffa8fed93f07b4de5d48bc}
+      \strng{authorbibnamehash}{8ea16d2a45ffa8fed93f07b4de5d48bc}
+      \strng{authornamehash}{8ea16d2a45ffa8fed93f07b4de5d48bc}
+      \strng{authorfullhash}{8ea16d2a45ffa8fed93f07b4de5d48bc}
       \field{sortinit}{2}
-      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{title}{Estimation de la trajectoire d'une sonde ultrasonore pour l'{é}chographie 3D main-libre sans capteur de position}
+      \field{title}{Estimation de la trajectoire d'une sonde ultrasonore pour l'échographie 3D main-libre sans capteur de position}
       \field{type}{mathesis}
       \field{year}{2016}
     \endentry
     \entry{tetrel2016learning}{inproceedings}{}
       \name{author}{3}{}{%
-        {{hash=1e52724828301177d39fbd96a0f32fd9}{%
+        {{hash=8ea16d2a45ffa8fed93f07b4de5d48bc}{%
            family={Tetrel},
            familyi={T\bibinitperiod},
-           given={Lo{ï}c},
+           given={Loïc},
            giveni={L\bibinitperiod}}}%
-        {{hash=7cbeb556fd1fdd68110f0117de5f42eb}{%
+        {{hash=99fa2fe418ddc29b61576cf216b473b9}{%
            family={Chebrek},
            familyi={C\bibinitperiod},
-           given={Hac{è}ne},
+           given={Hacène},
            giveni={H\bibinitperiod}}}%
         {{hash=2529e2abbe556a7f66efaac328109cbd}{%
            family={Laporte},
@@ -435,17 +404,18 @@
       \list{publisher}{1}{%
         {Springer International Publishing}%
       }
-      \strng{namehash}{99ce80784cb73f8e0b96ba60c00a09bb}
-      \strng{fullhash}{fdd5a97b8481efb224510e73cff01eb4}
-      \strng{bibnamehash}{fdd5a97b8481efb224510e73cff01eb4}
-      \strng{authorbibnamehash}{fdd5a97b8481efb224510e73cff01eb4}
-      \strng{authornamehash}{99ce80784cb73f8e0b96ba60c00a09bb}
-      \strng{authorfullhash}{fdd5a97b8481efb224510e73cff01eb4}
+      \strng{namehash}{c83e120f4be4c085e5922e8f9679095e}
+      \strng{fullhash}{105313ebed4be61e34f4862aa1ce7c98}
+      \strng{bibnamehash}{105313ebed4be61e34f4862aa1ce7c98}
+      \strng{authorbibnamehash}{105313ebed4be61e34f4862aa1ce7c98}
+      \strng{authornamehash}{c83e120f4be4c085e5922e8f9679095e}
+      \strng{authorfullhash}{105313ebed4be61e34f4862aa1ce7c98}
       \strng{editorbibnamehash}{c7badf897f90f8300b14da8d88c598a5}
       \strng{editornamehash}{e3f3b9a24d52da2d0d4b1fe99638d06c}
       \strng{editorfullhash}{c7badf897f90f8300b14da8d88c598a5}
+      \field{extraname}{2}
       \field{sortinit}{2}
-      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{Machine Learning in Medical Imaging}
