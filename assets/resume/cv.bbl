@@ -19,8 +19,8 @@
 
 \refsection{0}
   \datalist[entry]{ydnt/global//global/global}
-    \entry{chatelain2022testing}{inproceedings}{}
-      \name{author}{7}{}{%
+    \entry{chatelain2025numerical}{article}{}
+      \name{author}{8}{}{%
         {{hash=08b31709365167770187c940108aa071}{%
            family={Chatelain},
            familyi={C\bibinitperiod},
@@ -36,6 +36,11 @@
            familyi={M\bibinitperiod},
            given={Christopher\bibnamedelima J.},
            giveni={C\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=c9690af972845ee41959a41c2eb56dd1}{%
+           family={Goncalves},
+           familyi={G\bibinitperiod},
+           given={Mathias},
+           giveni={M\bibinitperiod}}}%
         {{hash=8d97d5c95e4c0fa5b6cabb4ab84bf53e}{%
            family={Kiar},
            familyi={K\bibinitperiod},
@@ -58,18 +63,26 @@
            giveni={T\bibinitperiod}}}%
       }
       \strng{namehash}{4a727427dcaff21d7284ce7cd05949b6}
-      \strng{fullhash}{b8956f61137757453ce2a1c55a09497f}
-      \strng{bibnamehash}{325b417bde4dc5bcf7b6d66f29900665}
-      \strng{authorbibnamehash}{325b417bde4dc5bcf7b6d66f29900665}
+      \strng{fullhash}{3ad45903024f9a9d51014ee17ac7a532}
+      \strng{bibnamehash}{545c85fca660c2f49ef34e23782b7c68}
+      \strng{authorbibnamehash}{545c85fca660c2f49ef34e23782b7c68}
       \strng{authornamehash}{4a727427dcaff21d7284ce7cd05949b6}
-      \strng{authorfullhash}{b8956f61137757453ce2a1c55a09497f}
+      \strng{authorfullhash}{3ad45903024f9a9d51014ee17ac7a532}
       \field{sortinit}{2}
       \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{addendum}{Poster presented at OHBM 2022, Glasgow, Scotland}
-      \field{title}{Testing the long-term reproducibility of fMRIPrep results}
-      \field{year}{2022}
+      \field{journaltitle}{IEEE Transactions on Computers}
+      \field{number}{1}
+      \field{title}{A Numerical Variability Approach to Results Stability Tests and Its Application to Neuroimaging}
+      \field{volume}{74}
+      \field{year}{2025}
+      \field{pages}{200\bibrangedash 209}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1109/TC.2024.3475586
+      \endverb
+      \keyw{Numerical stability;Neuroimaging;Stability criteria;Perturbation methods;Magnetic resonance imaging;Data analysis;Standards;Pipelines;Hardware;Smoothing methods;Testing and debugging;testing tools}
     \endentry
     \entry{karakuzu2022neurolibre}{misc}{}
       \name{author}{10}{}{%

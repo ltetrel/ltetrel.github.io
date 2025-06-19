@@ -2365,7 +2365,7 @@
   </bcf:bibdata>
   <bcf:section number="0">
     <bcf:citekey order="1" intorder="1">lussier2022standardized</bcf:citekey>
-    <bcf:citekey order="2" intorder="1">chatelain2022testing</bcf:citekey>
+    <bcf:citekey order="2" intorder="1">chatelain2025numerical</bcf:citekey>
     <bcf:citekey order="3" intorder="1">zhang2021functional</bcf:citekey>
     <bcf:citekey order="4" intorder="1">tetrel2021fast</bcf:citekey>
     <bcf:citekey order="5" intorder="1">karakuzu2022neurolibre</bcf:citekey>

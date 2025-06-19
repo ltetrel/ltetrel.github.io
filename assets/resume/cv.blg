@@ -1,15 +1,15 @@
 [0] Config.pm:307> INFO - This is Biber 2.19
 [0] Config.pm:310> INFO - Logfile is 'cv.blg'
-[61] biber:340> INFO - === ven. janv.  3, 2025, 15:59:33
-[72] Biber.pm:419> INFO - Reading 'cv.bcf'
-[120] Biber.pm:979> INFO - Found 7 citekeys in bib section 0
-[130] Biber.pm:4419> INFO - Processing section 0
-[137] Biber.pm:4610> INFO - Looking for bibtex file 'bibliography.bib' for section 0
-[138] bibtex.pm:1713> INFO - LaTeX decoding ...
-[146] bibtex.pm:1519> INFO - Found BibTeX data source 'bibliography.bib'
-[232] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[232] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[232] Biber.pm:4239> INFO - Sorting list 'ydnt/global//global/global' of type 'entry' with template 'ydnt' and locale 'en-US'
-[232] Biber.pm:4245> INFO - No sort tailoring available for locale 'en-US'
-[242] bbl.pm:660> INFO - Writing 'cv.bbl' with encoding 'UTF-8'
-[245] bbl.pm:763> INFO - Output to cv.bbl
+[25] biber:340> INFO - === Thu Jun 19, 2025, 18:39:48
+[30] Biber.pm:419> INFO - Reading 'cv.bcf'
+[51] Biber.pm:979> INFO - Found 7 citekeys in bib section 0
+[56] Biber.pm:4419> INFO - Processing section 0
+[59] Biber.pm:4610> INFO - Looking for bibtex file 'bibliography.bib' for section 0
+[60] bibtex.pm:1713> INFO - LaTeX decoding ...
+[63] bibtex.pm:1519> INFO - Found BibTeX data source 'bibliography.bib'
+[103] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[103] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[103] Biber.pm:4239> INFO - Sorting list 'ydnt/global//global/global' of type 'entry' with template 'ydnt' and locale 'en-US'
+[103] Biber.pm:4245> INFO - No sort tailoring available for locale 'en-US'
+[107] bbl.pm:660> INFO - Writing 'cv.bbl' with encoding 'UTF-8'
+[109] bbl.pm:763> INFO - Output to cv.bbl
