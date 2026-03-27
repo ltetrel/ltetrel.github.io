@@ -1,0 +1,104 @@
+---
+layout: post
+title: Enabling GPU Acceleration in Windows 11 Hyper-V VMs
+date: 2026-03-27
+category: Software-Development
+tags:   GPU
+img: /notebooks/imgs/hyperv_gpu/post_img.png
+file: /notebooks/hyperv_gpu.py
+excerpt_separator: </p>
+---
+    
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=02390e0a"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Want to run GPU-accelerated applications inside a Windows 11 Hyper-V virtual machine? This guide walks you through enabling GPU Paravirtualization (GPU-PV).</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=be733980"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="TL;DR">TL;DR<a class="anchor-link" href="#TL;DR">¶</a></h2><ol>
+<li>Install Hyper-V (force the installation if using Windows 11 free).</li>
+<li>Create a VM (disable Secure Boot, enable TPM).</li>
+<li>Enable GPU virtualization by packaging host GPU drivers (NVIDIA Turing+ or AMD RX 5000+), and copy them to the guest VM.</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=a1561928"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction">¶</a></h2><p>I will walk through the process of enabling GPU-PV, allowing the guest VM to utilize the host's graphics card for acceleration.
+We will use a software called Hyper-V, which is
+In this guide, we refer to the "host" as your main physical computer running Windows 11, and the "guest" as the virtual machine (VM) you intend to run</p>
+<h2 id="Requirements">Requirements<a class="anchor-link" href="#Requirements">¶</a></h2><p>Before starting, ensure you have the following:</p>
+<ul>
+<li>Host OS: Windows 11.</li>
+<li>Hyper-V Installed: If you are using the free Home edition, you may need to enable it via a workaround script. Check this gist for instructions.</li>
+<li>Windows 11 ISO: Download the disk image from the official Microsoft Software Download page.</li>
+<li>Compatible GPU and drivers installed: <strong>NVIDIA</strong> Turing+ architecture, or <strong>AMD</strong> RX 5000+ series.</li>
+</ul>
+<p>The installation of Hyper-V <a href="https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/get-started/Install-Hyper-V">is straightforward</a>,
+but if you have the free home edition you should check <a href="https://gist.github.com/HimDek/6edde284203a620745fad3f762be603b">those instructions</a>.</p>
+<p>You will also need to download a <a href="https://www.microsoft.com/en-us/software-download/windows11">windows 11 ISO</a>, check under "Download Windows 11 Disk Image (ISO) for x64 devices" section.</p>
+<h2 id="Create-you-first-VM">Create you first VM<a class="anchor-link" href="#Create-you-first-VM">¶</a></h2><p>Follow the official Microsoft tutorial to
+<a href="https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/get-started/create-a-virtual-machine-in-hyper-v?tabs=hyper-v-manager">create a VM in Hyper-V</a>.
+Make sure to disable secure-boot and enable TPM in the VM settings, otherwise the installation will not succeed (ISO is not detected).</p>
+<h2 id="Set-up-GPU%E2%80%91PV">Set-up GPU‑PV<a class="anchor-link" href="#Set-up-GPU%E2%80%91PV">¶</a></h2><p>Once your VM is created but before installing the guest OS (or after, depending on your workflow), we need to prepare the host for GPU partitioning.</p>
+<h3 id="Verify-GPU-support">Verify GPU support<a class="anchor-link" href="#Verify-GPU-support">¶</a></h3><p>Open PowerShell as Administrator on the host and run:</p>
+<div class="highlight"><pre><span></span>Get-VMHostPartitionableGpu
+</pre></div>
+<p>For NVIDIA GPUs, the output should include the vendor identifier <code>VEN_10DE</code>.</p>
+<h3 id="Run-the-configuration-script">Run the configuration script<a class="anchor-link" href="#Run-the-configuration-script">¶</a></h3><p>We will use a <a href="https://gist.github.com/neggles/e35793da476095beac716c16ffba1d23#file-new-gpupvirtualmachine-ps1">community script</a> to set the necessary VM parameters, to download this script and run it, follow:</p>
+<div class="highlight"><pre><span></span>Invoke-WebRequest<span class="w"> </span>-Uri<span class="w"> </span><span class="s2">"https://gist.githubusercontent.com/neggles/e35793da476095beac716c16ffba1d23/raw/0500355ed003e441a0ab2785ee5aa4a33a7ec8ab/New-GPUPVirtualMachine.ps1"</span><span class="w"> </span>-OutFile<span class="w"> </span><span class="nv">$env</span>:USERPROFILE<span class="se">\D</span>ownloads<span class="se">\N</span>ew-GPUVirtualMachine.ps1
+Set-ExecutionPolicy<span class="w"> </span>RemoteSigned<span class="w"> </span>-Scope<span class="w"> </span>CurrentUser
+.<span class="se">\$</span>env:USERPROFILE<span class="se">\D</span>ownloads<span class="se">\N</span>ew-GPUVirtualMachine.ps1
+</pre></div>
+<p>To prevent issues with GPU state, disable automatic checkpoints:</p>
+<div class="highlight"><pre><span></span>Set-VM<span class="w"> </span>-Name<span class="w"> </span><span class="s2">"YourVMName"</span><span class="w"> </span>-AutomaticStopAction<span class="w"> </span>TurnOff
+</pre></div>
+<blockquote>
+<p><strong>Note</strong>:
+While official Microsoft documentation mentions hardware partitioning, they describe it only <a href="https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/partition-assign-vm-gpu?tabs=windows-admin-center">Windows Server</a>.
+This guide is for Windows 11 clients.</p>
+</blockquote>
+<p>Check that the VMs has the correct graphic adapter:</p>
+<div class="highlight"><pre><span></span>Get-VMHostPartitionableGpu
+</pre></div>
+<h2 id="Prepare-and-transfer-GPU-drivers-to-guest">Prepare and transfer GPU drivers to guest<a class="anchor-link" href="#Prepare-and-transfer-GPU-drivers-to-guest">¶</a></h2><p>GPU-PV does not expose a standard PCIe device to the VM.
+Instead, the VM sees a virtual adapter that relies on specific host-side driver components and we must package these drivers and transfer them to the guest.</p>
+<p>To package the GPU drivers from host and sent it to guest, download and run <a href="https://gist.github.com/neggles/e35793da476095beac716c16ffba1d23#file-new-gpupdriverpackage-ps1">this script</a>.
+You should replace accordingly <code>YourVMName</code> and <code>GuestUsername</code>:</p>
+<div class="highlight"><pre><span></span>Invoke-WebRequest<span class="w"> </span>-Uri<span class="w"> </span><span class="s2">"https://gist.githubusercontent.com/neggles/e35793da476095beac716c16ffba1d23/raw/0500355ed003e441a0ab2785ee5aa4a33a7ec8ab/New-GPUPDriverPackage.ps1"</span><span class="w"> </span>-OutFile<span class="w"> </span><span class="nv">$env</span>:USERPROFILE<span class="se">\D</span>ownloads<span class="se">\N</span>ew-GPUDriverPackage.ps1<span class="w"> </span>-Filter<span class="w"> </span><span class="s2">"NVIDIA"</span>
+
+Set-VM<span class="w"> </span>-Name<span class="w"> </span>YourVMName<span class="w"> </span>-GuestControlledCacheTypes<span class="w"> </span><span class="nv">$true</span>
+Enable-VMIntegrationService<span class="w"> </span>-VMName<span class="w"> </span><span class="s2">"YourVMName"</span><span class="w"> </span>-Name<span class="w"> </span><span class="s2">"Guest Service Interface"</span>
+Copy-VMFile<span class="w"> </span>-Name<span class="w"> </span><span class="s2">"YourVMName"</span><span class="w"> </span>-SourcePath<span class="w"> </span>.<span class="se">\G</span>PUPDriverPackage.zip<span class="w"> </span>-DestinationPath<span class="w"> </span><span class="s2">"C:\Users\GuestUsername\Downloads\GPUPDriverPackage.zip"</span><span class="w"> </span>-FileSource<span class="w"> </span>Host
+</pre></div>
+<p>Run the driver packaging script on the host:</p>
+<h2 id="Finalize-and-check-the-Guest-OS">Finalize and check the Guest OS<a class="anchor-link" href="#Finalize-and-check-the-Guest-OS">¶</a></h2><p>Inside the VM, navigate to <code>C:\Users\GuestUsername\Downloads\</code> and extract <code>GPUPDriverPackage.zip</code> in <code>C:\Windows\</code> as explained <a href="https://gist.github.com/neggles/e35793da476095beac716c16ffba1d23#using-the-driver-gathering-script-recommended">here</a>.
+Once installed, the VM should recognize the GPU in windows settings.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=0881b531"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="To-go-further">To go further<a class="anchor-link" href="#To-go-further">¶</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=020c3f9e"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If you need to change the VM's display resolution, you can use the following PowerShell command on the host:</p>
+<div class="highlight"><pre><span></span>Set-VMVideo<span class="w"> </span>-VMName<span class="w"> </span><span class="s2">"YourVMName"</span><span class="w"> </span>-HorizontalResolution<span class="w"> </span><span class="m">2560</span><span class="w"> </span>-VerticalResolution<span class="w"> </span><span class="m">1440</span><span class="w"> </span>-ResolutionType<span class="w"> </span>Default
+</pre></div>
+<p>Learn more about GPU-PV vs true PCIe passthrough differences <a href="https://www.scalecomputing.com/resources/virtual-gpu-vs-gpu-passthrough">here</a>.</p>
+</div>
+</div>
+</div>
+
+
