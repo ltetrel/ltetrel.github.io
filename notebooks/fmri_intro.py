@@ -1,6 +1,6 @@
 # %% [markdown]
 '''
-# A gentle introduction to neuroscience and task f-MRI study
+# Introduction to neuroscience and task f-MRI study
 '''
 # %% [markdown]
 '''
@@ -418,7 +418,7 @@ Among my professionnal work, I have been working in the [cneuromod project](http
 This project aims to train ANNs using extensive experimental data on individual human brain activity and behaviour.
 As part of this project, I was even able to be the first one playing Super Mario Bros. inside a MRI scanner!
 
-![playing mario in a scanner](gifs/mario.gif)
+![playing mario in a scanner](imgs/fmri_intro/mario.gif)
 '''
 # %% [markdown]
 '''

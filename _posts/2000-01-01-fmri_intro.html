@@ -1,6 +1,6 @@
 ---
 layout: post
-title: A gentle introduction to neuroscience and task f-MRI study
+title: Introduction to neuroscience and task f-MRI study
 date: 2021-08-04
 category: Data-Science
 tags:   Health-Care Open-Science Statistics
@@ -9,7 +9,7 @@ file: /notebooks/fmri_intro.py
 excerpt_separator: </p>
 ---
     
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=8490f4f6"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=8258d8c4"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Neuroscience is a multidisciplinary science to study the human brain, and MRI is one of the main and widely used tool for measuring the brain.
@@ -18,14 +18,14 @@ f-MRI itself focuses on the identification of patterns evoked by tasks performed
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=530847c8"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=221766fa"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><p><a href="https://mybinder.org/v2/gh/ltetrel/ltetrel.github.io/master?filepath=notebooks%2Fipynb%2Ffmri_intro.ipynb"><img src="https://mybinder.org/badge_logo.svg"/></a><a href="/about.html"><sup> (?)</sup></a></p></p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=6cf8a50e"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=0b7d52b8"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="tl;dr">tl;dr<a class="anchor-link" href="#tl;dr">¶</a></h2><ol>
@@ -36,14 +36,14 @@ f-MRI itself focuses on the identification of patterns evoked by tasks performed
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=4533c464"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=7635720c"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="1.-Magnetic-Resonance-Imaging">1. Magnetic Resonance Imaging<a class="anchor-link" href="#1.-Magnetic-Resonance-Imaging">¶</a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=91d81d68"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=21e6516e"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Magnetic Resonance Imaging (MRI) uses radio wave frequency (RF) in the presence of a strong magnetic field (usually 3T) to produce detailed images from any part of the body.
@@ -56,14 +56,14 @@ the powerfull magnetic field attracting magnetic objects, or noise inside the ma
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=04055c59"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=b59529f9"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="1.1-Anatomical-MRI">1.1 Anatomical MRI<a class="anchor-link" href="#1.1-Anatomical-MRI">¶</a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=c657531a"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=8d8f7607"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Anatomical or structural image is the most common neuroimaging data that uses MRI techniques.
@@ -77,14 +77,14 @@ Different relaxation times enable multiple pulse sequences: T1-weighted image (t
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=1c1e5a6d"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=fd8d273b"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="1.2-Functionnal-MRI">1.2 Functionnal MRI<a class="anchor-link" href="#1.2-Functionnal-MRI">¶</a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=b41fb3f6"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=381c39ff"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Functionnal MRI is an approximated measure of the brain activity.</p>
@@ -100,14 +100,14 @@ Because BOLD signal acquisition is really slow (few seconds), it is important to
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=447d7439"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=cc3d8291"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.-Functionnal-MRI-study">2. Functionnal MRI study<a class="anchor-link" href="#2.-Functionnal-MRI-study">¶</a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=db4635df"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=4f194e7b"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Designing a task f-MRI study requires a lot of time and expertises.
@@ -116,14 +116,14 @@ It is only then that you can create a statisctial model and start analysing the 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=742a89ff"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=972e112c"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.1-Common-neuro-imaging-data-structure">2.1 Common neuro-imaging data structure<a class="anchor-link" href="#2.1-Common-neuro-imaging-data-structure">¶</a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=3c46875c"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=c7757737"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>f-MRI data is collected by the scanner, and sequences are controlled via a computer in another room (what is called the console).
@@ -134,14 +134,14 @@ It is now widely used in the neuroscience community.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=de97a281"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=0ce281fb"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.2-Data-pre-processing-and-QC">2.2 Data pre-processing and QC<a class="anchor-link" href="#2.2-Data-pre-processing-and-QC">¶</a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=2b751a7c"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=ff6fe8eb"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The f-MRI data content itself is still not usable as is for neuroscience studies. Even if it is in BIDS format (which is just a way of re-organizing files), the data needs to be prepared.
@@ -154,14 +154,14 @@ QC is also itself a whole area of research but not the goal of this post.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=63c8bab1"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=49fbd71e"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.3-fMRI-Analysis">2.3 fMRI Analysis<a class="anchor-link" href="#2.3-fMRI-Analysis">¶</a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=ed26e249"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=17adc8e6"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The analysis of any preprocessed fMRI can be decomposed into multiple steps: task definition/design, modeling and statistical information extraction.</p>
@@ -169,14 +169,14 @@ QC is also itself a whole area of research but not the goal of this post.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=9bb4ca63"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=c8a05282"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.3.1-GLM-model">2.3.1 GLM model<a class="anchor-link" href="#2.3.1-GLM-model">¶</a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=3f2c01e9"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=94c7b764"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The <a href="https://en.wikipedia.org/wiki/General_linear_model">GLM</a> is just the general case of the multiple linear regression (MLR) model.
@@ -199,14 +199,14 @@ We will not talk about that here but it basically involve using the beta-maps as
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=829715d2"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=115e8036"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.3.2-Statistical-tests">2.3.2 Statistical tests<a class="anchor-link" href="#2.3.2-Statistical-tests">¶</a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=523ccb0c"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=4a3da1a6"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Once the GLM is defined and beta-maps estimated, one can use statistical tests to explain the parameters.
@@ -219,14 +219,14 @@ Such inequalities $\beta_1 &gt; \beta_2$ can be designed using a <a href="https:
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=10b5c663"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=4a33d8e9"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="3.-Hands-on">3. Hands on<a class="anchor-link" href="#3.-Hands-on">¶</a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=5fa38634"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=5ca342cc"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Finally the hands-on!
@@ -239,7 +239,7 @@ and some of them even reached a bigger audience like <a href="http://stnava.gith
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=53dc33ad">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=3d0e299f">
 <div class="input">
 <div class="prompt input_prompt">In [1]:</div>
 <div class="inner_cell">
@@ -261,14 +261,14 @@ and some of them even reached a bigger audience like <a href="http://stnava.gith
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=a1d843b4"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=aeae6f12"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="3.1-Input-data">3.1 Input data<a class="anchor-link" href="#3.1-Input-data">¶</a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=fb6fbbe9"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=c8daa88c"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>For this tutorial, we will use a little and open fMRI dataset: a subset of the Functional Localizer dataset.
@@ -282,7 +282,7 @@ This is usually not the case for the raw data in BIDS, but using non-preprocesse
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=a6aacfbc">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=bca00d3d">
 <div class="input">
 <div class="prompt input_prompt">In [2]:</div>
 <div class="inner_cell">
@@ -297,47 +297,14 @@ This is usually not the case for the raw data in BIDS, but using non-preprocesse
 <div class="output">
 <div class="output_area">
 <div class="prompt"></div>
-<div class="output_html rendered_html output_subarea"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #000080; text-decoration-color: #000080; font-weight: bold">[</span><span style="color: #000080; text-decoration-color: #000080">fetch_localizer_first_level</span><span style="color: #000080; text-decoration-color: #000080; font-weight: bold">]</span> Added README.md to <span style="color: #800080; text-decoration-color: #800080">/home/ltetrel/</span><span style="color: #ff00ff; text-decoration-color: #ff00ff">nilearn_data</span>
-</pre>
-</div>
-</div>
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_html rendered_html output_subarea"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #000080; text-decoration-color: #000080; font-weight: bold">[</span><span style="color: #000080; text-decoration-color: #000080">fetch_localizer_first_level</span><span style="color: #000080; text-decoration-color: #000080; font-weight: bold">]</span> Dataset created in <span style="color: #800080; text-decoration-color: #800080">/home/ltetrel/nilearn_data/</span><span style="color: #ff00ff; text-decoration-color: #ff00ff">localizer_first_level</span>
-</pre>
-</div>
-</div>
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_html rendered_html output_subarea"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #000080; text-decoration-color: #000080; font-weight: bold">[</span><span style="color: #000080; text-decoration-color: #000080">fetch_localizer_first_level</span><span style="color: #000080; text-decoration-color: #000080; font-weight: bold">]</span> Downloading data from <span style="color: #0000ff; text-decoration-color: #0000ff; text-decoration: underline">https://osf.io/2bqxn/download</span> <span style="color: #808000; text-decoration-color: #808000">...</span>
-</pre>
-</div>
-</div>
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_html rendered_html output_subarea"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #000080; text-decoration-color: #000080; font-weight: bold">[</span><span style="color: #000080; text-decoration-color: #000080">fetch_localizer_first_level</span><span style="color: #000080; text-decoration-color: #000080; font-weight: bold">]</span>  <span style="color: #808000; text-decoration-color: #808000">...</span>done. <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span> seconds, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span> min<span style="font-weight: bold">)</span>
-
-</pre>
-</div>
-</div>
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_html rendered_html output_subarea"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #000080; text-decoration-color: #000080; font-weight: bold">[</span><span style="color: #000080; text-decoration-color: #000080">fetch_localizer_first_level</span><span style="color: #000080; text-decoration-color: #000080; font-weight: bold">]</span> Extracting data from 
-<span style="color: #800080; text-decoration-color: #800080">/home/ltetrel/nilearn_data/localizer_first_level/cac0ef0f4307834e60fedd2a0448862a/</span><span style="color: #ff00ff; text-decoration-color: #ff00ff">download...</span>
-</pre>
-</div>
-</div>
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_html rendered_html output_subarea"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #000080; text-decoration-color: #000080; font-weight: bold">[</span><span style="color: #000080; text-decoration-color: #000080">fetch_localizer_first_level</span><span style="color: #000080; text-decoration-color: #000080; font-weight: bold">]</span> .. done.
-
+<div class="output_html rendered_html output_subarea"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #000080; text-decoration-color: #000080; font-weight: bold">[</span><span style="color: #000080; text-decoration-color: #000080">fetch_localizer_first_level</span><span style="color: #000080; text-decoration-color: #000080; font-weight: bold">]</span> Dataset found in <span style="color: #800080; text-decoration-color: #800080">/home/ltetrel/nilearn_data/</span><span style="color: #ff00ff; text-decoration-color: #ff00ff">localizer_first_level</span>
 </pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=335af7f7"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=a722b6bf"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Looking at the fMRI data (in <a href="https://nifti.nimh.nih.gov/">NIfTI</a> format), it is a $4D$ <code>numpy</code> array.
@@ -345,7 +312,7 @@ There is just one participant on which were acquired $128$ EPI images of size $(
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=5cb74d32">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=0faceb80">
 <div class="input">
 <div class="prompt input_prompt">In [3]:</div>
 <div class="inner_cell">
@@ -370,14 +337,14 @@ There is just one participant on which were acquired $128$ EPI images of size $(
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=56b424e6"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=ad3a79cd"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And here is how one sample (or voxel) of fMRI signal looks like:</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=26a295aa">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=7b4c72fd">
 <div class="input">
 <div class="prompt input_prompt">In [4]:</div>
 <div class="inner_cell">
@@ -404,7 +371,7 @@ There is just one participant on which were acquired $128$ EPI images of size $(
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=15437578"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=1072cff5"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>As you can see, fMRI data is really noisy!</p>
@@ -415,7 +382,7 @@ The raw time unit for neuroinformatic is often in frames (one EPI image is one f
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=e6e565cf"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=e868ace4"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Here, we will focus on auditory and visual stimulis.
@@ -423,7 +390,7 @@ Let's check some examples of what the participant is hearing or seeing (stimulis
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=3ab899d9">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=520c64ad">
 <div class="input">
 <div class="prompt input_prompt">In [5]:</div>
 <div class="inner_cell">
@@ -448,14 +415,14 @@ Let's check some examples of what the participant is hearing or seeing (stimulis
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=a8ba007f"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=917a8221"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>"<em>On raconte des histoires de fantômes.</em>" Really!?</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=ab27a926">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=5d765c4e">
 <div class="input">
 <div class="prompt input_prompt">In [6]:</div>
 <div class="inner_cell">
@@ -482,21 +449,21 @@ Let's check some examples of what the participant is hearing or seeing (stimulis
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=4d46173f"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=cd8843bb"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><em>Imagine being scanned and looking at weird stuff like this during hours... Yes, this is common in neuroimaging studies!</em></p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=cb6c0061"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=1e343509"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="3.2-GLM-modeling">3.2 GLM modeling<a class="anchor-link" href="#3.2-GLM-modeling">¶</a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=8d5a0dc5"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=ddec55c3"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The first step is to load the behavioral (or event) file.
@@ -505,7 +472,7 @@ There should be obviously one event file per fMRI run, and in our case there is 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=000f68ac">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=ecde64b4">
 <div class="input">
 <div class="prompt input_prompt">In [7]:</div>
 <div class="inner_cell">
@@ -621,7 +588,7 @@ There should be obviously one event file per fMRI run, and in our case there is 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=35800078"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=ff28a587"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <blockquote>
@@ -635,7 +602,7 @@ It should be accessible in <a href="https://www.neurospin-wiki.org/pmwiki/Main/S
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=5b266273">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=2fd51c18">
 <div class="input">
 <div class="prompt input_prompt">In [8]:</div>
 <div class="inner_cell">
@@ -650,14 +617,14 @@ It should be accessible in <a href="https://www.neurospin-wiki.org/pmwiki/Main/S
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=2429a476"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=19d24f42"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's check how the GLM looks like!</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=5f90d89d">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=a607cb7d">
 <div class="input">
 <div class="prompt input_prompt">In [9]:</div>
 <div class="inner_cell">
@@ -682,14 +649,14 @@ It should be accessible in <a href="https://www.neurospin-wiki.org/pmwiki/Main/S
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=1ed6ee3a"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=68ed4e13"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>If we take a deeper look at some regressor, we clearly see how the HRF canonical function was convolved with the events.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=566da12a">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=fd08c2f5">
 <div class="input">
 <div class="prompt input_prompt">In [10]:</div>
 <div class="inner_cell">
@@ -719,14 +686,14 @@ It should be accessible in <a href="https://www.neurospin-wiki.org/pmwiki/Main/S
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=f5555f37"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=619b0a02"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="3.3-Brain-activation-of-audio-VS-visual">3.3 Brain activation of audio VS visual<a class="anchor-link" href="#3.3-Brain-activation-of-audio-VS-visual">¶</a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=cac61920"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=6abddfba"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now that the GLM model was defined, we can estimate the brain activation.
@@ -735,7 +702,7 @@ To do so, we will first define the appropriate <a href="https://en.wikipedia.org
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=bfc17773">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=e1697cea">
 <div class="input">
 <div class="prompt input_prompt">In [11]:</div>
 <div class="inner_cell">
@@ -783,14 +750,14 @@ To do so, we will first define the appropriate <a href="https://en.wikipedia.org
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=a10ca9a6"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=bad99b1e"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The last step consist in performing a z-test using the previously defined contrast definition, we will use a p-value of $0.05$.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=473c84ce">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=65cb82ac">
 <div class="input">
 <div class="prompt input_prompt">In [12]:</div>
 <div class="inner_cell">
@@ -856,7 +823,7 @@ function displayFloat(e,t){const n=parseFloat(e).toFixed(t);return n.indexOf(&qu
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=42718db8"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=1d9e2b99"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The results are pretty good!
@@ -865,14 +832,14 @@ There is a high activation in the auditory cortex (Brodmann areas 41, 42, 22) an
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=5b53ce53"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=daf264fa"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">¶</a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=65bdeb2c"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=142a64b6"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This post gave an overview on what is a neuroimaging study.
@@ -881,14 +848,14 @@ A good exercice is to try a second level study!</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=6d1daec5"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=31bfcccf"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="To-go-further">To go further<a class="anchor-link" href="#To-go-further">¶</a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=bd4b0ca1"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=c8ec944b"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>You want to check the <a href="https://www.youtube.com/watch?v=3ExL6J4BIeo&amp;list=PLvgasosJnUVl_bt8VbERUyCLU93OG31h_&amp;index=1">fsl tutorials</a>.
@@ -900,18 +867,18 @@ Also one of my favourite paper in neuroscience, a benchmarking of different ML p
 <p>Among my professionnal work, I have been working in the <a href="https://www.cneuromod.ca/">cneuromod project</a> team.
 This project aims to train ANNs using extensive experimental data on individual human brain activity and behaviour.
 As part of this project, I was even able to be the first one playing Super Mario Bros. inside a MRI scanner!</p>
-<p><img alt="playing mario in a scanner" src="gifs/mario.gif"/></p>
+<p><img alt="playing mario in a scanner" src="/notebooks/imgs//fmri_intro/mario.gif"/></p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=ccea0b95"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=4575af16"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Acknowledgement">Acknowledgement<a class="anchor-link" href="#Acknowledgement">¶</a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=96933112"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=e6c863ca"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This work was inspired from <a href="https://nilearn.github.io/auto_examples/plot_single_subject_single_run.html">this initial tutorial</a>.</p>
