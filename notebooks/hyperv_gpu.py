@@ -18,7 +18,8 @@ Want to run GPU-accelerated applications inside a Windows 11 Hyper-V virtual mac
 ## Introduction
 
 I will walk through the process of enabling GPU-PV, allowing the guest VM to utilize the host's graphics card for acceleration.
-We will use a software called Hyper-V, which is 
+We will use a software called Hyper-V, the native hypervisor developed by Microsoft, to create virtual machines on x86-64 systems running Windows.
+
 In this guide, we refer to the "host" as your main physical computer running Windows 11, and the "guest" as the virtual machine (VM) you intend to run
 
 ## Requirements

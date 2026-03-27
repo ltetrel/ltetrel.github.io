@@ -9,14 +9,14 @@ file: /notebooks/hyperv_gpu.py
 excerpt_separator: </p>
 ---
     
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=02390e0a"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=e187d2bf"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Want to run GPU-accelerated applications inside a Windows 11 Hyper-V virtual machine? This guide walks you through enabling GPU Paravirtualization (GPU-PV).</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=be733980"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=5c905d2d"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="TL;DR">TL;DR<a class="anchor-link" href="#TL;DR">¶</a></h2><ol>
@@ -27,12 +27,12 @@ excerpt_separator: </p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=a1561928"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=3334958b"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction">¶</a></h2><p>I will walk through the process of enabling GPU-PV, allowing the guest VM to utilize the host's graphics card for acceleration.
-We will use a software called Hyper-V, which is
-In this guide, we refer to the "host" as your main physical computer running Windows 11, and the "guest" as the virtual machine (VM) you intend to run</p>
+We will use a software called Hyper-V, the native hypervisor developed by Microsoft, to create virtual machines on x86-64 systems running Windows.</p>
+<p>In this guide, we refer to the "host" as your main physical computer running Windows 11, and the "guest" as the virtual machine (VM) you intend to run</p>
 <h2 id="Requirements">Requirements<a class="anchor-link" href="#Requirements">¶</a></h2><p>Before starting, ensure you have the following:</p>
 <ul>
 <li>Host OS: Windows 11.</li>
@@ -83,14 +83,14 @@ Once installed, the VM should recognize the GPU in windows settings.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=0881b531"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=87fc513f"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="To-go-further">To go further<a class="anchor-link" href="#To-go-further">¶</a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=020c3f9e"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=2c782a99"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>If you need to change the VM's display resolution, you can use the following PowerShell command on the host:</p>
