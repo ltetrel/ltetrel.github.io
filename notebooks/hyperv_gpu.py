@@ -20,7 +20,7 @@ Want to run GPU-accelerated applications inside a Windows 11 Hyper-V virtual mac
 I will walk through the process of enabling GPU-PV, allowing the guest VM to utilize the host's graphics card for acceleration.
 We will use a software called Hyper-V, the native hypervisor developed by Microsoft, to create virtual machines on x86-64 systems running Windows.
 
-In this guide, we refer to the "host" as your main physical computer running Windows 11, and the "guest" as the virtual machine (VM) you intend to run
+In this guide, we refer to the "host" as your main physical computer running Windows 11, and the "guest" as the virtual machine (VM) you intend to run.
 
 ## Requirements
 
@@ -55,7 +55,7 @@ For NVIDIA GPUs, the output should include the vendor identifier `VEN_10DE`.
 
 ### Run the configuration script
 
-We will use a [community script](https://gist.github.com/neggles/e35793da476095beac716c16ffba1d23#file-new-gpupvirtualmachine-ps1) to set the necessary VM parameters, to download this script and run it, follow:
+We will use a [community script](https://gist.github.com/neggles/e35793da476095beac716c16ffba1d23#file-new-gpupvirtualmachine-ps1) to set the necessary VM parameters. To download this script and run it, follow:
 ```bash
 Invoke-WebRequest -Uri "https://gist.githubusercontent.com/neggles/e35793da476095beac716c16ffba1d23/raw/0500355ed003e441a0ab2785ee5aa4a33a7ec8ab/New-GPUPVirtualMachine.ps1" -OutFile $env:USERPROFILE\Downloads\New-GPUVirtualMachine.ps1
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
@@ -68,7 +68,7 @@ Set-VM -Name "YourVMName" -AutomaticStopAction TurnOff
 ```
 
 > **Note**:
-> While official Microsoft documentation mentions hardware partitioning, they describe it only [Windows Server](https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/partition-assign-vm-gpu?tabs=windows-admin-center
+> While official Microsoft documentation mentions hardware partitioning, they describe it only for [Windows Server](https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/partition-assign-vm-gpu?tabs=windows-admin-center
 ).
 > This guide is for Windows 11 clients.
 
@@ -91,8 +91,6 @@ Set-VM -Name YourVMName -GuestControlledCacheTypes $true
 Enable-VMIntegrationService -VMName "YourVMName" -Name "Guest Service Interface"
 Copy-VMFile -Name "YourVMName" -SourcePath .\GPUPDriverPackage.zip -DestinationPath "C:\Users\GuestUsername\Downloads\GPUPDriverPackage.zip" -FileSource Host
 ```
-
-Run the driver packaging script on the host:
 
 ## Finalize and check the Guest OS
 

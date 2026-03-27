@@ -9,14 +9,14 @@ file: /notebooks/hyperv_gpu.py
 excerpt_separator: </p>
 ---
     
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=e187d2bf"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=ef68b640"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Want to run GPU-accelerated applications inside a Windows 11 Hyper-V virtual machine? This guide walks you through enabling GPU Paravirtualization (GPU-PV).</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=5c905d2d"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=34f488f0"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="TL;DR">TL;DR<a class="anchor-link" href="#TL;DR">¶</a></h2><ol>
@@ -27,12 +27,12 @@ excerpt_separator: </p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=3334958b"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=5d4e3950"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction">¶</a></h2><p>I will walk through the process of enabling GPU-PV, allowing the guest VM to utilize the host's graphics card for acceleration.
 We will use a software called Hyper-V, the native hypervisor developed by Microsoft, to create virtual machines on x86-64 systems running Windows.</p>
-<p>In this guide, we refer to the "host" as your main physical computer running Windows 11, and the "guest" as the virtual machine (VM) you intend to run</p>
+<p>In this guide, we refer to the "host" as your main physical computer running Windows 11, and the "guest" as the virtual machine (VM) you intend to run.</p>
 <h2 id="Requirements">Requirements<a class="anchor-link" href="#Requirements">¶</a></h2><p>Before starting, ensure you have the following:</p>
 <ul>
 <li>Host OS: Windows 11.</li>
@@ -51,7 +51,7 @@ Make sure to disable secure-boot and enable TPM in the VM settings, otherwise th
 <div class="highlight"><pre><span></span>Get-VMHostPartitionableGpu
 </pre></div>
 <p>For NVIDIA GPUs, the output should include the vendor identifier <code>VEN_10DE</code>.</p>
-<h3 id="Run-the-configuration-script">Run the configuration script<a class="anchor-link" href="#Run-the-configuration-script">¶</a></h3><p>We will use a <a href="https://gist.github.com/neggles/e35793da476095beac716c16ffba1d23#file-new-gpupvirtualmachine-ps1">community script</a> to set the necessary VM parameters, to download this script and run it, follow:</p>
+<h3 id="Run-the-configuration-script">Run the configuration script<a class="anchor-link" href="#Run-the-configuration-script">¶</a></h3><p>We will use a <a href="https://gist.github.com/neggles/e35793da476095beac716c16ffba1d23#file-new-gpupvirtualmachine-ps1">community script</a> to set the necessary VM parameters. To download this script and run it, follow:</p>
 <div class="highlight"><pre><span></span>Invoke-WebRequest<span class="w"> </span>-Uri<span class="w"> </span><span class="s2">"https://gist.githubusercontent.com/neggles/e35793da476095beac716c16ffba1d23/raw/0500355ed003e441a0ab2785ee5aa4a33a7ec8ab/New-GPUPVirtualMachine.ps1"</span><span class="w"> </span>-OutFile<span class="w"> </span><span class="nv">$env</span>:USERPROFILE<span class="se">\D</span>ownloads<span class="se">\N</span>ew-GPUVirtualMachine.ps1
 Set-ExecutionPolicy<span class="w"> </span>RemoteSigned<span class="w"> </span>-Scope<span class="w"> </span>CurrentUser
 .<span class="se">\$</span>env:USERPROFILE<span class="se">\D</span>ownloads<span class="se">\N</span>ew-GPUVirtualMachine.ps1
@@ -61,7 +61,7 @@ Set-ExecutionPolicy<span class="w"> </span>RemoteSigned<span class="w"> </span>-
 </pre></div>
 <blockquote>
 <p><strong>Note</strong>:
-While official Microsoft documentation mentions hardware partitioning, they describe it only <a href="https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/partition-assign-vm-gpu?tabs=windows-admin-center">Windows Server</a>.
+While official Microsoft documentation mentions hardware partitioning, they describe it only for <a href="https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/partition-assign-vm-gpu?tabs=windows-admin-center">Windows Server</a>.
 This guide is for Windows 11 clients.</p>
 </blockquote>
 <p>Check that the VMs has the correct graphic adapter:</p>
@@ -77,20 +77,19 @@ Set-VM<span class="w"> </span>-Name<span class="w"> </span>YourVMName<span class
 Enable-VMIntegrationService<span class="w"> </span>-VMName<span class="w"> </span><span class="s2">"YourVMName"</span><span class="w"> </span>-Name<span class="w"> </span><span class="s2">"Guest Service Interface"</span>
 Copy-VMFile<span class="w"> </span>-Name<span class="w"> </span><span class="s2">"YourVMName"</span><span class="w"> </span>-SourcePath<span class="w"> </span>.<span class="se">\G</span>PUPDriverPackage.zip<span class="w"> </span>-DestinationPath<span class="w"> </span><span class="s2">"C:\Users\GuestUsername\Downloads\GPUPDriverPackage.zip"</span><span class="w"> </span>-FileSource<span class="w"> </span>Host
 </pre></div>
-<p>Run the driver packaging script on the host:</p>
 <h2 id="Finalize-and-check-the-Guest-OS">Finalize and check the Guest OS<a class="anchor-link" href="#Finalize-and-check-the-Guest-OS">¶</a></h2><p>Inside the VM, navigate to <code>C:\Users\GuestUsername\Downloads\</code> and extract <code>GPUPDriverPackage.zip</code> in <code>C:\Windows\</code> as explained <a href="https://gist.github.com/neggles/e35793da476095beac716c16ffba1d23#using-the-driver-gathering-script-recommended">here</a>.
 Once installed, the VM should recognize the GPU in windows settings.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=87fc513f"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=37206de8"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="To-go-further">To go further<a class="anchor-link" href="#To-go-further">¶</a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=2c782a99"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=c88039f8"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>If you need to change the VM's display resolution, you can use the following PowerShell command on the host:</p>
