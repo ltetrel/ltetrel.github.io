@@ -417,6 +417,8 @@ Also one of my favourite paper in neuroscience, a benchmarking of different ML p
 Among my professionnal work, I have been working in the [cneuromod project](https://www.cneuromod.ca/) team.
 This project aims to train ANNs using extensive experimental data on individual human brain activity and behaviour.
 As part of this project, I was even able to be the first one playing Super Mario Bros. inside a MRI scanner!
+
+![playing mario in a scanner](gifs/mario.gif)
 '''
 # %% [markdown]
 '''
